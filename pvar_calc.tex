@@ -127,7 +127,7 @@
 % Status
 \begin{definition}[Partition]\label{def:pp}
   Let $J = [a,b]$ be a closed interval of real numbers with $-\infty < a \leq b <+\infty$. 
-  If $a < b$, an ordered set $\kappa =\{x_{i}\}_{i=0}^{n}$ of points in $[a,b]$ such that a  
+  If $a < b$, an ordered set $\kappa = \{x_{i}\}_{i=0}^{n}$ of points in $[a,b]$ such that a  
   $a=x_{0}<x_{1}<x_{2}<...<x_{n}=b$ is called a \emph{(point) partition}. 
   The size of the partition is denoted $\left|\kappa \right| :=\#\kappa-1=n$. 
   The set of all point partitions of $[a,b]$ is denoted by $PP[a,b]$.  
@@ -194,13 +194,14 @@
 \begin{definition}[Piecewise monotone functions](\cite{Qian}, Def. 3.2)\label{def:PM}
   A regulated real-valued function $f$ on closed interval $[a,b]$ 
   will be called \emph{piecewise monotone} (PM)
-  if there are points $a=x_1<\dots<x_k=b$ for some finite $k$ such 
-  that $f$ is monotone on each interval $[x_{j-1},x_j],\;j=1,2,\dots,k$. 
-  Here for $j=1,2,\dots,k-1$, $x_j$ may be point $x-$ or $x+$.
+  if there are points $a=x_0<\dots<x_k=b$ for some finite $k$ such 
+  that $f$ is monotone on each interval $[x_{j-1},x_j],\;j=1,\dots,k$. 
+  Here for $j=1,\dots,k-1$, $x_j$ may be point $x-$ or $x+$.
   The set of all piecewise monotone functions is denoted $PM=PM[a,b]$.
   
   In addition to PM, if $f$ is continuous function we will call it 
-  continuous piecewise monotone(CPM). The set of such functions is denoted $CPM=CPM[a,b]$. 
+  continuous piecewise monotone(CPM). 
+  The set of such functions is denoted $CPM=CPM[a,b]$. 
 \end{definition}   
 
 
@@ -1127,22 +1128,41 @@
   
 \section{p-variation calculus}  
   
-Let assume we want to calculate $p$-variation 
-for arbitrary piecewise monotone functions $f$. 
-According to definition(see ???) this means
-that ...
-could be divided ...
+This chapter will present the algorithm that calculates 
+the $p$-variation for arbitrary piecewise monotone function. 
+This algorithm will be called \emph{pvar}. 
+It is actually realised in the R (see ???) package \emph{pvar} and
+is publicly available on CRAN.1
 
-We developed tha algorithme..
+Let assume $f$ is any piecewise monotone function.  
+According to definition (see~\ref{def:PM}) 
+there are points $a=x_1<\dots<x_n=b$ for some finite $n$ such 
+that $f$ is monotone on each interval $[x_{j-1},x_j],\;j=1,2,\dots,n$.
+The sequence of values of the function $f$ 
+at the points of partition $\{x_{i}\}_{i=0}^{n}$ will be
+referred as \emph{sample} and denoted $Y=\{y_{i}\}_{i=0}^{n}:=\{f(x_{i})\}_{i=0}^{n}$. 
+The value of $n$ will be called \emph{sample size}.
+The  algorithm  \emph{pvar} uses this sample as an input 
+and operates it to find the $p$-variation.
 
-
+Most of the propositions in section ??? is applicable of continuous piecewise monotone functions, nevertheless,
+the proposition ??? states, that for each PM exits CPM such that 
+$v_p...$, therefore, this algorithm could be used to find $p$-variation
+for any PM function.
 
 \subsection{Algorithm}
 
-The procedure of $p$-variation calculus goes as follows.
+The procedure \emph{pvar} that calculates
+$p$-variation will be presented here. Firstly,
+we will introduce the main schema, further, each step will
+be discussed in more details.
+
+\paragraph{Procedure \emph{pvar}.}
+Input: sample $Y$, scalar $p$.
 
 \begin{enumerate}
-  \item \emph{Removing monotonic points}. 
+  \item \emph{Removing monotonic points}. According to proposition ???
+  
   
   \item \emph{Checking all small intervals}. 
 
