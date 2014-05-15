@@ -1131,8 +1131,8 @@
 This chapter will present the algorithm that calculates 
 the $p$-variation for arbitrary piecewise monotone function. 
 This algorithm will be called \emph{pvar}. 
-It is actually realised in the R (see ???) package \emph{pvar} and
-is publicly available on CRAN.1
+It is already realised in the R (see ???) package \emph{pvar} and
+is publicly available on CRAN.
 
 Let assume $f$ is any piecewise monotone function.  
 According to definition (see~\ref{def:PM}) 
@@ -1140,15 +1140,13 @@ there are points $a=x_1<\dots<x_n=b$ for some finite $n$ such
 that $f$ is monotone on each interval $[x_{j-1},x_j],\;j=1,2,\dots,n$.
 The sequence of values of the function $f$ 
 at the points of partition $\{x_{i}\}_{i=0}^{n}$ will be
-referred as \emph{sample} and denoted $Y=\{y_{i}\}_{i=0}^{n}:=\{f(x_{i})\}_{i=0}^{n}$. 
+referred as \emph{sample} and denoted $X=\{X_{i}\}_{i=0}^{n}:=\{f(x_{i})\}_{i=0}^{n}$. 
 The value of $n$ will be called \emph{sample size}.
-The  algorithm  \emph{pvar} uses this sample as an input 
-and operates it to find the $p$-variation.
 
-Most of the propositions in section ??? is applicable of continuous piecewise monotone functions, nevertheless,
-the proposition ??? states, that for each PM exits CPM such that 
-$v_p...$, therefore, this algorithm could be used to find $p$-variation
-for any PM function.
+
+The algorithm \emph{pvar} do not use $f$ directly, 
+rather it uses the sample $X$ as an input 
+and operates it to find the $p$-variation.
 
 \subsection{Algorithm}
 
@@ -1158,13 +1156,14 @@ we will introduce the main schema, further, each step will
 be discussed in more details.
 
 \paragraph{Procedure \emph{pvar}.}
-Input: sample $Y$, scalar $p$.
+Input: sample $X$, scalar $p$.
 
 \begin{enumerate}
   \item \emph{Removing monotonic points}. According to proposition ???
+  all points that are not the end of monotonic interval could be excluded 
+  from further consideration. 
   
-  
-  \item \emph{Checking all small intervals}. 
+  \item \emph{Checking all small intervals}. Every sm
 
   \item \emph{Partition spliting}. 
   
