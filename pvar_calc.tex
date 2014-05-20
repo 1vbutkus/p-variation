@@ -333,7 +333,7 @@
   \end{equation}
   hence, by Definition~\ref{def:EqPM} $f \stackrel{PM}{=} L_S$.  
 \end{proof}
-\begin{corollary}
+\begin{corollary}\label{cor:PM2CPM}
   Similar argument could be used to show that
   \begin{equation}
     G_X(t)\stackrel{PM}{=}L_X(t).
@@ -1125,31 +1125,58 @@
 \section{p-variation calculus}  
   
 This chapter will present the algorithm that calculates 
-the $p$-variation for arbitrary piecewise monotone function. 
+$p$-variation for the sample 
+(see def.~\ref{def:Seq2Fun} and~\ref{def:pvarseq}).
+Nonetheless, this algorithm could be used to calculate
+the $p$-variation for arbitrary piecewise monotone function (see below). 
 This algorithm will be called \emph{pvar}. 
-It is already realised in the R (see ???) package \emph{pvar} and
-is publicly available on CRAN.
+It is already realised in the R (see~\cite{R}) package \emph{pvar} and
+is publicly available on CRAN\footnotemark.
+\footnotetext{
+http://cran.r-project.org/web/packages/pvar/index.html
+}
 
+Suppose $X=\{X_{i}\}_{i=0}^{n}$ is any real-value sequence of numbers. 
+We will call such sequence a \emph{sample}, 
+whereas $n$ will be referred to as a \emph{sample size}.
+The formal definition of $p$-variation 
+of the sample is given in \ref{def:pvarseq}.
+On the other hand, using Cor.~\ref{cor:PM2CPM}
+and Prop.~\ref{prop:pvar-max}, the $p$-variation of the sequence
+could be expressed as
+$$
+v_p(X) = \max\left\{ \sum_{i=1}^k |X_{j_i} - X_{j_{i-1}}|^p :
+  0=j_0<j_1<\dots<j_k=n,\; k=1,\dots,n  \right\}.
+$$
+% gal nekelti sita prie matematines dalies ir gireztai paargumentuoti  
+  
+  
+ ...
+ 
+With the same procedure $p$-variation of 
+any piecewise monotone function could be calculated as well.
 Let assume $f$ is any piecewise monotone function.  
 According to definition (see~\ref{def:PM}) 
 there are points $a=x_1<\dots<x_n=b$ for some finite $n$ such 
 that $f$ is monotone on each interval $[x_{j-1},x_j],\;j=1,2,\dots,n$.
-The sequence of values of the function $f$ 
-at the points of partition $\{x_{i}\}_{i=0}^{n}$ will be
-referred as \emph{sample} and denoted $X=\{X_{i}\}_{i=0}^{n}:=\{f(x_{i})\}_{i=0}^{n}$. 
-The value of $n$ will be called \emph{sample size}.
+Let denote the sequence of values of the function $f$ 
+at the points $\{x_{i}\}_{i=0}^{n}$ by
+ $X=\{X_{i}\}_{i=0}^{n}:=\{f(x_{i})\}_{i=0}^{n}$. 
 
+...
 
-The algorithm \emph{pvar} do not use $f$ directly, 
-rather it uses the sample $X$ as an input 
-and operates it to find the $p$-variation.
-
-\subsection{Algorithm}
+\subsection{Main function}
 
 The procedure \emph{pvar} that calculates
 $p$-variation will be presented here. Firstly,
 we will introduce the main schema, further, each step will
-be discussed in more details.
+be discussed in more details. 
+
+The main principal of the whole procedure is to identify 
+meaningless points in most effective way. If the point is identified 
+as meaningless, then it is removed form the sample immediate. 
+The whole procedure goes as follows.
+
 
 \paragraph{Procedure \emph{pvar}.}
 Input: sample $X$, scalar $p$.
@@ -1159,33 +1186,138 @@ Input: sample $X$, scalar $p$.
   all points that are not the end of monotonic interval could be excluded 
   from further consideration. 
   
-  \item \emph{Checking all small intervals}. Every sm
-
-  \item \emph{Partition spliting}. 
+  \item \emph{Checking all small intervals}. Every small intervals are
+    checked if it is possible to identify meaningless points. All points
+    that are found to be meaningless are excluded. 
+    This operation is based on proposition ??? which states that 
+    if point is not meaningful in small interval, then it will not be
+    meaningful in big interval as well.
+ 
+  \item \emph{Sample splitting}. The sample could be splitted  in 
+   intervals that could analysed independently. 
+   This splitting is based on ??? proposition.
   
-  \item \emph{Indipenden intervals assesments}.
+  \item \emph{Indipenden intervals assesments}. All the intervals form
+   previous step are analysed independently in recursive procedure which
+   actual makes checking of possible combinations. 
+   This procedure is explained in ??? chapter. 
   
-  \item \emph{Joining results}.  
+  \item \emph{Joining results}. The results form previous operation 
+  are joined into final answer. 
+  According to proposition ??? the final p-variation is 
+  the sum of p-variations of the intervals 
+  that are calculated in previous step.
   
 \end{enumerate}
 
-Pseudo-code
+The corresponding psiaudocode of the main functions goes as follows
 \begin{lstlisting}
 pvar <- function(x, p){
-  xNew = Remove_Monotonic_Points(x) 
-  xNew = Test_Points_In_Small_Intervals(xNew, p, sizeN = 7) 
-  IntervalList = Split_By_Extremums_All(xNew)
-  for(Interval in IntervalList){
-    Partition = Join(Partition, pvarMon(Interval, p, sizeN))
+  xNew <- Remove_Monotonic_Points(x) 
+  xNew <- Test_Points_In_Small_Intervals(xNew, p, sizeN = 7) 
+  Interval_List <- Split(xNew)
+  for(Interval in Interval_List){
+    Results_List[Interval] <- pvarMon(Interval, p, sizeN)
   }
-  pvar = Pvar_Sum(Partition, p)  
+  pvar <- Join_Results(Results_List, p)  
   return(pvar)
 }
 \end{lstlisting}
   
+\subsection{Detail explanation}
+
+\subsubsection{Removing monotonic points}
+
+According to the proposition ??? the p-variation is achieved on 
+on the partition of monotonic intervals. Therefore the points that are not the end of monotonic interval could be drop out. 
+
+This step can by performed very quickly, since it does not include
+any interdependent checking and could be done with vectorised functions.
+
+% This checking could be done in multiple ways ...
+
+% It is done by function ... 
 
 
-\section{p-variation for pseudo-monotonic sample}  
+% patikrinti tikruma ir veiksmingumas
+
+\begin{lstlisting}
+
+abs(diff(x, 2)) == MovingSum(abs(diff(x, 1)))
+
+\end{lstlisting}
+
+\subsubsection{Test points in small intervals}
+
+The proposition ??? is very important for speeding up the calculus of p-variation. It states that if the point was not significant in any small interval, then it will not be significant in the full sample as well. 
+This property allows to drop significant amount of points using quite simple operations.
+
+Lets consider any interval with $4$ points, 
+namely, lets examine interval $[X_{j}, X_{j+3}]$ for any $j=0,...,n-3$.
+If 
+\begin{equation}
+  \sum_{i=j+1}^{j+3} |X_{i}-X_{i-1}|^p < |X_j-X_{j+3}|^p,
+\end{equation}
+then points $X_{j+1}, X_{j+2}$ are identified as meaningless, 
+thus they should be doped out. 
+
+We start analyse all the the intervals with $4$ points since any 
+shorter interval is not worth for checking. If there are
+only $2$ points, 
+then the situation is trivial and there is nothing to check. 
+If interval was $3$, then checking is meaningless since
+$ |X_i  - X_{i+1}| > |X_i - X_{i+2}| $. The last property hold,
+because all the monotonic points are removed, therefore,
+if interval $[X_i, X_{i+1}]$ is increasing,
+then interval  $[X_{i+1}, X_{i+2}]$ is decreasing (and wise versa).  
+As a result, all the points in interval with $3$ points are meaningful.
+
+After applying this kind of checking of all intervals with $4$ points
+some of the points could be identified as meaningless therefore they are
+groped out from the sample. As a result the sample changes, therefore
+we can apply the same procedure again and find the new meaningless points. We can repeat the iterations until no new meaningless points are 
+identified.
+
+Then, the can go further and apply same checking for
+intervals with $6$ points (the intervals with $5$ points are omitet base on similar arguments mentioned above).
+
+\begin{lstlisting}
+
+old_x
+new_x
+while old_x != new_x
+Check all intervals with 4 points
+drop all meaningless points
+if ( old_x != new_x) next
+else
+  Check all intervals with 6 points
+  drop all meaningless points
+if ( old_x != new_x) next
+else
+  Check all intervals with 8 points
+  drop all meaningless points
+...  
+  
+next
+
+
+
+
+
+ 
+\end{lstlisting}
+
+
+\subsubsection{Splitting the sample}
+
+The sample could be splitted in intervals 
+
+If there are known some meaningful points, then the sample 
+could be splitted 
+
+
+
+\subsubsection{Pseudo monotonic}
 
 Let suppose that the sample is
 \begin{itemize}
@@ -1238,9 +1370,12 @@ pvarMon <- function(Interval, p, sizeN){
 \begin{thebibliography}{99}  
   \bibitem{Qian} J. Qian. The $p$-variation of Partial Sum Processes
   and the Empirical Process // Ph.D. thesis, Tufts University, 1997.
+  
+   \bibitem{R} R
+  
 \end{thebibliography}
 
- 
+
 
 
 
