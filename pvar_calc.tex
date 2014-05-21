@@ -1126,9 +1126,9 @@
   
 This chapter will present the algorithm that calculates 
 $p$-variation for the sample 
-(see def.~\ref{def:Seq2Fun} and~\ref{def:pvarseq}).
+(see Def.~\ref{def:pvarseq}).
 Nonetheless, this algorithm could be used to calculate
-the $p$-variation for arbitrary piecewise monotone function (see below). 
+the $p$-variation for arbitrary piecewise monotone function. 
 This algorithm will be called \emph{pvar}. 
 It is already realised in the R (see~\cite{R}) package \emph{pvar} and
 is publicly available on CRAN\footnotemark.
@@ -1140,30 +1140,48 @@ Suppose $X=\{X_{i}\}_{i=0}^{n}$ is any real-value sequence of numbers.
 We will call such sequence a \emph{sample}, 
 whereas $n$ will be referred to as a \emph{sample size}.
 The formal definition of $p$-variation 
-of the sample is given in \ref{def:pvarseq}.
-On the other hand, using Cor.~\ref{cor:PM2CPM}
-and Prop.~\ref{prop:pvar-max}, the $p$-variation of the sequence
-could be expressed as
-$$
+of the sample is given in Definition~\ref{def:pvarseq}, but 
+it is more intuitive to consider a sample as 
+continuous piecewise monotone (CPM) function, namely,
+Proposition~\ref{cor:PM2CPM} states that if $p\geq1$ then
+\begin{equation}
+  v_p(X) = v_p(L_X(t),[0,n]),
+\end{equation}
+where $L_X(t)$ is piecewise linear function 
+connecting sample points (Def.~\ref{def:poligon}).
+Since $L_X(t)$ is CPM, all the properties proved in this chapter are
+applicable to it.
+
+On the other hand, the algorithm does not use
+$L_X(t)$ function directly, but it actually operates the
+sample $X$. Therefore, in the context of algorithm
+it is more convenient to use the sample $X$ rather then the function $L_X(t)$. Thus in this part we will be using $X$, but please don't be mislead then we will refer to properties of p-variation 
+that were proved to functions. In that case we actually have in mind function $L_X(t)$. 
+
+The $L_X(t)$ is CPM and all its break points could be 
+only at points $t=0,1,\dots,n$, i.e. at points where 
+ $L_X(t)=X_0,X_1,\dots,X_n$.
+Therefore, according to Prop.~\ref{prop:pvar-max},
+ the $p$-variation of the sample could be expressed as
+\begin{equation}
 v_p(X) = \max\left\{ \sum_{i=1}^k |X_{j_i} - X_{j_{i-1}}|^p :
-  0=j_0<j_1<\dots<j_k=n,\; k=1,\dots,n  \right\}.
-$$
-% gal nekelti sita prie matematines dalies ir gireztai paargumentuoti  
-  
-  
- ...
- 
-With the same procedure $p$-variation of 
-any piecewise monotone function could be calculated as well.
+  0=j_0<\dots<j_k=n,\; k=1,\dots,n  \right\}.
+\end{equation}
+
+
+It is worth noting, 
+that the procedure \emph{pvar} could be used to calculate
+the $p$-variation of any piecewise monotone function.
 Let assume $f$ is any piecewise monotone function.  
 According to definition (see~\ref{def:PM}) 
 there are points $a=x_1<\dots<x_n=b$ for some finite $n$ such 
 that $f$ is monotone on each interval $[x_{j-1},x_j],\;j=1,2,\dots,n$.
-Let denote the sequence of values of the function $f$ 
-at the points $\{x_{i}\}_{i=0}^{n}$ by
- $X=\{X_{i}\}_{i=0}^{n}:=\{f(x_{i})\}_{i=0}^{n}$. 
+Let the sample $X$ contain the values of the function $f$ 
+at the points $\{x_{i}\}_{i=0}^{n}$, namely,
+$X=\{X_{i}\}_{i=0}^{n}:=\{f(x_{i})\}_{i=0}^{n}$.
+It is straight forward to see that 
+$f \stackrel{PM}{=} L_X$, therefore, if $p \geq 1$ then $v_p(X)=v_p(L_X)=v_p(f)$.
 
-...
 
 \subsection{Main function}
 
@@ -1173,9 +1191,28 @@ we will introduce the main schema, further, each step will
 be discussed in more details. 
 
 The main principal of the whole procedure is to identify 
-meaningless points in most effective way. If the point is identified 
-as meaningless, then it is removed form the sample immediate. 
-The whole procedure goes as follows.
+meaningless points using known properties of p-variation.
+If a single point $X_i$ is identified 
+as meaningless, then we could exude it from further consideration.
+As long as $X_i$ is meaningless, the actual value of 
+$X_i$ has no effect on $p$-variation since $X_i$ do not participate 
+in the sum of p-variation. Actually, $X_i$ could be ignored,
+but it is more convenient to drop it form the sample,
+because it is hard to apply properties then not all points are under consideration. 
+The \emph{drop} operation means that we 
+updating sample $X$ with new sample $X'$ which do not have
+$X_i$ element, namely,  
+$$
+\{X'_{i}\}_{i=0}^{n-1}:=\{X_0,\dots,X_{i-1},X_{i+1},\dots,X_n\}.
+$$
+
+
+The most important properties which were used in algorithm are
+ ... ??? 
+Later on, we will
+discus in great detail how we actually using them.
+The main steps in \emph{pvar} procedure
+goes as follows.
 
 
 \paragraph{Procedure \emph{pvar}.}
@@ -1194,7 +1231,7 @@ Input: sample $X$, scalar $p$.
     meaningful in big interval as well.
  
   \item \emph{Sample splitting}. The sample could be splitted  in 
-   intervals that could analysed independently. 
+   intervals that could be analysed independently. 
    This splitting is based on ??? proposition.
   
   \item \emph{Indipenden intervals assesments}. All the intervals form
@@ -1228,83 +1265,148 @@ pvar <- function(x, p){
 
 \subsubsection{Removing monotonic points}
 
-According to the proposition ??? the p-variation is achieved on 
+According to Proposition~\ref{prop:sup_in_PM}
+the p-variation is achieved 
 on the partition of monotonic intervals. Therefore the points that are not the end of monotonic interval could be drop out. 
 
-This step can by performed very quickly, since it does not include
+There are multiple options to perform this checking. The method
+that was actuality applied involves two steps:
+
+\begin{enumerate}
+  \item \emph{Removing constant intervals.} 
+  If  $X_{t}=X_{t+1},\;t=1,\dots,n-1$ then $X_t$ is removed
+  since both points $X_{t}$ and $X_{t+1}$ cannot be in break points
+  partition. Let Label the new sample as  $\{Y_{i}\}_{i=0}^{m}$ .
+  
+  \item \emph{Finding break point.}  
+  If $\Delta Y_{t}$ and $\Delta Y_{t+1}$ ($t=1,\dots,m-1$)
+  has alternating sign, then point $Y_t$ is considered 
+  to be break point. In addition points $Y_0$ and $Y_m$ 
+  is also the break points since end points of 
+  the interval is always included in partition (see
+  Definition~\ref{def:pp}). All other point are identified as
+  meaningless and removed from sample.  
+
+\end{enumerate}
+
+
+This procedure can by performed very quickly, since it does not include
 any interdependent checking and could be done with vectorised functions.
-
-% This checking could be done in multiple ways ...
-
-% It is done by function ... 
+In \emph{pvar} package all break points could be found with \emph{ChangePointsId} function.
 
 
-% patikrinti tikruma ir veiksmingumas
-
-\begin{lstlisting}
-
-abs(diff(x, 2)) == MovingSum(abs(diff(x, 1)))
-
-\end{lstlisting}
 
 \subsubsection{Test points in small intervals}
+Todo: papildyti vien savybe su alternuojanciais intervlais
 
-The proposition ??? is very important for speeding up the calculus of p-variation. It states that if the point was not significant in any small interval, then it will not be significant in the full sample as well. 
-This property allows to drop significant amount of points using quite simple operations.
+\begin{lemma}\label{lm:evenkapa}
+Let $f:[a,b] -> $ be CPM and $\kappa \in X(f)$. If $|\kappa|$ is even
+then function $f$ has at least one inner meaningful break point.
+\end{lemma}
+\begin{proof}
+Didejantys, pažejantys intervalai.
+tarki, kad didejantys, tuomet nei a nei b nera maksimumas.
+Maksimumas yra kažkur ir jis yra reiksmingas.
+\end{proof}
 
-Lets consider any interval with $4$ points, 
-namely, lets examine interval $[X_{j}, X_{j+3}]$ for any $j=0,...,n-3$.
-If 
-\begin{equation}
-  \sum_{i=j+1}^{j+3} |X_{i}-X_{i-1}|^p < |X_j-X_{j+3}|^p,
+
+
+\begin{lemma}\label{lm:samllincrease}
+Turim skaidini, ir ysa istirti visi mazesnieji intervalai iki $n-1$
+tada pilnas intervalas yra arba visi arba nei vienas.
+
+\end{lemma}
+\begin{proof}
+Pritaikom skaidimo teorema.
+\end{proof}
+
+
+Proposition~\ref{prop:non_non} is very important for speeding up the calculus of p-variation. It states that if the point was not significant in any small interval, then it will not be significant in the full sample as well. Moreover, Proposition~\ref{prop:pvar_sum_x}, Lemmas ?? and ?? gives an effective 
+way to identify some meaningless points.  
+Those property allows to drop significant amount of points using quite simple operations.
+
+Suppose $X$ is a sample without monotonic points. 
+Let consider any small interval with $m+1$ points ($m=2,\dots,n-1$), 
+namely, lets examine a sub-sample 
+$\{X_{i}\}_{i=j}^{j+m}$
+for any $j=0,...,n-m$.
+Based on Proposition~\ref{prop:pvar_sum_x}, if 
+\begin{equation}\label{eq:dropsamll1}
+  \sum_{i=j+1}^{j+m} |X_{i}-X_{i-1}|^p < |X_j-X_{j+m}|^p,
 \end{equation}
-then points $X_{j+1}, X_{j+2}$ are identified as meaningless, 
-thus they should be doped out. 
+then partition $\{j,\dots,j+m\}$ could not be meaningful in interval
+$[j,j+m]$, therefore, some of the points $\{X_{i}\}_{i=j+1}^{j+m-1}$
+must be meaningless. Those meaningless points can be easily identify 
+if we systemically check all intervals starting from small $m$.
 
-We start analyse all the the intervals with $4$ points since any 
-shorter interval is not worth for checking. If there are
-only $2$ points, 
-then the situation is trivial and there is nothing to check. 
-If interval was $3$, then checking is meaningless since
-$ |X_i  - X_{i+1}| > |X_i - X_{i+2}| $. The last property hold,
-because all the monotonic points are removed, therefore,
-if interval $[X_i, X_{i+1}]$ is increasing,
-then interval  $[X_{i+1}, X_{i+2}]$ is decreasing (and wise versa).  
-As a result, all the points in interval with $3$ points are meaningful.
+If $m=2$ then $|\{X_{i}\}_{i=j}^{j+2}|=2$, thus according to
+Lemma~\ref{lm:evenkapa}, $\{X_{i}\}_{i=j}^{j+m}$ has at least one
+inner significant point. Since it only has one inner point, then this point must be significant. So, we don't need to do any checkings here.
 
-After applying this kind of checking of all intervals with $4$ points
-some of the points could be identified as meaningless therefore they are
-groped out from the sample. As a result the sample changes, therefore
-we can apply the same procedure again and find the new meaningless points. We can repeat the iterations until no new meaningless points are 
+If $m=3$ and (\ref{eq:dropsamll1}) holds,
+then at least one 
+point must be insignificant. 
+Moreover, according to Lemma~\ref{lm:samllincrease}, 
+in this case both middle points $X_{t+1}$ and $X_{t+2}$ 
+must be meaningless. 
+
+So, some insignificant points could be identified by 
+applying this kind of checking for all sub-samples
+$\{X_{i}\}_{i=j}^{j+3},\;j=0,...,n-3$. 
+Then all identified meaningless points 
+could be droped out.
+As a result, the whole sample changes,  
+hence, 
+we can apply the same procedure again and try to find 
+even more meaningless points. 
+We should repeat the iterations 
+until no new meaningless points are 
 identified.
 
-Then, the can go further and apply same checking for
-intervals with $6$ points (the intervals with $5$ points are omitet base on similar arguments mentioned above).
+If $m=4$ then $|\{X_{i}\}_{i=j}^{j+2}|$ is even, 
+thus, according to Lemma~\ref{lm:evenkapa}, 
+$\{X_{i}\}_{i=j}^{j+m}$ has at least one
+inner significant point. So, all inner points are significant, 
+based on Lemma~\ref{lm:evenkapa}. We can conclude, that 
+this argument holds in all cases, then $m$ is even, so 
+we don't need to check it any more.
 
+So, the can go further and apply same checking with
+$m=5$. Suppose all sub-samples
+ $\{X_{i}\}_{i=j}^{j+3},\;j=0,...,n-3$ are already 
+ checked.
+ If (\ref{eq:dropsamll1}) holds, then based on
+ the same Lemma, all middle points
+$X_{t+1}$, $X_{t+2}$, $X_{t+3}$  and $X_{t+4}$ are  
+identified as meaningless and could be dropped out.
+If we want to apply this checking in new itaration,
+then we should start checking from $m=3$ again, because
+we must make sure that all sub-samples
+ $\{X_{i}\}_{i=j}^{j+3},\;j=0,...,n-3$ are already 
+ checked if we want to apply Lemma ??
+
+We can continue checking by this principle, and actually find 
+p-variation. But it is not effective way, because
+in any case of drop out we should go back and start checking
+from $m=3$, so, it is actually effective for small $m$. From Monte-Carlo experment we made
+a recomendation to check up till $m=7$.
+
+The final psiaudocode of this procedure is given below
 \begin{lstlisting}
 
-old_x
-new_x
-while old_x != new_x
-Check all intervals with 4 points
-drop all meaningless points
-if ( old_x != new_x) next
-else
-  Check all intervals with 6 points
-  drop all meaningless points
-if ( old_x != new_x) next
-else
-  Check all intervals with 8 points
-  drop all meaningless points
-...  
-  
-next
+SET dum_X to NULL
+WHILE dum_X is not equal to X
+  SET dum_X	= X
+  SET d=3
+  CHECK all sub-samples with m=d 
+  UPDATE X by dropping all meaningless points
+  WHILE dum_X is equal to X	
+    SET d = d + 2
+    CHECK all sub-samples with m=d points
+    UPDATE x by dropping all meaningless points
+  ENDWHILE  
+ENDWHILE
 
-
-
-
-
- 
 \end{lstlisting}
 
 
