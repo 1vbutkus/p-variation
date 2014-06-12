@@ -1230,33 +1230,17 @@ Input: sample $X$, scalar $p$.
     if point is not meaningful in small interval, then it will not be
     meaningful in big interval as well.
  
-  \item \emph{Sample splitting}. The sample could be splitted  in 
-   intervals that could be analysed independently. 
-   This splitting is based on ??? proposition.
-  
-  \item \emph{Indipenden intervals assesments}. All the intervals form
-   previous step are analysed independently in recursive procedure which
-   actual makes checking of possible combinations. 
-   This procedure is explained in ??? chapter. 
-  
-  \item \emph{Joining results}. The results form previous operation 
-  are joined into final answer. 
-  According to proposition ??? the final p-variation is 
-  the sum of p-variations of the intervals 
-  that are calculated in previous step.
+  \item \emph{Merging small intervals}.  
   
 \end{enumerate}
 
 The corresponding psiaudocode of the main functions goes as follows
 \begin{lstlisting}
 pvar <- function(x, p){
-  xNew <- Remove_Monotonic_Points(x) 
-  xNew <- Test_Points_In_Small_Intervals(xNew, p, sizeN = 7) 
-  Interval_List <- Split(xNew)
-  for(Interval in Interval_List){
-    Results_List[Interval] <- pvarMon(Interval, p, sizeN)
-  }
-  pvar <- Join_Results(Results_List, p)  
+  partition <- Remove_Monotonic_Points(x) 
+  partition <- Test_Points_In_Small_Intervals(partition, p, LSI = 3) 
+  partition <- Merge_Small_Intervals(partition, p, LSI=3+1)
+  pvar <- sum(abs(diff(partition))^p)  
   return(pvar)
 }
 \end{lstlisting}
@@ -1409,111 +1393,18 @@ ENDWHILE
 
 \end{lstlisting}
 
-
-\subsubsection{Splitting the sample}
-
-Propositions~\ref{} and \ref{} allows to partition sample
-in intervals that can analysed independently from each other.
-Generally, partition is very common trick that
-usually gives quite good effect. 
-In our case we cant divide sample in arbitrary point, thus
-partitioning is constrained, nevertheless, it still has significant 
-effect in speeding up the procedure. 
-
-According the Proposition~\ref{} if we now some meaningful points,
-then we can split the sample in those point. 
-In addition, according to Proposition~\ref{} 
-the extreme points (see Def.~\ref{}) are meaningful.
-Therefore, we can split sample in extreme points.
-More over, we can apply this checking recursively and split the
-sub-sample that already has been splitted. 
-
-The psiaudocode is as follows
-\begin{lstlisting}
-
-FIND extremum points
-IF there is at least one extremum point in midel of sample
-  SPLIT sample in the points of extremums.
-  FOR each sub-sample call recursivly
-  RETURN the list of intervals
-ELSE
-  return original sample
-ENDIF  
+\subsubsection{Merging small intervals}
 
 
-\end{lstlisting}
+\subsubsection{Merging two small intervals}
+
+1. ### Find potential points 
 
 
 
 
-\subsubsection{p-variation for pseudo monotonic sample}
+\subsubsection{Merging all small intervals}
 
-This is the final stage in p-variation calculus.
-In this chapter we will inroduce the procedure
-which calculates p-variation to special form sample.
-Let suppose that the sample $X$ is
-\begin{itemize}
-  \item There are no monotonic points.
-
-  \item Pseudo monotonic.
-
-  \item All possible small intervals are checked.
-\end{itemize}
-
-The procedure goes as follows.
-
-\begin{enumerate}
-
-  \item Check if the given interval is short. If it is short
-  exit procedure, since we now that in 
-  this interval all popints are significant.
-  
-  \item Find CumExtremums  
-  
-  \item Split by CumExtremum
-
-  \item For each interval: split into 2 subintervals (by extremum).
-  Recall, join results
-  
-  \item Join all results from for loop.
-  
-  \item For each point in CumExtremums
-  \begin{enumerate}
-    \item Take a subset from to point
-    \item if $pvar_sum(subset)<pvar_sum(1,point)$	then all midpoint are remuved.
-  \end{enumerate}
-\end{enumerate}
-
-Pseudo kodas:
-\begin{lstlisting}
-pvarMon <- function(Interval, p, sizeN){
-  # Jei tai trumpas intervalas, tai jis jau buvo patikrintas 
-  if(length(Interval)<=sizeN){
-    return(Interval) # tiesiog grazinamas intervalas  
-  }
-
-  # Kitu atveju skaiciuojam giliau
-  NewIntervalList = Split_By_CumExtremums(x[a:b])
-  for(Int in NewIntervalList){
-    (int1, int2) = Split_MinMax(Int)
-    Partition1 = pvarMon(int1)
-    Partition2 = pvarMon(int2)
-    PassiblePartition = Join(PassiblePartition, Partition1, Partition2)
-  }
-
-  # Patikriname pontecialius skaidinio tasku,
-  # is eiles tikrindami galimas jungtis
-  PointList = EndPoints(NewIntervalList)
-  for(Point in PointList){
-    SubInt = Subset(PassiblePartition, from=1, to=Point)
-    if(Pvar_Sum(SubInt, p)<Pvar_Sum({1,Point}, p)){
-      DropPoints = SetDiff(PassiblePartition, {1,Point})
-      PassiblePartition = SetDiff(PassiblePartition, DropPoints)
-    }  
-  }  
-  return(PassiblePartition) 
-}
-\end{lstlisting}
 
 
 \section{Conclusion}
