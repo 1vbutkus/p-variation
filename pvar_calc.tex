@@ -1388,8 +1388,8 @@ we must make sure that all sub-samples
 We can continue checking by this principle, and actually find 
 p-variation. But it is not effective way, because
 in any case of drop out we should go back and start checking
-from $m=3$, so, it is actually effective for small $m$. From Monte-Carlo experment we made
-a recomendation to check up till $m=7$.
+from $m=3$, so, it is actually effective for small $m$. From Monte-Carlo experiment we made
+a recommendation to check up till $m=7$.
 
 The final psiaudocode of this procedure is given below
 \begin{lstlisting}
@@ -1412,28 +1412,76 @@ ENDWHILE
 
 \subsubsection{Splitting the sample}
 
-The sample could be splitted in intervals 
+Propositions~\ref{} and \ref{} allows to partition sample
+in intervals that can analysed independently from each other.
+Generally, partition is very common trick that
+usually gives quite good effect. 
+In our case we cant divide sample in arbitrary point, thus
+partitioning is constrained, nevertheless, it still has significant 
+effect in speeding up the procedure. 
 
-If there are known some meaningful points, then the sample 
-could be splitted 
+According the Proposition~\ref{} if we now some meaningful points,
+then we can split the sample in those point. 
+In addition, according to Proposition~\ref{} 
+the extreme points (see Def.~\ref{}) are meaningful.
+Therefore, we can split sample in extreme points.
+More over, we can apply this checking recursively and split the
+sub-sample that already has been splitted. 
+
+The psiaudocode is as follows
+\begin{lstlisting}
+
+FIND extremum points
+IF there is at least one extremum point in midel of sample
+  SPLIT sample in the points of extremums.
+  FOR each sub-sample call recursivly
+  RETURN the list of intervals
+ELSE
+  return original sample
+ENDIF  
+
+
+\end{lstlisting}
 
 
 
-\subsubsection{Pseudo monotonic}
 
-Let suppose that the sample is
+\subsubsection{p-variation for pseudo monotonic sample}
+
+This is the final stage in p-variation calculus.
+In this chapter we will inroduce the procedure
+which calculates p-variation to special form sample.
+Let suppose that the sample $X$ is
 \begin{itemize}
-  \item Pseudo monotonic.
   \item There are no monotonic points.
+
+  \item Pseudo monotonic.
+
   \item All possible small intervals are checked.
 \end{itemize}
 
+The procedure goes as follows.
 
 \begin{enumerate}
-  \item Check if the given interval is short.
 
+  \item Check if the given interval is short. If it is short
+  exit procedure, since we now that in 
+  this interval all popints are significant.
+  
+  \item Find CumExtremums  
+  
+  \item Split by CumExtremum
 
-
+  \item For each interval: split into 2 subintervals (by extremum).
+  Recall, join results
+  
+  \item Join all results from for loop.
+  
+  \item For each point in CumExtremums
+  \begin{enumerate}
+    \item Take a subset from to point
+    \item if $pvar_sum(subset)<pvar_sum(1,point)$	then all midpoint are remuved.
+  \end{enumerate}
 \end{enumerate}
 
 Pseudo kodas:
@@ -1466,7 +1514,9 @@ pvarMon <- function(Interval, p, sizeN){
   return(PassiblePartition) 
 }
 \end{lstlisting}
-  
+
+
+\section{Conclusion}
   
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{thebibliography}{99}  
