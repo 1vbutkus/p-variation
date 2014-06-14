@@ -113,6 +113,11 @@
   \item $MB_{p}(f,[a,b])$ -- the set of partitions that contains only meaningfully break points (def.~\ref{def:MB} ).
 \end{itemize}   
 
+%Turning points
+%lap - the monotonic interval
+%corner
+%local extrema
+%forward (backward) maximum (minimum) (extrema) 
 
 \section{Mathematical analysis}
 
@@ -122,8 +127,10 @@
 %%% Definition of partition %%% 
 % Status
 \begin{definition}[Partition]\label{def:pp}
-  Let $J = [a,b]$ be a closed interval of real numbers with $-\infty < a \leq b <+\infty$. 
-  If $a < b$, an ordered set $\kappa = \{x_{i}\}_{i=0}^{n}$ of points in $[a,b]$ such that a  
+  Let $J = [a,b]$ be a closed interval of real numbers with 
+  $-\infty < a \leq b <+\infty$. 
+  If $a < b$, an ordered set $\kappa = \{x_{i}\}_{i=0}^{n}$ 
+  of points in $[a,b]$ such that a  
   $a=x_{0}<x_{1}<x_{2}<...<x_{n}=b$ is called a \emph{(point) partition}. 
   The size of the partition is denoted $\left|\kappa \right| :=\#\kappa-1=n$. 
   The set of all point partitions of $[a,b]$ is denoted by $PP[a,b]$.  
@@ -132,21 +139,25 @@
 %%% Definition of $p$-variation %%% 
 % Status:OK
 \begin{definition}[$p$-variation]\label{def:pvar}
-  Let $f:[a,b] \rightarrow \mathbb{R}$ be a real function from an interval $[a,b]$.
-  If $a<b$, for  $\kappa =\{x_{i}\}_{i=0}^{n} \in PP[a,b]$ the \emph{$p$-variation sum} is 
+  Let $f:[a,b] \rightarrow \mathbb{R}$ be a real function from 
+  an interval $[a,b]$.
+  If $a<b$, for  $\kappa =\{x_{i}\}_{i=0}^{n} \in PP[a,b]$ 
+  the \emph{$p$-variation sum} is 
   \begin{equation}\label{eq:def_pvarsum}
     s_{p}(f,\kappa):=\sum_{i=1}^{n}| f( x_{i}) -f( x_{i-1})|^{p},
   \end{equation}
-  where $0<p<\infty $. Thus, the \emph{$p$-variation} of $f$ over $[a,b]$ is $0$ if $a = b$ and otherwise
+  where $0<p<\infty $. Thus, the \emph{$p$-variation} 
+  of $f$ over $[a,b]$ is $0$ if $a = b$ and otherwise
   \begin{equation}\label{eq:def_pvar}
     v_{p}(f) =v_{p}(f,[a,b]) :=\sup \left\{
     s_{p}(f,\kappa ):\kappa \in PP[a,b]\right\}.    
   \end{equation}
   
-  The partition $\kappa$ is called \emph{meaningful} (in the content of $p$-variation) 
+  The partition $\kappa$ is called \emph{supreme partition} 
   if it satisfies the property $v_{p}(f) = s_{p}(f,\kappa)$.
   The set of such partitions is denoted
-  $MP_{p}(f,[a,b])$.
+  $SP_{p}(f,[a,b])$.
+  
 \end{definition}  
  
 %%% THe properties of $p$-variation %%% 
@@ -172,10 +183,12 @@
 %%% Regulated function (definition) %%% 
 % Status:OK  
 \begin{definition}[Regulated function](\cite{Qian}, Def. 3.1)
-  For any interval $J$, which may be open or closed at either end, bound or unbound, 
-  real function $f$ is called \emph{regulated} on $J$ if it has left and right limits   
+  For any interval $J$, which may be open or closed at either end, 
+  real function $f$ is called \emph{regulated} on $J$ 
+  if it has left and right limits   
   $f(x-)$ and $f(x+)$ respectively at each point $x$ in interior of $J$,
-  a right limit at the left end point and a left limit at the right endpoint.
+  a right limit at the left end point and a left limit 
+  at the right endpoint.
 \end{definition}  
  
 %%% Limit points %%% 
@@ -252,39 +265,31 @@
   Then the supremum of $p$-variation in Definition~\ref{def:pvar}
   is attained for some partition $r \subset  \kappa$.
 \end{proposition} 
-\begin{corollary}
-  The set $MP_{p}(f,[a,b])$ is not empty for all $f \in PM[a,b]$.  
+\begin{corollary}\label{cor:MPNotEmty}
+  The set $SP_{p}(f,[a,b])$ is not empty for all $f \in PM[a,b]$.  
 \end{corollary}
 
-%%% Partial sum (definition) %%%
-% Status:OK 
-\begin{definition}[Partial sum]
-  Let $X_1, X_2,\dots,X_n$ be any real-value sequence. 
-  The \emph{partial sum} of the first $j$ terms is defined by  
-  \begin{equation}
-    S_j:=\sum_{i=1}^j X_i, \; j=1,2,\dots,n.
-  \end{equation}
-  In addition, lets denote $S_0=0$.  
-\end{definition}
 
 %%% Sample function (definition) %%%
 % Status:OK 
 \begin{definition}[Sample function]\label{def:Seq2Fun}
-  Suppose $X=\{X_{i}\}_{i=0}^{n}$ is any real-value sequence. 
+  Suppose $X=\{X_{i}\}_{i=0}^{n}$ is any sequence real numbers. 
   We will call such sequence a \emph{sample}, 
   whereas $n$ will be referred to as a \emph{sample size}.
   Then the \emph{sample function}  
   $G_X:[0,n] \rightarrow \mathbb{R}$ is defined as 
   \begin{eqnarray}
-    G_X(t) := X_{\lfloor t \rfloor},\;t\in[0,n].
+    G_X(t) := X_{\lfloor t \rfloor},\;t\in[0,n],
   \end{eqnarray}
+  where $\lfloor t \rfloor$ denotes floor function at point $t$. 
 \end{definition} 
 
 %%% $p$-variation of the sequence (definition) %%%
 % Status:OK 
 \begin{definition}[$p$-variation of the sequence]\label{def:pvarseq}
   Let $X=\{X_i\}_{i=0}^n$. The $p$-variation
-  of the sample $X$ is defined as $p$-variation of the function $G_X(t)$, namely
+  of the sample $X$ is defined as $p$-variation of the 
+  function $G_X(t)$, namely
   \begin{equation}
     v_p(X) := v_p(G_X(t),[0,n]).
   \end{equation}
@@ -301,6 +306,16 @@
   is called \emph{piecewise linear function}.
 \end{definition}
 
+%%% Partial sum (definition) %%%
+% Status:OK 
+\begin{definition}[Partial sum]
+  Let $X_1, X_2,\dots,X_n$ be any sequence of real numbers. 
+  The \emph{partial sum} of the first $j$ terms is defined by  
+  \begin{equation}
+    S_j:=\sum_{i=1}^j X_i, \; j=1,2,\dots,n.
+  \end{equation}
+  In addition, lets denote $S_0=0$.  
+\end{definition}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{General properties with proofs}
@@ -327,14 +342,16 @@
   \end{equation}  
    
   Function $L_S$ is CPM. In addition, 
-  It is straight forward to see that 
+  it is straight forward to see that 
   \begin{equation}
   \alpha_j(L_S)=S_j-S_{j-1}=\alpha_j(f),
   \end{equation}
   hence, by Definition~\ref{def:EqPM} $f \stackrel{PM}{=} L_S$.  
 \end{proof}
+
 \begin{corollary}\label{cor:PM2CPM}
-  Similar argument could be used to show that
+  By applying last proof to the function 
+  $G_X(t)$ (from Definition~\ref{def:Seq2Fun}), we get that 
   \begin{equation}
     G_X(t)\stackrel{PM}{=}L_X(t).
   \end{equation}
@@ -350,9 +367,9 @@
 \begin{proposition}\label{prop:pvar_sum_x} 
   Suppose $f:[a,b] \rightarrow \mathbb{R}$ is CPM.
   Let $\{x_i\}_{i=0}^n \in PP[a,b]$ be any partition of interval $[a,b]$. 
-  Then the proposition
+  Then the statement 
   \begin{equation}
-    \exists \kappa \in MP_{p}(f,[a,b]):\forall i,x_i \in \kappa
+    \exists \kappa \in SP_{p}(f,[a,b]):\forall i,x_i \in \kappa
   \end{equation}
   is equivalent to 
   \begin{equation}
@@ -363,13 +380,13 @@
   Necessary. Let $f:[a,b] \rightarrow \mathbb{R}$ be $CPM$,
   $\{x_i\}_{i=0}^n \in  PP[a,b]$ and 
   \begin{equation}
-    \exists \kappa \in MP_{p}(f,[a,b]):\forall i,x_i \in \kappa. 
+    \exists \kappa \in SP_{p}(f,[a,b]):\forall i,x_i \in \kappa. 
   \end{equation}
   
   Points from the partition $\kappa$ will be denoted $t_i$, i.e. $\kappa=\{t_i\}_{i=0}^m$.
-  Then, according to definitions of $MP_{p}$ and $p$-variation (def.~\ref{def:pvar}) the following equation holds
+  Then, according to definitions of $SP_{p}$ and $p$-variation (def.~\ref{def:pvar}) the following equation holds
   \begin{equation}\label{eq:ir1.eq1}
-  v_p(f,[a,b])=s_{p}(f;\kappa)=\sum_{i=1}^{|\kappa|}|f(t_{i-1})-f(t_i)|^p 
+  v_p(f,[a,b])=s_{p}(f;\kappa)=\sum_{j=1}^{m}|f(t_{j-1})-f(t_j)|^p 
     = \sum_{i=1}^n\sum_{j=h(i-1)+1}^{h(i)}|f(t_{j-1})-f(t_j)|^p,
   \end{equation}  
   where $h:\{0,1,\dots,n\} \rightarrow \{0,1,\dots,m\}$ denotes a function 
@@ -377,7 +394,8 @@
   \begin{equation}\label{eq:ir1.eqx1}
     h(i):=(j_i : x_i = t_{j_i}=t_{h(i)}).
   \end{equation}  
-  The equation (\ref{eq:ir1.eq1}) holds, because it's just a rearranged sum.
+  The equation (\ref{eq:ir1.eq1}) holds, because all the elements 
+  in the sum remains, we just grouped them.
   
   Moreover, the inequality  
   \begin{equation}\label{eq:ir1.eq2}
@@ -390,7 +408,7 @@
     v_p(f,[a,b]) \leq \sum_{i=1}^n v_p(f,[x_{i-1},x_i]).
   \end{equation}
   
-  On the other hand, according to the same Lemma~\ref{lm:element_properties}(\ref{lm:ep_g}) the following inequality holds
+  On the other hand, according to the same Lemma~\ref{lm:element_properties}(\ref{lm:ep_e}) the following inequality holds
   \begin{equation}\label{eq:ir1.eq4}
     v_p(f,[a,b]) \geq \sum_{i=1}^n v_p(f,[x_{i-1},x_i]).
   \end{equation}
@@ -405,7 +423,12 @@
     v_p(f,[a,b]) = \sum_{i=1}^n v_p(f,[x_{i-1},x_i]).
   \end{equation}
   
-  Lets take any partition from each of the sets $MP_{p}(f,[x_{i-1},x_i]),\;i=1,\dots,n$ and denote it $\kappa_i$.
+  According to Corollary~\ref{cor:MPNotEmty}, 
+  sets $SP_{p}(f,[x_{i-1},x_i]),\;i=1,\dots,n$ are not empty.  
+  Lets take any partition from each of the 
+  sets $SP_{p}(f,[x_{i-1},x_i]),\;i=1,\dots,n$ and denote it $\kappa_i$.
+    
+  
   Then, let define a joint partition $\kappa:=\cup_{i=1}^n \kappa_i$. 
   Points from the partition $\kappa$ will be denoted by $t_i$. 
   In addition, we will use the function $h$, which is defined in (\ref{eq:ir1.eqx1}).
@@ -440,7 +463,17 @@
 %%% Lexicographical order is total %%%
 % Status: Need reference
 \begin{proposition}
-  Binary relation $\succeq$ is a total order, i.e. the relationship is transitive, antisymmetric and total.
+  Binary relation $\succeq$ is a total order, 
+  i.e. the relationship $\succeq$ satisfies the flowing properties 
+  for all $\kappa,r,g \in  X(f)$:
+  \begin{itemize}
+    \item Antisymmetry -- if $\kappa \succeq r$  and $r\succeq \kappa$,
+     then $\kappa=r$.
+    \item Transitivity -- if  $\kappa \succeq r$  and $r \succeq g$,
+     then $\kappa\succeq g$.
+    \item Totality -- either $\kappa \succeq r$ or $r\succeq \kappa$.
+  \end{itemize}
+
 \end{proposition}
 \begin{proof}  
    Need reference ...
@@ -450,7 +483,7 @@
 % Status: OK
 \begin{proposition} \label{prop:kappaf}
   Let $f:[a,b] \rightarrow \mathbb{R}$ is CPM. Then there is a partition  
-  $\kappa_f$ such that
+  $\kappa_f \in  X(f)$ such that
   \begin{equation}\label{eq:Kappaf}
     \forall r \in X(f): \kappa_f \succeq r .
   \end{equation}
@@ -1395,17 +1428,48 @@ ENDWHILE
 
 \subsubsection{Merging small intervals}
 
+\paragraph{Adding an extra point to interval}
 
-\subsubsection{Merging two small intervals}
+Let suppose ...
+Then $x_0$ could make a f-join with any other partition point.
 
-1. Find potential points 
-2. Test all posible f-joints
+Test reasinable posibilities. 
+If find - delete all midpoints
+
+\paragraph{Merge two intervals}
 
 
+\begin{lstlisting}
 
-\subsubsection{Merging all small intervals}
+1. Find potential points from one side an the other
+
+2. Merging
+for i in 
+  AddPoint(i)
+EndFor
+
+\end{lstlisting}
 
 
+\paragraph{Merging all small intervals}
+
+
+\begin{lstlisting}
+
+while the length of in > 1
+  
+  for  
+    int[i] = merge(int[i], int[i+1])
+    i+2;
+  end for
+  delete all even int
+  
+  
+
+end 
+
+
+\end{lstlisting}
 
 \section{Conclusion}
   
