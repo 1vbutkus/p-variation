@@ -97,20 +97,23 @@
 
 
 \begin{itemize}  
-  \item $PP[a,b]$ --  the set of all point partitions of $[a,b]$ (def.~\ref{def:pp}).
+  \item $PP[a,b]$ --  the set of all point partitions of $[a,b]$
+    (def.~\ref{def:pp}).
   \item $s_{p}(f;\kappa)$ --  $p$-variation sum (def.~\ref{def:pvar}).
-  \item $v_{p}\left( f\right)$ -- $p$-variation of the function $f$ (def.~\ref{def:pvar}).
-  \item $MP_{p}(f,[a,b])$ -- the set of meaningful partitions (def.~\ref{def:pvar}).
-  \item $PM[a,b]$ -- a set of piecewise monotone functions (def.~\ref{def:PM}).
-  \item $CPM[a,b]$ -- a set of continuous piecewise monotone functions (def.~\ref{def:PM}).
-  \item $K(f,[a,b])$ -- minimal size of PM partitions (prop.~\ref{prop:K_f}).
-  \item $X(f,[a,b])$ -- the set of PM partitions with minimal size (def.~\ref{def:X_f}).
-  \item $\overline{BP}(f,[a,b])$ -- the set of break points (definition \ref{def:BreakPoint}).
-  \item $\overline{BP}(f,(a,b))$ -- the set of inner break points (def.~\ref{def:BreakPoint}).
-  \item $BP(f,[a,b])$ -- the set of partitions that contains only break points (def.~\ref{def:BreakPoint}). 
-  \item $BP(f,(a,b))$ -- the set of partitions that contains only break points, but excludes the partition $\{a,b\}$. (def.~\ref{def:BreakPoint}). 
-  \item $\overline{MB}_{p}(f,[a,b])$ -- the set of meaningfully break points (def.~\ref{def:MB} ).
-  \item $MB_{p}(f,[a,b])$ -- the set of partitions that contains only meaningfully break points (def.~\ref{def:MB} ).
+  \item $v_{p}\left( f\right)$ -- $p$-variation of the function $f$
+    (def.~\ref{def:pvar}).
+  \item $SP_{p}(f,[a,b])$ -- the set of supreme partitions
+    (def.~\ref{def:pvar}).
+  \item $\overline{SP}_{p}(f,[a,b])$ -- a set of points that are
+    in any supreme partition (def.~\ref{def:psp}).
+  \item $PM[a,b]$ -- a set of piecewise monotone functions
+    (def.~\ref{def:PM}).  
+  \item $CPM[a,b]$ -- a set of continuous piecewise monotone functions
+    (def.~\ref{def:PM}).
+  \item $K(f,[a,b])$ -- minimal size of PM partitions
+    (prop.~\ref{prop:K_f}).
+  \item $X(f,[a,b])$ -- the set of PM partitions with minimal size
+    (def.~\ref{def:X_f}).
 \end{itemize}   
 
 %Turning points
@@ -159,6 +162,10 @@
   $SP_{p}(f,[a,b])$.
   
 \end{definition}  
+ 
+Vidinis Komentaras (VK): Dar neaisku kaip pakrikstyti skaidini, kuris pasiekia supremuma. 
+ 
+ 
  
 %%% THe properties of $p$-variation %%% 
 % Status:OK 
@@ -243,6 +250,30 @@
 \end{proposition}  
  
  
+%%% PM form: alternating laps %%%
+% Status: RECHECK  with orginal.
+\begin{proposition}(\cite{Qian}, Prop. 3.2)\label{prop:PM_form}
+  Let $f$ is PM. For any partition 
+  $\{ x_j \}_{j=0}^{K(f)} \in X(f)$ 
+  exactly one of the flowing stamens holds:
+  \begin{enumerate}[(a)]
+   \item $f(x_0)>f(x_1)<f(x_2)>\dots$. 
+     Function $f$ is not
+     increasing in intervals $[x_{2j}, x_{2j+1}]$, 
+     then $2j+1\leq K(f)$. 
+     Function $f$ is not
+     decreasing in intervals $[x_{2j-1}, x_{2j}]$, 
+     then $j \geq 1$ and $2j\leq K(f)$.  
+     
+   \item (a) holds for a function $-f$; or
+   \item $K(f, [a,b]) = 1$ and $f$ is constant in interval $[a,b]$.
+  \end{enumerate}
+  
+  
+\end{proposition}  
+  
+ 
+ 
 %%% Equality by PM %%% 
 % Status:OK 
 \begin{definition}[The equality by PM](\cite{Qian}, Def. 3.4)\label{def:EqPM}
@@ -265,7 +296,7 @@
   Then the supremum of $p$-variation in Definition~\ref{def:pvar}
   is attained for some partition $r \subset  \kappa$.
 \end{proposition} 
-\begin{corollary}\label{cor:MPNotEmty}
+\begin{corollary}\label{cor:SPNotEmpty}
   The set $SP_{p}(f,[a,b])$ is not empty for all $f \in PM[a,b]$.  
 \end{corollary}
 
@@ -363,10 +394,9 @@
 
 
 %%% VIP: p-variation is additive in meaningful points %%%
-% Status: 
 \begin{proposition}\label{prop:pvar_sum_x} 
-  Suppose $f:[a,b] \rightarrow \mathbb{R}$ is CPM.
-  Let $\{x_i\}_{i=0}^n \in PP[a,b]$ be any partition of interval $[a,b]$. 
+  Let $f:[a,b] \rightarrow \mathbb{R}$ be PM and
+  $\{x_i\}_{i=0}^n \in PP[a,b]$ is any partition of interval $[a,b]$. 
   Then the statement 
   \begin{equation}
     \exists \kappa \in SP_{p}(f,[a,b]):\forall i,x_i \in \kappa
@@ -377,19 +407,22 @@
   \end{equation}
 \end{proposition}
 \begin{proof}
-  Necessary. Let $f:[a,b] \rightarrow \mathbb{R}$ be $CPM$,
-  $\{x_i\}_{i=0}^n \in  PP[a,b]$ and 
+  Necessary. Let $f:[a,b] \rightarrow \mathbb{R}$ be PM,
+  $\{x_i\}_{i=0}^n \in PP[a,b]$ and 
   \begin{equation}
     \exists \kappa \in SP_{p}(f,[a,b]):\forall i,x_i \in \kappa. 
   \end{equation}
   
-  Points from the partition $\kappa$ will be denoted $t_i$, i.e. $\kappa=\{t_i\}_{i=0}^m$.
-  Then, according to definitions of $SP_{p}$ and $p$-variation (def.~\ref{def:pvar}) the following equation holds
+  Points from the partition $\kappa$ will be denoted $t_i$, 
+  i.e. $\kappa=\{t_i\}_{i=0}^m$.
+  Then, according to definitions of $SP_{p}$ and 
+  $p$-variation (def.~\ref{def:pvar}) the following equation holds
   \begin{equation}\label{eq:ir1.eq1}
   v_p(f,[a,b])=s_{p}(f;\kappa)=\sum_{j=1}^{m}|f(t_{j-1})-f(t_j)|^p 
     = \sum_{i=1}^n\sum_{j=h(i-1)+1}^{h(i)}|f(t_{j-1})-f(t_j)|^p,
   \end{equation}  
-  where $h:\{0,1,\dots,n\} \rightarrow \{0,1,\dots,m\}$ denotes a function 
+  where $h:\{0,1,\dots,n\} \rightarrow \{0,1,\dots,m\}$ 
+  denotes a function 
   from the set of index of $x$ to the set of index of $t$, namely:
   \begin{equation}\label{eq:ir1.eqx1}
     h(i):=(j_i : x_i = t_{j_i}=t_{h(i)}).
@@ -399,7 +432,8 @@
   
   Moreover, the inequality  
   \begin{equation}\label{eq:ir1.eq2}
-  \sum_{j=h(i-1)+1}^{h(i)}|f(t_{j-1})-f(t_j)|^p \leq v_p(f,[x_{i-1},x_i])
+  \sum_{j=h(i-1)+1}^{h(i)}|f(t_{j-1})-f(t_j)|^p 
+    \leq v_p(f,[x_{i-1},x_i])
   \end{equation}  
   holds according to Lemma \ref{lm:element_properties}(\ref{lm:ep_g}).
   
@@ -408,7 +442,9 @@
     v_p(f,[a,b]) \leq \sum_{i=1}^n v_p(f,[x_{i-1},x_i]).
   \end{equation}
   
-  On the other hand, according to the same Lemma~\ref{lm:element_properties}(\ref{lm:ep_e}) the following inequality holds
+  On the other hand, according to the same
+  Lemma~\ref{lm:element_properties}(\ref{lm:ep_e}) 
+  the following inequality holds
   \begin{equation}\label{eq:ir1.eq4}
     v_p(f,[a,b]) \geq \sum_{i=1}^n v_p(f,[x_{i-1},x_i]).
   \end{equation}
@@ -418,12 +454,12 @@
     v_p(f,[a,b]) = \sum_{i=1}^n v_p(f,[x_{i-1},x_i]).
   \end{equation}
   
-  Sufficiency. Suppose $f:[a,b] \rightarrow \mathbb{R}$ is $CPM$ and 
+  Sufficiency. Suppose $f:[a,b] \rightarrow \mathbb{R}$ and 
   \begin{equation}\label{eq:ir1.eq6}
     v_p(f,[a,b]) = \sum_{i=1}^n v_p(f,[x_{i-1},x_i]).
   \end{equation}
   
-  According to Corollary~\ref{cor:MPNotEmty}, 
+  According to Corollary~\ref{cor:SPNotEmpty}, 
   sets $SP_{p}(f,[x_{i-1},x_i]),\;i=1,\dots,n$ are not empty.  
   Lets take any partition from each of the 
   sets $SP_{p}(f,[x_{i-1},x_i]),\;i=1,\dots,n$ and denote it $\kappa_i$.
@@ -431,470 +467,233 @@
   
   Then, let define a joint partition $\kappa:=\cup_{i=1}^n \kappa_i$. 
   Points from the partition $\kappa$ will be denoted by $t_i$. 
-  In addition, we will use the function $h$, which is defined in (\ref{eq:ir1.eqx1}).
+  In addition, we will use the function $h$, 
+  which is defined in (\ref{eq:ir1.eqx1}).
   Then, continuing the equation (\ref{eq:ir1.eq6}) we get
   \begin{equation}\label{eq:ir1.eq7}
-  v_p(f,[a,b]) = \sum_{i=1}^n\sum_{j=h(i-1)+1}^{h(i)}|f(t_{j-1})-f(t_j)|^p
+  v_p(f,[a,b]) = 
+    \sum_{i=1}^n\sum_{j=h(i-1)+1}^{h(i)}|f(t_{j-1})-f(t_j)|^p
     =\sum_{i=1}^{|\kappa|}|f(t_{i-1})-f(t_i)|^p.
   \end{equation}
-  This means that $\kappa \in MP_{p}(f,[a,b])$. Moreover, $\forall i:x_i \in \kappa$,
+  This means that $\kappa \in MP_{p}(f,[a,b])$. 
+  Moreover, $\forall i:x_i \in \kappa$,
   because $\kappa=\cup_{i=1}^n \kappa_i$.  
 \end{proof}
 
-\subsection{Meaningful break points}
 
-%%% Lexicographical order (definition %%%
-% Status: OK
-\begin{definition}[Lexicographical order]\label{def:LexiOrder}
-  Suppose $f$ is CPM. Let $\kappa$ and $r$ denotes two partitions with minimal size, namely
-  $\kappa=\{x_j\}_{j=0}^{K(f)}\in X(f)$ 
-  and $r=\{ y_j \}_{j=0}^{K(f)}\in X(f)$.
-  Then partitions $\kappa$ and $r$ could be compare using \emph{lexicographical order}, namely
-  we will say that $\kappa \succ r$, if 
-  \begin{itemize}
-    \item $\exists j: x_j > y_j$; and
-    \item $\forall i<j: x_i = y_i$.
-  \end{itemize} 
-  We will say $\kappa = r$ if $\forall j:x_j=y_j$.\\
-  We will say $\kappa \succeq r$ if $\kappa \succ r$ or $\kappa = r$.
-\end{definition}
-
-
-%%% Lexicographical order is total %%%
-% Status: Need reference
-\begin{proposition}
-  Binary relation $\succeq$ is a total order, 
-  i.e. the relationship $\succeq$ satisfies the flowing properties 
-  for all $\kappa,r,g \in  X(f)$:
-  \begin{itemize}
-    \item Antisymmetry -- if $\kappa \succeq r$  and $r\succeq \kappa$,
-     then $\kappa=r$.
-    \item Transitivity -- if  $\kappa \succeq r$  and $r \succeq g$,
-     then $\kappa\succeq g$.
-    \item Totality -- either $\kappa \succeq r$ or $r\succeq \kappa$.
-  \end{itemize}
-
-\end{proposition}
-\begin{proof}  
-   Need reference ...
-\end{proof}  
-
-%%% Exists maximal element %%%
-% Status: OK
-\begin{proposition} \label{prop:kappaf}
-  Let $f:[a,b] \rightarrow \mathbb{R}$ is CPM. Then there is a partition  
-  $\kappa_f \in  X(f)$ such that
-  \begin{equation}\label{eq:Kappaf}
-    \forall r \in X(f): \kappa_f \succeq r .
-  \end{equation}
-\end{proposition}
-\begin{proof}  
-  Firstly, we will construct $\kappa_f$, latter, we will proof
-  that the property (\ref{eq:Kappaf}) holds.
-  
-  Suppose,  $f:[a,b] \rightarrow \mathbb{R}$ is CPM. Let denote
-  \begin{equation*}
-    x_1:=\sup \left\{x\in[a,b]:|f(y_1)-f(a)| \leq |f(y_2)-f(a)|, \forall a \leq y_1 < y_2 \leq x \right\}.
-  \end{equation*} 
-  
-  Other $x_i,\;i=2,\dots,K(f)$ will be defined by induction. 
-  Suppose $x_{i-1}$ is defined and $x_{i-1}<b$, then 
-  \begin{equation*}
-    x_i:=\sup \left\{x\in[x_{i-1},b]:|f(y_1)-f(x_{i-1})| \leq |f(y_2)-f(x_{i-1})|, \forall x_{i-1} \leq y_1 < y_2 \leq x \right\}.
-  \end{equation*}   
-  
-  According condition used in the definition of $x_i$,
-  all $(x_{i-1},x_i),\;i=1,\dots,K(f)$ are monotonic intervals.
-
-  In addition, points $x_i$ have the greatest values, 
-  that satisfies the condition. 
-  Therefore, if the values $x_i$ would increased,
-  the condition would no longer be valid, i.e.   
-  \begin{equation}\label{eq:KapaS.1}
-   \forall i, \exists \delta: |f(x_i)-f(x_{i-1})|> |f(x_i+\varepsilon)-f(x_{i-1})|\text{, if } \varepsilon \in (0,\delta). 
-  \end{equation}   
-  
-  We will show that  $\kappa_f:=\{x_i\}_{i=1}^{n}$
-  satisfies the condition  (\ref{eq:Kappaf}). 
-  Suppose to the contrary that
+% The subset on the points of supreme partition is aditive
+\begin{lemma}\label{lm:pvarSubset}
+  Let $f:[a,b] \rightarrow \mathbb{R}$ be PM 
+  and $\{x_i\}_{i=0}^{n} \subset \kappa \in SP_{p}(f,[a,b])$. Then
   \begin{equation}
-   \exists r=\{t_i\}_{i=1}^{n} \in X(f): r \succ \kappa_s.
-  \end{equation}    
-  According to Definition of $\succ$ we get
-  \begin{equation}
-   \exists j: t_j>x_j\text{, and } t_i=x_i \text{, if } i<j.
-  \end{equation}     
-  
-  Since $r \in X(f)$, the intervals $[t_{j-1}, t_j]$ 
-  are monotonic intervals, i.e.
-  \begin{equation}\label{eq:KapaS.2}
-    |f(y_1)-f(t_{j-1})| \leq |f(y_2)-f(t_{j-1})|,
-  \end{equation}      
-  if $t_{j-1} \leq y_1 < y_2 \leq t_j$.
-  But (\ref{eq:KapaS.2}) contradicts (\ref{eq:KapaS.1}), then
-  $y_1=x_j$ and $y_2=x_j+\varepsilon$.  
-\end{proof}     
-  
-%% f:[BP_1,BP_2] -> R is not a constant.
-% Status: OK
-\begin{lemma}\label{lem:noncons}
-  Suppose $f:[a,b] \rightarrow \mathbb{R}$ is CPM and $\kappa_f=\{x_i\}_{i=1}^{K(f)}$ 
-  is the partition from (\ref{eq:Kappaf}).
-  Then, for all $x_i,i=1,\dots,K(f)-1$, the following proposition holds
-  \begin{equation}
-    \forall \varepsilon>0: f \text{ is not a constant in } [x_i,x_i + \varepsilon].
-  \end{equation}
-\end{lemma}
-\begin{proof} 
-  Suppose $f:[a,b] \rightarrow \mathbb{R}$ is CPM and $\kappa_f=\{x_i\}_{i=1}^{K(f)}$ 
-  is the partition from (\ref{eq:Kappaf}).
-  Suppose to the contrary, that exists $x_j$ and $\varepsilon > 0$ such that
-  $f \text{ is not a constant in } [x_j,x_j + \varepsilon]$.
-  Since $f$ is constant in $[x_j,x_j + \varepsilon]$,
-  the point $x_j + \varepsilon$ is also the end of monotone interval (def.~\ref{def:PM}).
-  
-  Lets define the partition $\{y_i\}_{i=1}^{K(f)} \in X(f)$, which is
-  \begin{equation}
-    y_i :=
-    \begin{cases}
-      x_i & \text{, if } j \neq i \\
-      x_i+\varepsilon  & \text{, if } j = i
-    \end{cases},
-  \end{equation}
-  where $\varepsilon \in (0, x_{j+1}-x_j)$.
-  
-  It is straight forward to see that $\{y_i\}_{i=1}^{K(f)} \succ \kappa_f$, since
-  $y_j>x_j$ and $y_i=x_i,i<j$. 
-  This contradict the definition of $\kappa_f$. 
-\end{proof}   
-  
-  
-%%% Break points (definition) %%%
-% Status:OK  
-\begin{definition}[Break points]\label{def:BreakPoint}
-  Let $\kappa_f$ be a partition form Proposition~\ref{prop:kappaf}.  
-  The points $x_j \in \kappa_f$ will be called \emph{break points} 
-  and the set of such points are denoted $\overline{BP}(f,[a,b])$, which is non empty and finite.
-  The set of partitions that contains only break points are denoted $BP(f,[a,b])$, i.e.
-  \begin{equation}
-    BP(f) = BP(f,[a,b]) := \left\{\kappa \in PP[a,b]: \kappa \subset \overline{BP}(f,[a,b]) \right\}. 
-  \end{equation}
-  $BP(f,[a,b])$ is also non empty and finite.
-  
-  For the convenience let define the subsets of the sets $\overline{BP}$ and $BP$ 
-  that excludes the ends of the interval, namely
-  \begin{eqnarray}
-    \overline{BP}(f,(a,b)) &:=& \overline{BP}(f,[a,b])\setminus \{a,b\}, \\
-    BP(f,(a,b)) &:=& BP(f,[a,b])\setminus \{\{a,b\}\}.  \label{eq:BP(f,(a,b))}
-  \end{eqnarray}
-\end{definition}  
-  
- 
-  
-%%% meaningul partition ar in break points %%%
-% Status: OK
-\begin{proposition}\label{prop:pvar-max}
-  Let $f$ is CPM function defined in $[a,b]$ and $1 \leq p < \infty$.
-  Then the $p$-variations could be expressed as 
-  \begin{equation}
-    v_{p}\left( f\right) =v_{p}\left( f,[a,b]\right) =\max \left\{
-    s_{p}(f;\kappa ):\kappa \in BP(f,[a,b]) \right\}.
-  \label{pv1}
-  \end{equation}
-\end{proposition}
-\begin{proof}
-  This result follows directly from the Proposition~\ref{prop:sup_in_PM}.
-\end{proof} 
-
-
-
-
-%%% Meaningfull break points (definition) %%%
-% Status: OK
-\begin{definition}[Meaningfull break points]\label{def:MB} 
-  Suppose $f$ is CPM and $1 \leq p < \infty$. 
-  Let denote the set of \emph{partitions of meaningful break} (points)
-  \begin{equation}
-    MB_{p}(f) = MB_{p}(f,[a,b]):= MP_p(f,[a,b]) \cap BP(f, [a,b]).
-  \end{equation}  
-  The set $MB_{p}(f,[a,b])$ is not empty according to Proposition~\ref{prop:pvar-max}.
-  
-  The point $x$ will be called \emph{meaningful break} if $\exists \kappa \in MB_{p}(f): x \in \kappa$.
-  The set of such points are denoted $\overline{MB}_p(f) = \overline{MB}_p(f,[a,b])$.
-  The point $a$ is called \emph{meaningless} if 
-  $a \notin \overline{MB}_{p}(f,[a,b]) $. 
-\end{definition}
-
-%%% The interval on meaningful breaks are additive in all possible combinations %%%
-% Status: OK
-\begin{lemma}\label{prop:pvarSubset}
-  Let $\{x_i\}_{i=0}^{n} \subset \kappa \in MB_{p}(f,[a,b])$, then
-  \begin{equation}
-    \forall i,j: v_p(f,[x_i,x_j])= \sum_{k=i+1}^j v_p(f,[x_{k-1},x_k]),\; 0 \leq i<j\leq n. 
+    \forall k,l: v_p(f,[x_k,x_l]) = 
+      \sum_{i=k+1}^l v_p(f,[x_{i-1},x_i]),\; 0 \leq k<l\leq n. 
   \end{equation}
 \end{lemma}
 \begin{proof}
-  Suppose $\{x_i\}_{i=0}^{n} \subset \kappa \in MB_{p}(f,[a,b])$. 
-  Let choose $i$ and $j$ such that $0\leq i<j\leq n$.
-  Because $MB_{p} \subset MP_{p}$, we can apply Proposition \ref{prop:pvar_sum_x} for the partition
-  $\{x_0,x_i,x_{i+1},\dots,x_{j-1},x_j,x_n\}$. Thus,
+  Suppose $\{x_i\}_{i=0}^{n} \subset \kappa \in SP_{p}(f,[a,b])$. 
+  Let choose $k$ and $l$ such that $0\leq k<l\leq n$.
+  Lets apply Proposition~\ref{prop:pvar_sum_x} for the partition
+  $\{x_0,x_k,x_{k+1},\dots,x_{l-1},x_l,x_n\}$. Thus,
   \begin{equation}
-    v_p(f,[a,b]) = v_p(f,[x_{0},x_i]) + \sum_{k=i+1}^j v_p(f,[x_{k-1},x_k]) + v_p(f,[x_j,x_n]). 
+    v_p(f,[a,b]) = v_p(f,[x_{0},x_k]) 
+      + \sum_{i=k+1}^l v_p(f,[x_{i-1},x_i]) + v_p(f,[x_l,x_n]). 
   \end{equation}
-  In addition, we can apply the same proposition for the partition $\{x_0,x_i,x_j,x_n\}$, then
+  In addition, we can apply the same proposition for 
+  the partition $\{x_0,x_k,x_l,x_n\}$, then
   \begin{equation}
-    v_p(f,[a,b]) =  v_p(f,[x_{0},x_i]) + v_p(f,[x_i,x_j]) + v_p(f,[x_j,x_n]). 
+    v_p(f,[a,b]) =  v_p(f,[x_{0},x_k]) + v_p(f,[x_k,x_l]) 
+      + v_p(f,[x_l,x_n]). 
   \end{equation}
   By subtracting one equation form the other we get the result that
   \begin{equation}
-    v_p(f,[x_i,x_j])= \sum_{k=i+1}^j v_p(f,[x_{k-1},x_k]). 
+    v_p(f,[x_k,x_l])= \sum_{i=k+1}^l v_p(f,[x_{i-1},x_i]). 
   \end{equation}
 \end{proof}
 
-
-%%% Exists partition from MB with maximum size %%%
-% Status: OK
-\begin{proposition}\label{prop:EMaxKappa}  
-  Suppose $f:[a,b] \rightarrow \mathbb{R}$ is CPM. Then
-  \begin{equation}\label{eq:MaxKappa}
-    \exists \kappa_{ab} \in MB_{p}(f,[a,b]): \forall \kappa \in MB_{p}(f,[a,b]) [|\kappa_{ab}| \geq |\kappa|].
-  \end{equation}  
-\end{proposition}
-\begin{proof}
-  Suppose $f$ is CPM, then $\forall \kappa \in BP(f): |\kappa| \leq K(f)$.
-  Since $MB_{p}(f) \subset BP(f)$, then $\forall \kappa \in MP_{p}(f): |\kappa|\leq K(f)$. 
-  Therefore, the size of partitions from $MP_{p}(f)$ are bounded.
-  As a result the size of the partition $|\kappa|$ is bounded natural number, 
-  whereas such set has the larges element.
-\end{proof}
-
-%%% The partition of MB with maximum size (definition) %%%
-% Status: OK
-\begin{definition} \label{def:MB^m} 
-  The set of partitions $\kappa_{ab}$ which satisfies \ref{eq:MaxKappa}
-  will be denoted $MB_{p}^m(f,[a,b])=MB_{p}^m(f)$.  
-  This set is non empty according to Proposition~\ref{prop:EMaxKappa}.
-
-  In addition it could be shown (see Proposition~\ref{prop:E1Kappa}) 
-  that the set $MB_{p}^m(f)$ has exactly one element and 
+\begin{lemma}\label{lm:spSubset}
+  Let $f:[a,b] \rightarrow \mathbb{R}$ be PM 
+  and $\{t_i\}_{i=0}^{n} \in SP_{p}(f,[a,b])$. Then
   \begin{equation}
-    \forall \kappa \in MB_{p}(f):\kappa \subset \kappa_{ab} \in MB_{p}^m(f)
+    \forall k,l: v_p(f,[t_k, t_l]) = 
+      s_p\left(f,\{t_i\}_{i=k}^{l}\right) ,\; 0 \leq k<l\leq n. 
   \end{equation}
-\end{definition}
-
-%%% MP^m <=> p-variation => f-join %%%  
-% Status: Need subtlety in proof
-\begin{lemma}\label{lem:MinJunktSal} 
-  Let $f$ is $CMD$. Then $\{a,b\} \in MB_{p}^m(f,[a,b])$
-  if and only if
-  \begin{equation*}
-    \forall \kappa \in BP(f,(a,b)): v_p(f,[a,b]) > s_p(f, \kappa).
-  \end{equation*} 
-  Here the $BP(f,(a,b))$ is the set of partitions of break points
-  excluding $\{a,b\}$ (see def.~\ref{eq:BP(f,(a,b))}).
 \end{lemma}
-\begin{proof} 
-  Necessary. Let assume on the contrary that $\{a,b\} \in MP_{p}^m(f,[a,b])$, but
-  \begin{equation*}
-     \exists \kappa \in BP(f,(a,b)): v_p(f,[a,b]) = s_p(f, \kappa).
-  \end{equation*} 
+\begin{proof}
+  Let $f:[a,b] \rightarrow \mathbb{R}$ be PM 
+  and $\{t_i\}_{i=0}^{n} \in SP_{p}(f,[a,b])$. 
+  Let choose $k$ and $l$ such that $0\leq k<l\leq n$.
+  Then 
+  \begin{eqnarray}
+    v_p(f, [a, b]) & = & s_p(f,\{t_i\}_{i=0}^{n}) \\
+    & = & s_p(f,\{t_i\}_{i=0}^{k})+s_p(f,\{t_i\}_{i=k}^{l})
+      +s_p(f,\{t_i\}_{i=l}^{n})\\
+    \label{eq:spSubset_p1}  
+    & \leq & v_p(f, [a,t_k]) + s_p(f,\{t_i\}_{i=k}^{l})
+      +v_p(f, [t_l, b]).         
+  \end{eqnarray}    
+  The last inequality holds according to 
+  Lemma~\ref{lm:element_properties}(\ref{lm:ep_g}).  
+    
+  On the other hand, from Proposition~\ref{lm:pvarSubset}
+  we get
+  \begin{equation}\label{eq:spSubset_p2}  
+    v_p(f, [a, b]) = 
+      v_p(f, [a,t_k]) + v_p(f,[t_k, t_l])
+      +v_p(f, [t_l, b]).     
+  \end{equation}      
   
-  The partition $\kappa \in BP(f,(a,b))$ must have more points then the end of the intervals $a$ and $b$,
-  because if $\kappa = \{a,b\}$ then it contradicts to the definition of $BP(f,(a,b))$.
-  Therefore, $|\kappa|>|\{a,b\}|$, but this contradicts to assumptions that $\{a,b\} \in MP_{p}^m(f,[a,b])$.
-  
-  Sufficiency. Suppose 
-  \begin{equation}\label{eq:MinJunktSal_Ir_eq1}
-    \forall \kappa \in BP(f,(a,b)): v_p(f,[a,b]) > s_p(f, \kappa).
+  Form (\ref{eq:spSubset_p1}) and (\ref{eq:spSubset_p2})
+  follows 
+  \begin{equation} 
+    v_p(f,[t_k, t_l]) \leq s_p(f,\{t_i\}_{i=k}^{l}).  
   \end{equation} 
   
-  According to Proposition~\ref{prop:pvar-max}, the $p$-variation is achieved in the set $BP(f,[a,b])$, 
-  therefore, from the (\ref{eq:MinJunktSal_Ir_eq1}) follows that
-  $\{a,b\}$ is the partition of meaningful break points, i.e. $\{a,b\} \in MP_{p}(f,[a,b])$. 
-  In addition, this partition is the only one, therefore it is the biggest partition, thus 
-  $\{a,b\} \in MP_{p}^m(f,[a,b])$.
-\end{proof}    
+  Finally, from Lemma~\ref{lm:element_properties}(\ref{lm:ep_g})
+  we conclude that 
+  \begin{equation} 
+    v_p(f,[t_k, t_l]) = s_p(f,\{t_i\}_{i=k}^{l}).  
+  \end{equation}   
+  
+\end{proof}
 
 
-%%% The subset of MB^m is MB^m %%%
-% Status: OK
-\begin{lemma}\label{prop:MaxKapaJunkMax}
-  Let $f:[a,b] \rightarrow \mathbb{R}$ be CPM. Suppose $\{x_i\}_{i=0}^n \in MB_{p}^m(f,[a,b])$.
-  Then 
+% The point of supreme partition 
+\begin{definition}[The point of supreme partition]\label{def:psp}
+  Let $f:[a,b] \rightarrow \mathbb{R}$ be PM.  
+  The point $x$ will be called the \emph{point of supreme partition}
+  if 
   \begin{equation}
-    \forall i \in \{1,2,\dots,n\} : \{x_{i-1},x_i\} \in MB_{p}^m(f,[x_{i-1},x_i]). 
+    \exists \kappa \in SP_p(f, [a,b]): x \in \kappa.
+  \end{equation} 
+  The set of such points will be denoted by 
+  $\overline{SP}_p(f, [a, b])$.
+\end{definition}
+
+
+\begin{lemma}\label{lm:psp} 
+  Suppose $f:[a,b] \rightarrow \mathbb{R}$ is PM, 
+  $x \in [a,b]$,
+  $x \notin \overline{SP}_p(f, [a, b])$ and
+  $\{t_i\}_{i=0}^n \in SP(f, [a, b])$ is any supreme partition.
+  Then, 
+  \begin{equation}
+    \exists j=1,\dots,n: x \in (t_{j-1}, t_j) \text{ and } 
+    x \notin \overline{SP}_p(f, [t_{j-1}, t_j]).
   \end{equation}
 \end{lemma}
 \begin{proof}
-  Suppose to the contrary that
-  \begin{equation}
-    \exists j \in \{1,2,\dots,n\} :\{x_{j-1},x_j\}  \notin MB_{p}^m(f,[x_{j-1},x_j]).
-  \end{equation}
-  
-  Then, according to Lemma~\ref{lem:MinJunktSal} 
-  \begin{equation}
-    \exists \kappa \in BP(f,(x_{j-1}, x_j)): v_p(f,[x_{j-1}, x_j]) = s_p(f, \kappa).
-  \end{equation}
+  Suppose the assumptions of lemma is valid.
+  Since $x \in [a,b]$ and $[a, b] = \cup_{i=1}^{n}[t_{i-1}, t_{i}]$,
+  then 
+  \begin{equation}\label{eq:psp_p1}
+    \exists j=1,\dots,n:x \in [t_{j-1}, t_{j}].
+  \end{equation}    
+  Moreover, $x \notin \{t_i\}_{i=0}^n$, 
+  because $x \notin \overline{SP}_p(f, [a, b])$, thus,
+  $x \neq t_{j-1}$ and  $x \neq t_{j}$. 
+  In addition to (\ref{eq:psp_p1}) this means that 
+  $x \in (t_{j-1}, t_{j})$.
     
-  On the other hand, from the Proposition~\ref{prop:pvar_sum_x} we get
-  \begin{eqnarray*}
-    v_p(f,[x_0, x_n]) &=& v_p(f,[x_0, x_{j-1}]) + v_p(f,[x_{j-1}, x_{j}]) + v_p(f,[x_j, x_n])  \\
-                &=& s_p(f,\{x_i\}_{i=0}^{j-1}) + s_p(f, \kappa) +s_p(f,\{x_i\}_{i=j}^{n}).
-  \end{eqnarray*}
-  Thus,  $\{x_i\}_{i=0}^{j-1} \cup \kappa \cup \{x_i\}_{i=j}^{n} \in MB_{p}(f,[a,b])$.  
-  Therefore, $\{x_i\}_{i=0}^n \notin MB_{p}^m(f,[a,b])$, because
+  Now, we will proof that 
+  $x \notin \overline{SP}_p(f, [t_{j-1}, t_j])$.
+  Suppose to the contrary that 
+  $x \in \overline{SP}_p(f, [t_{j-1}, t_j])$. 
+  Then, according to definition of 
+  $\overline{SP}_p(f, [t_{j-1}, t_j])$, 
   \begin{equation}
-  |\{x_i\}_{i=0}^{j-1} \cup \kappa \cup \{x_i\}_{i=j}^{n}| > |\{x_i\}_{i=0}^n|,  
-  \end{equation}
-  This contradicts the initial assumption.
+    \exists \kappa \in SP_p(f, [t_{j-1}, t_j]): x \in \kappa.
+  \end{equation}    
+  Since, $\kappa \in SP_p(f, [t_{j-1}, t_j])$, 
+  then 
+  \begin{equation}
+    v_p(f, [t_{j-1}, t_j])=s_p(f, \kappa)
+  \end{equation} 
+  
+  Applying Proposition~\ref{prop:pvar_sum_x} 
+  for partition $\{t_i\}_{i=0}^n$ we get
+  \begin{eqnarray}
+    v_p(f, [a, b]) &=& v_p(f, [t_{0}, t_{j-1}]) 
+     + v_p(f, [t_{j-1}, t_j]) + v_p(f, [t_{j}, t_n])\\
+     &=& s_p(f, \{t_i\}_{i=0}^{j-1}) 
+     + s_p(f, \kappa) + s_p(f, \{t_i\}_{i=j}^{n}) 
+  \end{eqnarray}
+   
+  This means that the partition 
+  $r:=\{t_i\}_{i=0}^{j-1} \cup \kappa \cup \{t_i\}_{i=j}^{n}$
+  is supreme partition, so 
+  $x \in r \in SP(f, [a, b])$, therefore, by definition
+  $x \in \overline{SP}_p(f, [a, b])$. 
+  This contradict to initial assumption. 
 \end{proof}
 
-\subsection{f-join}
 
-%%% $f$-join (definition) %%%
-% Status: OK
 \begin{definition}[$f$-join]\label{def:fjoin}
-  Suppose $f:[a,b] \rightarrow \mathbb{R}$ is $CPM$.
-  We will say that points $t_a$ and $t_b$ ($t_a<t_b$) are \emph{$f$-joined} in interval $[a,b]$ if 
+  Suppose $f:[a,b] \rightarrow \mathbb{R}$ is PM.
+  We will say that points $t_a$ and $t_b$ ($t_a<t_b$) 
+  are \emph{$f$-joined} in interval $[a,b]$ if 
   \begin{equation}
-    \exists \{x_j\}_{j=0}^{n} \in MB_{p}(f,[a,b]): [t_a,t_b]=[x_{j-1},x_j], \text{ with some } j.
+    \exists \{x_j\}_{j=0}^{n} \in SP_{p}(f,[a,b]):
+      [t_a,t_b]=[x_{j-1},x_j], \text{ with some } j.
   \end{equation}  
 \end{definition}
 
-
-
-%%% {a,b} are f-foined => v_p([a,b]) = |f(a)-f(b)|^p %%%
-% Status: OK
-\begin{lemma}\label{prop:fjoinPvar} 
-  Suppose $f:[a,b] \rightarrow \mathbb{R}$ is CPM and $a \leq t_a<t_b \leq b$.
-  If points $t_a$ and $t_b$ are $f$-joined, then 
-  \begin{equation}
-    v_p(f,[t_a,t_b])=|f(t_b)-f(t_a)|^p. 
-  \end{equation}
+% suziureti zenklus 
+\begin{lemma}\label{lm:fjoin} 
+  Suppose $f:[a,b] \rightarrow \mathbb{R}$ is PM and 
+  points $t_a$ and $t_b$ ($t_a<t_b$) are 
+  $f$-jointed in interval $[a,b]$.
+  Then all following statements holds   
+  \begin{enumerate}[a)]
+    \item \label{lm:fjoin_a} 
+    $v_p(f, [t_a,t_b] = \left|f(t_a)-f(t_b)\right|^p$;
+    
+    \item \label{lm:fjoin_b} 
+    Let $x \in [t_a, t_b]$. 
+    If $f(t_a) \geq f(t_b)$, then $f(t_a) \geq f(x) \geq f(t_b)$;
+    
+  \end{enumerate}
 \end{lemma}
-\begin{proof} 
-  Let $f:[a,b] \rightarrow \mathbb{R}$ is CMD, 
-  $t_a<t_b$ and points $t_a$ and $t_b$ are $f$-joined. 
-  Then exists $\{x_j\}_{j=0}^{n}$ and $j$ from the Definition~\ref{def:fjoin}.
-  According to definition of the $p$-variation and properties of $s_p$ function we get
-  \begin{equation}
-  v_p(f,[a,b])= s_p(f,\{x_i\}_{i=0}^{K(f)}) = 
-     s_p(f,\{x_i\}_{i=0}^{j-1}) + s_p(f,\{x_{j-1},x_j\}) + s_p(f,\{x_i\}_{i=j}^{K(f)}).
-  \end{equation}
-  
-  Suppose to the contrary that $\exists r \in PP_{p}(f,[x_{j-1},x_j]): s_p(f,r)>s_p(f,\{x_{j-1},x_j\})$, thus
-  \begin{equation}
-    v_p(f,[a,b]) < s_p(f,\{x_i\}_{i=0}^{j-1}) + s_p(f,r) + s_p(f,\{x_i\}_{i=j}^{K(f)}) = s_p(f,\kappa),
-  \end{equation}
-  where $\kappa:=\{x_i\}_{i=0}^{j-1} \cup r \cup \{x_i\}_{i=j}^{K(f)}$.
-  The last inequality contradicts the definition of $p$-variation, 
-  therefore $\{x_{j-1},x_j\}$ is the partition of meaningful break points in interval $[x_{j-1},x_j]$, thus
-  \begin{equation}
-    v_p(f,[x_{j-1},x_j])=s_p(f,\{x_{j-1},x_j\})=|f(x_j)-f(x_{j-1})|^p.
-  \end{equation}    
-\end{proof}
-
-
-%%% The extremum of the function (definition) %%%
-% Status: OK
-\begin{definition}[Extremum]\label{def:extremum}
-  We will call the point $t \in  [a,b]$ an \emph{extremum} of the function $f$ in interval $[a,b]$ if   
-  $f(t)=\sup \left\{ f(z):z\in \left[ a,b\right]
-  \right\} $ or $f(t)=\inf \left\{ f(z):z\in \left[ a,b\right] \right\} $.
-\end{definition}
-
-%%% Pseudo-monotonic function (definition) %%%
-% Status: OK
-\begin{definition}[Pseudo-monotonic function]\label{def:PsiaudoMon}
-  A function $f$ is called \emph{pseudo-monotonic} in interval $[a,b]$ if
-  \begin{equation}
-    \forall x \in [a,b]: f(x) \in [\min(f(a),f(b)), \max(f(a),f(b))].  
-  \end{equation}
-\end{definition}
-
-%%% f-joined points are extremum of inner interval %%%
-% Status: OK
-\begin{proposition}\label{prop:MinMax_in_fjoin}
-  Let $f:[a,b] \rightarrow \mathbb{R}$ be CPM and points $t_a$ and $t_b$ are $f$-joined.
-  Then points $t_a$ are $t_b$ extremums of the function in the interval $[t_a,t_b]$.
-  In addition, there is no other break point $d \in BP(f, (t_a,t_b))$ that
-  is an extremum of the function in the interval $[t_a,t_b]$.
-\end{proposition}
 \begin{proof}
-  Let $f:[a,b] \rightarrow \mathbb{R}$ be CPM and points $t_a$ and $t_b$ are $f$-joined.
-  Since $f \stackrel{PM}{=} -g$, with out loss of generality we can assume that
+  \paragraph*{a)}
+  Let $f:[a,b] \rightarrow \mathbb{R}$  be PM, 
+  $t_a<t_b$ and pair of points $t_a$, $t_b$ are $f$-joined. 
+  Then exists $\{x_j\}_{j=0}^{n}$ and $j$ from the
+  Definition~\ref{def:fjoin}.
+  Thus, according to Lemma~\ref{lm:spSubset}
+  \begin{equation}\label{eq:lm:fjoin_a}
+    v_p(f,[t_{j-1}, t_j]) = 
+      s_p\left(f,\{t_{j-1}, t_j\}\right) = \left|f(t_a)-f(t_b)\right|^p.
+  \end{equation}      
+  
+  \paragraph*{b)}
+  Let $f:[a,b] \rightarrow \mathbb{R}$ be PM 
+  and points $t_a$ and $t_b$ are $f$-joined.
+  Since $f \stackrel{PM}{=} -f$, with out loss of 
+  generality we can assume that
   $f(t_a) \leq f(t_b)$.  
   Suppose to the contrary that $f(t_b)$ 
-  is not an extremum of the function in interval $[t_a,t_b]$.
+  is not an extrema of the function in interval $[t_a,t_b]$.
   Hence, $\exists c \in [t_a, t_b]: f(c)>f(t_b)$. Therefore,
   $|f(c)-f(t_a)|^p>|f(t_b)-f(t_a)|^p$.
-  According to Proposition \ref{prop:fjoinPvar}, 
+  According to (\ref{eq:lm:fjoin_a}), 
   $v_p(f,[t_a,t_b])=|f(t_b)-f(t_a)|^p$, 
   thus, $|f(c)-f(t_a)|^p>v_p(f,[t_a,t_b])$,
   but this contradicts the definition of $p$-variation.  
-  So, point $t_b$ must be an extremum in interval $[t_a,t_b]$.
-  Completely symmetric arguments could be used for point $t_a$.
+  So, point $t_b$ must be an extrema in interval $[t_a,t_b]$.
+  Symmetric arguments could be used for point $t_a$.  
   
-  In addition, it could be shown that if $d \in BP(f, (t_a,t_b))$, then
-  $f(d) < f(t_b)$.  
-  Suppose to the contrary that $\exists d \in BP(f, (t_a,t_b)): f(d) = f(t_b)$.
-  Then, $|f(d)-f(t_a)|^p = |f(t_b)-f(t_a)|^p$, 
-  therefore, $v_p(f,[t_a,d])=v_p(f,[t_a,t_b])$.
-  Since, $v_p(f,[t_a,t_b]) \geq v_p(f,[t_a,d])+v_p(f,[d,t_b])$, 
-  we get that $v_p(f,[d,t_b]) \leq 0$. 
-  So, $v_p(f,[d,t_b]) = 0$, because $v_p(f,[d,t_b]) < 0$ is not valid.
-  According to Lemma~\ref{lm:element_properties}(\ref{lm:ep_b}), $v_p(f,[d,t_b]) = 0$ iff function is constant in $[d,t_b]$.
-  But this contradicts to the fact that $d$ is a break point (see Lemma~\ref{lem:noncons}).  
-\end{proof}
-\begin{corollary}\label{cor:pseudo-monotonic}
-  Let $f:[a,b] \rightarrow \mathbb{R}$ be CPM and points $t_a$ and $t_b$ are $f$-joined.
-  Then function is pseudo-monotonic in interval $[t_a,t_b]$. 
-  So, if $f(t_a) \leq f(t_b)$, then
-  \begin{equation}
-    \forall x \in (t_a,t_b): f(t_a) \leq f(x) \leq f(t_b).
-  \end{equation}
-  In addition,  
-  \begin{equation}
-    \forall d \in BP(f,(a,b)):f(a)<f(d)<f(b) .
-  \end{equation}
-\end{corollary}
-\begin{proof}
-  The result follows directly from the Proposition~\ref{prop:MinMax_in_fjoin}. 
+  
 \end{proof}
 
 
-%%% Global extremums are meaningful breaks %%% 
-% Status: OK
-\begin{proposition}\label{prop:SplitMinMax}
-  Let $f:[a,b] \rightarrow \mathbb{R}$ is $CPM$. 
-  If point $d \in [a,b]$ is a break point, which is an extremums of the function $f$, 
-  then $d$ is a meaningful break point.
-\end{proposition}
-\begin{proof}
-  Let $f:[a,b] \rightarrow \mathbb{R}$ is $CPM$.
-  Suppose to the contrary that exists $d \in \overline{BP}(f,[a,b])$, 
-  which is an extremum of the function, but
-  $d \notin \overline{MB}_{p}(f,[a,b]) $.
-  Let $\{x_j\}_{j=0}^{n} \in MB(f,[a,b]$ be any partition from $MB(f)$. 
-  Since $d \in [a,b]$ and $d \notin \overline{MB}_{p}(f,[a,b])$,
-  \begin{equation}
-    \exists j \in 1,\dots,n: d \in (x_{j-1},x_j) .
-  \end{equation}  
-  The points $x_{j-1}$ and $x_j$ are $f$-joined and $d$ is break point, 
-  hence, according Corollary~\ref{cor:pseudo-monotonic}
-  \begin{equation}
-    f(x_{j-1})<f(d)<f(x_j).
-  \end{equation}
-  But this contradicts the assumption that $d$ is the extremum.
-\end{proof}
 
-
-\subsection{Main result}
 
 %%% The monotonisy of Sp function %%%
-% Status: Need proof in caorollary
 \begin{lemma}\label{prop:Sp_Monoton}
-  Suppose $C \in \mathbb{R}$, $c_1\geq0$ and $1\leq p<\infty$. Then function
+  Suppose $C \in \mathbb{R}$, 
+  $c_1\geq0$ and $1\leq p<\infty$. 
+  Then function
   $f:[0,\infty) \rightarrow \mathbb{R}$ with the values
   \begin{equation}
   f(x) = ( x + c_1  )^p - x^p - C,\;x \in [0,\infty),  
@@ -903,15 +702,18 @@
 \end{lemma}
 \begin{proof}
   Suppose $C \in \mathbb{R}$, $c_1\geq0$ and $1\leq p<\infty$. 
-  The the derivative of the function $f$ is
+  Then, for all $x \geq 0$, the derivative of the function $f$ is
   \begin{eqnarray*} 
     f'(x)   &=& p(x+c_1)^{p-1} - px^{p-1} \\
-          &\geq& p(x)^{p-1} - px^{p-1} = 0.
+          &\geq& px^{p-1} - px^{p-1} = 0.
   \end{eqnarray*}  
-  The derivative of function $f$ is non negative, thus the function $f$ is non decreasing.
+  The derivative of function $f$ is non negative, 
+  thus the function $f$ is non decreasing, if $x \geq 0$.
 \end{proof}
 \begin{corollary}\label{cor:convex}
-  Suppose $c_1\geq0$, $1\leq p<\infty$ and $0 \leq x \leq y$. Then the following implication holds 
+  Suppose $c_1\geq0$, $C \in \mathbb{R}$, $1\leq p<\infty$ 
+  and $0 \leq x \leq y$. 
+  Then the following implication holds 
   \begin{equation}
   |x + c_1 |^p > x^p + C \Rightarrow |y + c_1 |^{p} > y^{p} + C.  
   \end{equation}
@@ -923,238 +725,349 @@
 \end{proof}
 
 
-%%% VIP: Meaningless if in inner MP^m %%%
-% Status OK
-\begin{proposition}\label{prop:NotInMB}
-  Let $f:[a,b] \rightarrow \mathbb{R}$ is CPM,
-  $1 \leq p < \infty$, $[a',b'] \subset [a,b] $. If 
-  \begin{equation}\label{eq:NotInMB1}
-    \{a',b'\} \in MB_p^m(f,[a',b']),
-  \end{equation}
-  then
-  \begin{equation}\label{eq:NotInMB2}
-    \forall x \in (a',b'): x \notin \overline{MB}_p(f,[a,b])    
-  \end{equation}
+%%% VIP: if pont is insignificant, then it will remain insignificant %%%
+\begin{proposition}\label{prop:notinST} 
+  Suppose $f:[a,b] \rightarrow \mathbb{R}$ is PM and
+  $x \in [a', b'] \subset [a,b]$.    
+  If $x \notin \overline{SP}_p(f, [a', b'])$, then 
+  $x \notin \overline{SP}_p(f, [a, b])$. 
 \end{proposition}
+
 \begin{proof}
-  Suppose to the contrary that the assumptions of the proposition is valid and    
-  \begin{equation}\label{eq:NotInMB_p1}
-    \exists x \in (a',b'): x \in \overline{MB}_p(f,[a,b]).
-  \end{equation}
+  Let $f:[a,b] \rightarrow \mathbb{R}$ be PM,
+  $x \in [a', b'] \subset [a,b]$, 
+  and $ x \notin \overline{SP}_p(f, [a', b'])$.
+  Suppose to the contrary that
+  $x \in \overline{SP}_p(f, [a, b])$.
   
-  According to the definition of $\overline{MB}_p(f,[a,b])$, 
-  the (\ref{eq:NotInMB_p1}) means that
-  \begin{equation}\label{eq:NotInMB_p3}
-    \exists \{t_i\}_{i=0}^n \in MB_{p}(f,[a,b]): x \in \{t_i\}_{i=0}^n.
-  \end{equation}  
+  Since $x \in \overline{SP}_p(f, [a, b])$,
+  according to the Definition~\ref{def:psp},
+  \begin{equation} \label{eq:notinST_p1} 
+    \exists \{t_i\}_{i=0}^n \in SP_p(f, [a, b]): x \in \{t_i\}_{i=0}^n.
+  \end{equation}     
   
+  Let $\{y_i\}_{i=0}^n \in SP_p(f, [a', b'])$ be any 
+  supreme partition from the interval $[a', b']$. 
+  Then, according to Lemma~\ref{lm:psp}, 
+  \begin{equation} \label{eq:notinST_p2} 
+    \exists j=1,\dots,n: x \in (y_{j-1}, y_j) \text{ and } 
+    x \notin \overline{SP}_p(f, [y_{j-1}, y_j]).
+  \end{equation}     
   Moreover, 
-  \begin{equation}\label{eq:NotInMB_p2} 
-    x \notin \{a, a', b', b\},
+  \begin{equation}\label{eq:notinST_p3} 
+    x \notin \{a, y_{j-1}, y_j, b\},
   \end{equation} 
-  because $x \in (a',b')$.  
-  
-  Thus, from (\ref{eq:NotInMB_p2}) and (\ref{eq:NotInMB_p3}) it follows that  
-  \begin{equation}\label{eq:NotInMB_p4}
-    \exists j \in \{1,2,\dots,n-1\} : x = t_j.
+  because $x \in (y_{j-1}, y_j) \subset [a, b]$.  
+  Thus, from (\ref{eq:notinST_p1}) and (\ref{eq:notinST_p3}) 
+  follows that  
+  \begin{equation}\label{eq:notinST_p4}
+    \exists r \in \{1,2,\dots,n-1\} : t_r = x.
   \end{equation}  
 
   Lets denote variables $l$ and $k$ by
-  \begin{eqnarray}
-    l &:=& \max \left\{i \in \{1,2,\dots,n-1\} : t_i  \in (a',b') \right\}, \\
-    k &:= &\min \left\{i \in \{1,2,\dots,n-1\} : t_i  \in (a',b') \right\}.
-  \end{eqnarray}  
-  Since (\ref{eq:NotInMB_p4})~holds, the values $l$ and $k$ always exists. 
-  According to $l$ and $k$ definitions the following inequality holds  
-  \begin{equation}\label{eq:NotInMB_p5}
-    t_{k-1} \leq a' < t_{k} \leq t_{l} < b' \leq t_{l+1}.
-  \end{equation}
-  
-  Points $a'$ and $b'$ are f-joined according to (\ref{eq:NotInMB1}), therefore,
-  function $f$ is pseudo-monotonic in interval $[a',b']$. 
-  Since $v_p(f)=v_p(-f)$ (see Proposition~\ref{prop:f_PM_g}), with out loss of generality 
-  we can assume that interval $[a',b']$ is decreasing, i.e. 
-  $$f(a') > f(b').$$  
-  
-  Moreover, points $t_l$ and $t_k$ are breakpoints, 
-  because $\{t_i\}_{i=0}^n \in MB_{p}(f,[a,b]) \subset BP(f,[a,b])$.
-  Therefore, according to Corollary~\ref{cor:pseudo-monotonic} 
-  the values $f(t_{l})$ and $f(t_{k})$ can be only between $f(a')$ and $f(b')$. So,
-  \begin{eqnarray}
-    f(a') > f(t_{l}) > f(b'), \label{eq:NotInMB_pd1}  \\
-    f(a') > f(t_{k}) > f(b'). \label{eq:NotInMB_pd2}
-  \end{eqnarray}
-  
-  In addition, since the pairs of points $\{t_l,t_{l+1}\}$ and $\{t_k,t_{k+1}\}$ are also f-joined, 
-  the inequalities (\ref{eq:NotInMB_pd1}) and (\ref{eq:NotInMB_pd2})
-  could be extended as follows 
-  \begin{eqnarray} 
-      f(a') > f(t_{l}) > f(b') \geq f(t_{l+1}), \label{eq:NotInMB_p6.1}    \\
-      f(t_{k-1}) \geq f(a') > f(t_{k}) > f(b'). \label{eq:NotInMB_p6.2} 
-  \end{eqnarray}  
-  
-  Since $\{a',b'\} \in MB_p^m(f,[a',b'])$, by the Lemma~\ref{lem:MinJunktSal},
-  any other partition in interval $[a',b']$ 
-  is not a meaningful partition, thus 
-  \begin{equation}
-  |f(a')-f(b')|^p = v_p(f,[a',b']) > v_p(f,[a',t_{k}]) + v_p(f,[t_{k},t_{l}]) + v_p(f,[t_{l},b']). 
-  \end{equation}
-  According to Lemma~\ref{lm:element_properties}(\ref{lm:ep_g}), from the following proposition follows
-  \begin{eqnarray*} 
-    |f(a')-f(b')|^p &>& |f(a')-f(t_{k})|^p + v_p(f,[t_k,t_l]) +  |f(t_{l})-f(b')|^p \\
-    |f(a')-f(t_l)+f(t_l)-f(b')|^p &>& |f(a')-f(t_{k})|^p + v_p(f,[t_k,t_l]) +  |f(t_{l})-f(b')|^p.  \label{eq:NotInMB_p7} 
-  \end{eqnarray*}
-  From the (\ref{eq:NotInMB_p6.1}) the following inequalities holds
   \begin{eqnarray*}
-    f(a')-f(t_l) &>& 0, \\
-    f(t_{l})-f(t_{l+1}) \geq f(t_l)-f(b') &>& 0.
+    l &:=& \max \left\{i \in \{1,2,\dots,n-1\} : 
+      t_i  \in (y_{j-1}, y_j) \right\}, \\
+    k &:= &\min \left\{i \in \{1,2,\dots,n-1\} : 
+      t_i  \in (y_{j-1}, y_j) \right\}.
+  \end{eqnarray*}  
+  Since $x \in (y_{j-1}, y_j)$ and (\ref{eq:notinST_p4})~holds, 
+  the values $l$ and $k$ always exists and $k \leq r \leq l$. 
+  According to $l$ and $k$ definitions the following inequality holds  
+  \begin{equation}\label{eq:notinST_p5}
+    t_{k-1} \leq y_{j-1} < t_{k} \leq x \leq t_{l} < y_j \leq t_{l+1}.
+  \end{equation}
+  
+ 
+  According to Lemma~\ref{lm:element_properties}(\ref{lm:ep_e})
+  \begin{equation}\label{eq:notinST_p6}
+    v_p(f,[y_{j-1},y_j]) \geq v_p(f,[y_{j-1},t_{k}]) 
+      + v_p(f,[t_{k},t_{l}]) + v_p(f,[t_{l},y_j]),
+  \end{equation}      
+  Firstly, let suppose   
+  \begin{equation}\label{eq:notinST_p7}
+    v_p(f,[y_{j-1},y_j]) = v_p(f,[y_{j-1},t_{k}]) 
+      + v_p(f,[t_{k},t_{l}]) + v_p(f,[t_{l},y_j]).
+  \end{equation}   
+  Lets take any supreme partitions from intervals
+  $[y_{j-1},t_{k}]$ and  $[t_{l},y_j]$, namely
+  $\kappa_k \in SP_p(f,[y_{j-1},t_{k}]$ and
+  $\kappa_l \in SP_p(f,[t_{l},y_j]$.  
+  In addition, since $\{t_i\}_{i=0}^n \in SP_p(f, [a, b])$,
+  according to Lemma~\ref{lm:spSubset}
+  $v_p(f,[t_{k},t_{l}]) = s_p(f,\{t_i\}_{i=k}^l)$.
+  Therefore,
+  \begin{equation*}\label{eq:notinST_p8}
+    v_p(f,[y_{j-1},y_j]) = s_p(f,\kappa_k) 
+      + s_p(f,\{t_i\}_{i=k}^l) + v_p(f,\kappa_l).
+  \end{equation*}  
+  This means, that 
+  \begin{equation*}\label{eq:notinST_p8}
+    \kappa_k \cup \{t_i\}_{i=k}^l \cup \kappa_l 
+      \in SP_p(f, [y_{j-1}, y_j].
+  \end{equation*} 
+  So, 
+  $x \in \overline{SP}_p(f, [y_{j-1}, y_j])$, 
+  because $x \in \{t_i\}_{i=k}^l$.
+  This contradicts (\ref{eq:notinST_p2}),
+  thus, equality (\ref{eq:notinST_p7}) is not valid.
+  As a result, inequality (\ref{eq:notinST_p6}) becomes
+  \begin{equation}\label{eq:notinST_p9}
+    v_p(f,[y_{j-1},y_j]) > v_p(f,[y_{j-1},t_{k}]) 
+      + v_p(f,[t_{k},t_{l}]) + v_p(f,[t_{l},y_j]).
+  \end{equation}    
+  
+  Since points $y_{j-1}$ and $y_j$ are $f$-joined,
+  from the Lemma~\ref{lm:fjoin}(\ref{lm:fjoin_a}) we get
+  \begin{equation*}\label{eq:notinST_p10}
+    v_p(f,[y_{j-1},y_j]) = |f(y_{j-1})-f(y_j)|^p,
+  \end{equation*}   
+  therefore,
+  \begin{equation*}\label{eq:notinST_p11}
+    |f(y_{j-1})-f(y_j)|^p > v_p(f,[y_{j-1},t_{k}]) 
+      + v_p(f,[t_{k},t_{l}]) + v_p(f,[t_{l},y_j]). 
+  \end{equation*}        
+  Moreover, according to 
+  Lemma~\ref{lm:element_properties}(\ref{lm:ep_g}), 
+  from the last statement follows
+  \begin{equation} \label{eq:notinST_p12}
+    |f(y_{j-1})-f(y_j)|^p > |f(y_{j-1})-f(t_{k})|^p +
+       v_p(f,[t_k,t_l]) +  |f(t_{l})-f(y_j)|^p.   
+  \end{equation}  
+  
+  Since $v_p(f)=v_p(-f)$ (see Proposition~\ref{prop:f_PM_g}), 
+  with out loss of generality we can assume that
+  $f(y_{j-1}) \geq f(y_j)$. 
+  Hence, from the Lemma~\ref{lm:fjoin}(\ref{lm:fjoin_b}) 
+  we get that
+  \begin{eqnarray}
+    f(y_{j-1}) \geq f(t_{l}) \geq f(y_j), \label{eq:notinST_13}  \\
+    f(y_{j-1}) \geq f(t_{k}) \geq f(y_j). \label{eq:notinST_14}
+  \end{eqnarray}  
+
+  In addition, the pairs of points $\{t_l,t_{l+1}\}$ 
+  and $\{t_{k-1},t_{k}\}$ are also $f$-joined, therefore,
+  by the Lemma~\ref{lm:fjoin}(\ref{lm:fjoin_b})
+  inequalities (\ref{eq:notinST_13}) and (\ref{eq:notinST_14})
+  could be extended as
+  \begin{eqnarray}
+    \label{eq:notinST_15} 
+    f(y_{j-1}) \geq f(t_{l}) \geq f(y_j) \geq f(t_{l+1}),  \\
+    \label{eq:notinST_16}
+    f(t_{k-1}) \geq f(y_{j-1}) \geq f(t_{k}) \geq f(y_j). 
+  \end{eqnarray}         
+    
+  
+  From the (\ref{eq:notinST_15}) the following inequalities holds
+  \begin{eqnarray*}
+    f(y_{j-1})-f(t_l) &\geq& 0, \\
+    f(t_{l})-f(t_{l+1}) \geq f(t_l)-f(y_j) & \geq & 0.
   \end{eqnarray*} 
   Therefore, we can use Corollary~\ref{cor:convex}. According to it,
-  from the inequality (\ref{eq:NotInMB_p7}) follows  
+  from the inequality (\ref{eq:notinST_p12}) follows  
   \begin{eqnarray*}
-    |f(a')-f(t_l)+f(t_l)-f(t_{l+1})|^p &>& |f(a')-f(t_{k})|^p + v_p(f,[t_k,t_l]) +  |f(t_{l})-f(t_{l+1})|^p \\
-    |f(a')-f(t_{l+1})|^p &>& |f(a')-f(t_{k})|^p + v_p(f,[t_k,t_l]) +  v_p(f,[t_l,t_{l+1}]). 
-  \end{eqnarray*} 
-  Absolutely symmetric argument could be used in other direction. Firstly lets modify last inequality
-  $$  |f(a')-f(t_k)+f(t_k)-f(t_{l+1})|^p > |f(a')-f(t_{k})|^p + v_p(f,[t_k,t_l]) +  v_p(f,[t_l,t_{l+1}]), $$
-  then form the  (\ref{eq:NotInMB_p6.2}) holds the following inequalities
+    |f(y_{j-1})-f(t_l)+f(t_l)-f(y_j)|^p &>& |f(y_{j-1})-f(t_{k})|^p +
+       v_p(f,[t_k,t_l]) +  |f(t_{l})-f(y_j)|^p, \\  
+    |f(y_{j-1})-f(t_l)+f(t_l)-f(t_{l+1})|^p &>&|f(y_{j-1})-f(t_{k})|^p
+      + v_p(f,[t_k,t_l]) +  |f(t_{l})-f(t_{l+1})|^p, \\
+    |f(y_{j-1})-f(t_{l+1})|^p &>& |f(y_{j-1})-f(t_{k})|^p 
+      + v_p(f,[t_k,t_l]) +  v_p(f,[t_l,t_{l+1}]). 
+  \end{eqnarray*}    
+  The last inequality holds,
+  because points $t_{l}$ and $t_{l+1}$ are $f$-joined,
+  thus, according to Lemma~\ref{lm:fjoin}(\ref{lm:fjoin_a}),
+  \begin{equation*}\label{eq:notinST_17}
+    v_p(f,[t_l,t_{l+1}]) = |f(t_{l})-f(t_{l+1})|^p.
+  \end{equation*}   
+
+
+  
+  Symmetric argument could be used in other direction. 
+  Firstly lets modify last inequality
+  \begin{equation*}\label{eq:notinST_18}
+    |f(y_{j-1})-f(t_k)+f(t_k)-f(t_{l+1})|^p > |f((y_{j-1})-f(t_{k})|^p 
+      + v_p(f,[t_k,t_l]) +  v_p(f,[t_l,t_{l+1}]). 
+  \end{equation*}   
+  From the (\ref{eq:notinST_16}) we get that
+   the following inequalities holds
   \begin{eqnarray*}
-    f(t_k)-f(t_{l+1}) &>& 0, \\
-    f(t_{k-1})-f(t_{k}) \geq f(a')-f(t_k) &>& 0.
+    f(t_k)-f(t_{l+1}) & \geq & 0, \\
+    f(t_{k-1})-f(t_{k}) \geq f(y_{j-1})-f(t_k) & \geq & 0.
   \end{eqnarray*} 
 
   Thus, from Corollary~\ref{cor:convex} we get
   \begin{eqnarray*}
-    |f(t_{k-1})-f(t_k)+f(t_k)-f(t_{l+1})|^p&>&|f(t_{k-1})-f(t_{k})|^p+v_p(f,[t_k,t_l])+v_p(f,[t_l,t_{l+1}]) \\
-    |f(t_{k-1})-f(t_{l+1})|^p &>& v_p(f,[t_{k-1},t_{k}]) + v_p(f,[t_k,t_l])+v_p(f,[t_l,t_{l+1}])
+    |f(t_{k-1})-f(t_k)+f(t_k)-f(t_{l+1})|^p&>&
+      |f(t_{k-1})-f(t_{k})|^p+v_p(f,[t_k,t_l])+v_p(f,[t_l,t_{l+1}]), \\
+    |f(t_{k-1})-f(t_{l+1})|^p &>& v_p(f,[t_{k-1},t_{k}]) 
+      + v_p(f,[t_k,t_l])+v_p(f,[t_l,t_{l+1}]).
   \end{eqnarray*}  
-  Finlay, using Lemma~\ref{prop:pvarSubset} we conclude that
+  As previous, the last inequality holds, 
+  because $t_{k-1}$ and $t_{k}$ are
+  $f$-joined.
+
+  Finally, using Lemma~\ref{lm:pvarSubset} we conclude that
   $$|f(t_{k-1})-f(t_{l+1})|^p > v_p(f,[t_{k-1},t_{l+1}]).$$
-  This contradicts with the definition of $p$-variation.  
+  This contradicts with the definition of $p$-variation.    
+  
+  
 \end{proof}
 
+\subsection{Extra results}
 
-%%% VIP: In meaningless => meaningless %%%
-% Status: OK
-\begin{proposition}\label{prop:non_non}
-  Suppose $f:[a,b] \rightarrow \mathbb{R}$ is CPM,
-  $1 \leq p < \infty$ and $x \in [a,b]$. Then the proposition
-  \begin{equation}\label{eq:NN1}
-    T:=\exists (a',b') \in \left\{ (u,v) \in \mathbb{R}^2: x \in [u,v] \subset [a,b]\right\}: x \notin \overline{MB}_p(f,[a',b'])
-  \end{equation}
-  is equivalent to
-  \begin{equation}\label{eq:NN2}
-   S:= x \not\in \overline{MB}_p(f,[a,b]).
-  \end{equation}
+
+\begin{definition}[Extremum]\label{def:extremum}
+  We will call the point $t \in  [a,b]$ an \emph{extrema}
+  of the function $f$ in interval $[a,b]$ if   
+  $f(t)=\sup \left\{ f(z):z\in \left[ a,b\right]
+  \right\} $ or 
+  $f(t)=\inf \left\{ f(z):z\in \left[ a,b\right] \right\} $.
+\end{definition}
+
+%%% Global extremums are meaningful breaks %%% 
+\begin{proposition}\label{prop:SplitMinMax}
+  Let $f:[a,b] \rightarrow \mathbb{R}$ is $PM$. 
+  If point $x \in [a,b]$ is extrema of the function $f$, 
+  then $x \in \overline{SP}_p(f,[a, b])$.
 \end{proposition}
 \begin{proof}
-  Sufficiency. Suppose $ x \notin \overline{MB}_p(f,[a,b])$. 
-  Then the proposition (\ref{eq:NN1}) is obviously true then
-  $[a',b'] = [a,b]$.
-  
-  Necessity.
-  Suppose $f:[a,b] \rightarrow \mathbb{R}$ is CPM,
-  $1 \leq p < \infty$, $x \in [a,b]$ and (\ref{eq:NN1}) holds.
-
-  
-  Let $\{t_i\}_{i=0}^n \in MB_{p}^m(f,[a',b'])$. 
-  Since $x \in [a',b']$, then $\exists j: x \in (t_{j-1},t_j)$. 
-  In addition, the Lemma~\ref{prop:MaxKapaJunkMax} ensures that $\{t_{j-1},t_j\} \in MB_{p}^m(f,[t_{j-1},t_j])$.
-  Thus, we can apply Proposition~\ref{prop:NotInMB} for interval $[a,b]$ and point $x$. 
-  According to it $x \notin \overline{MB}_p(f,[a,b])$.
-\end{proof}
-\begin{corollary}\label{cor:non_non}
-  Since $(T \Leftrightarrow S) \Leftrightarrow (\neg T \Leftrightarrow \neg S) $, we get
-  $$ x \in \overline{MB}_p(f,[a,b]) \Leftrightarrow \forall [a',b'] \subset [a,b], x \in [a',b']: x \in \overline{MB}_p(f,[a',b']). $$
-\end{corollary}
-
-\subsection{Extra conclusions}
-
-%%% The uniqueness of partition with maximum size %%%
-% Status: OK
-\begin{proposition}\label{prop:E1Kappa}
-  Suppose $f:[a,b] \rightarrow \mathbb{R}$ is CPM,
-  $1 \leq p < \infty$. Let $\kappa_{ab} \in MP_{p}^m(f,[a,b])$, then
-  \begin{equation}
-  x \in \overline{MB}_{p}(f,[a,b]) \Leftrightarrow  x \in \kappa_{ab}.
-  \end{equation}
-\end{proposition}
-\begin{proof}
-  Sufficiency. If $x \in \kappa_{ab} \in MP_{p}^m(f,[a,b])$, then
-  $x \in \overline{MB}_{p}(f,[a,b])$ according to the definition of  
-  $\overline{MB}_{p}(f,[a,b])$ (see~Definition~\ref{def:MB}).
-  
-  Necessary. Suppose to the contrary that $x \in \overline{MB}(f,[a,b])$, 
-  but $x \not \in \kappa_{ab} \in MB_{p}^m(f,[a,b])$.
-  The points of the partition $\kappa_{ab}$ will be denoted $t_i$, i.e. $\kappa_{ab}=\{t_i\}_{i=0}^n$.
+  Let $f:[a,b] \rightarrow \mathbb{R}$ is $PM$ and
+  point $x \in [a,b]$ is an extrema of the function $f$.
+  Let $\{t_i\}_{i=0}^{n} \in SP_p(f,[a,b]$ 
+  be any supreme partition. 
   Then
-  $$ \exists j\in\{1,2,\dots,n\}:x \in (t_{j-1},t_j).$$
-  Since $\{(t_{j-1},t_j\} \in MB_p^m(f,[t_{j-1},t_j])$,  $x \notin \overline{MB}_p(f,[t_{j-1},t_j])$.
-  Therefore, we can apply Proposition~\ref{prop:non_non}. From it follows that  
-  $$ x \notin \overline{MB}_{p}(f,[a,b]).$$
-  This is the contradiction that proves the proposition.
+  \begin{equation}
+    \exists j \in 1,\dots,n: x \in [t_{j-1},t_j] 
+  \end{equation}  
+
+  Since $x$ is an extrema of function $f$ in interval
+  $[a, b] \supset [t_{j-1},t_j]$, 
+  the point $x$ is an extrema in interval 
+  $[t_{j-1}, t_j]$ as well. Therefore,
+  \begin{equation}
+    f(t_{j-1})-f(t_{j})|^p \leq |f(t_{j-1}) - f(x)|^p
+  \end{equation}
+  or
+  \begin{equation}
+    |f(t_{j-1})-f(t_{j})|^p \leq |f(x)-f(t_{j})|^p.
+  \end{equation}
+  As a result,
+  \begin{eqnarray*}
+  |f(t_{j-1})-f(t_{j})|^p 
+    &\leq &|f(t_{j-1}) - f(x)|^p + |f(x) - f(t_{j})|^p,\\
+  |f(t_{j-1}) - f(t_{j})|^p 
+    &\leq & v_p(f, [t_{j-1}, x]) + v_p(f, [x, t_{j}]),\\
+  v_p(f, [t_{j-1}, t_{j}])
+    &\leq & v_p(f,[t_{j-1}), x]) + v_p(f,[x, t_{j}]).
+  \end{eqnarray*}    
+  The last inequality holds, because $t_{j-1}$ and  $t_{j}$
+  are $f$-joined, so, 
+  $v_p(f, [t_{j-1}, t_{j}])=|f(t_{j-1}) - f(t_{j})|^p$.
+  Since $v_p(f, [t_{j-1}, t_{j}])
+    < v_p(f,[t_{j-1}), x]) + v_p(f,[x, t_{j}])$
+  is not valid, the equation
+  \begin{equation}
+    v_p(f, [t_{j-1}, t_{j}])
+    = v_p(f,[t_{j-1}, x]) + v_p(f,[x, t_{j}])  
+  \end{equation}
+  holds.
+  
+  Moreover, applying Proposition~\ref{prop:pvar_sum_x} 
+  for the partition
+  $\{a, t_{j-1}, t_j, b \}$ we have 
+   \begin{eqnarray*}
+    v_p(f, [a, b]) &=& v_p(f,[a, t_{j}]) 
+      + v_p(f,[t_{j-1}, t_{j}]) + v_p(f,[t_{j}, b]) \\
+    &=& v_p(f,[a, t_{j}]) + v_p(f,[t_{j-1}, x]) 
+      + v_p(f,[x, t_{j}]) + v_p(f,[t_{j}, b])
+  \end{eqnarray*}
+  From the same proposition follows, that
+  $\exists \kappa \in SP_p(f, [a, b]):x\in\kappa$,
+  so, by definition, $x \in \overline{SP}_p(f,[a, b])$.  
 \end{proof}
-\begin{corollary} 
-  According to the definition of MB (see~Definition~\ref{def:MB}),
-  from the last proposition directly follows that  
-  $$\forall \kappa \in MB_{p}(f,[a,b]): \kappa \subset \kappa_{ab}, $$
-  this means
-  $$\exists!\kappa_{ab} \in MB_{p}^m(f,[a,b]). $$
-\end{corollary} 
 
 
-%%% Monotonicity of p-variation sum function %%%
-% Status: ???
-\begin{lemma}\label{prop:Pmonoton}
-  Let $C\geq0$ and $c_i\geq0,\;i=1,\dots,n$. Suppose $1 \leq p < q < \infty$. Then the implication holds
-  $$C^p > \sum_{i=1}^n c_i^p  \Rightarrow C^q > \sum_{i=1}^n c_i^q. $$ 
+\begin{lemma}\label{lm:evenkappa}
+  Let $f:[a,b] \rightarrow \mathbb{R}$ be PM.
+  If $K(f)$ is even, then
+  \begin{equation}
+    \exists x \in (a, b): x \in  \overline{SP}_p(f, [a, b]). 
+  \end{equation}       
 \end{lemma}
 \begin{proof}
-  Let denote the function $f(p)$ as 
-  $$f(p) = C^p - \left[ \sum_{i=1}^n c_i^p \right].$$
-  The derivative of function $f$ is
-  \begin{eqnarray*}
-    f'(p) &=& C^p\log{p} - \left[ \sum_{i=1}^n c_i^p \log{p} \right] \\
-            &=& \left(C^p - \left[ \sum_{i=1}^n c_i^p \right]\right)\log{p} .
-  \end{eqnarray*}
-  Thus, if $1 \leq p < \infty$ and $C^p > \sum_{i=1}^n c_i^p$, then 
-  $f$ derivative is non negative. This means that function $f$ is non decreasing, 
-  whereas this proof the Lemma~\ref{prop:Pmonoton}
+  Suppose $f:[a, b] \rightarrow \mathbb{R}$ is PM.
+  Lets take any $\{x_i\}_{i=0}^n \in X(f)$.
+  If $n>1$, then without loss of generality
+  we can assume that Proposition~\ref{prop:PM_form}(a) 
+  holds. So, $f(x_0)>f(x_1)<f(x_2)>\dots$, i.e.
+  $f(x_{2i-1})<(x_{2i})$, thus,
+  if $n$ is even, then $f(x_{n-1})<(x_{n})$,
+  therefore, point $x_{n}$ is not a global minimum.
+  Since $f(x_0)>f(x_1)$, point $x_0$ is also
+  not a global minimum. As a result,
+  global minimum is in interval $(a, b)$ 
+  and it is in $\overline{SP}_p(f, [a, b])$ according to
+  Lemma~\ref{prop:SplitMinMax}. 
 \end{proof}
 
-%%% The monotonicity of partition according to p %%%
-% Status: OK
-\begin{proposition}\label{prop:MBMonoton} 
-  Suppose $f:[a,b] \rightarrow \mathbb{R}$ is CPM and 
-  $1 \leq p < q < \infty$. Then
-  $$\overline{MB}_{q}(f,[a,b]) \subset \overline{MB}_{p}(f,[a,b]). $$
-\end{proposition}
+
+% Small increase
+\begin{lemma}\label{lm:SI}
+  Let $f:[a,b] \rightarrow \mathbb{R}$ be PM
+  and $\{t_i\}_{i=0}^n \in PP[a, b]$.
+  Suppose 
+  \begin{equation}\label{eq:SI_1}
+    \{t_i\}_{i=0}^{n-1} \in SP_p(f, [a, t_{n-1}]) 
+  \end{equation} 
+  and 
+  \begin{equation}\label{eq:SI_2}
+    \{t_i\}_{i=1}^{n} \in SP_p(f, [t_1, b]).
+  \end{equation} 
+  Then
+  \begin{equation}\label{eq:SI_3}
+    \forall i \in \{1,\dots,n-1\}: t_i \in \overline{SP}_p(f, [a, b])
+  \end{equation} 
+  or
+  \begin{equation}\label{eq:SI_4}
+    \forall i \in \{1,\dots,n-1\}: t_i \notin \overline{SP}_p(f, [a, b])
+  \end{equation}   
+\end{lemma}
 \begin{proof}
-  Suppose to the contrary that
-  \begin{equation*}
-  \exists x \in[a,b]:x \in \overline{MB}_{q}(f,[a,b]),\,x \notin \overline{MB}_{p}(f,[a,b]).   
-  \end{equation*}
-
-  Let $\{t_i\}_{i=0}^n \in MB_p^m(f,[a,b])$. 
-  Because $x \in [a,b]$ and $x \notin \overline{MB}_{p}(f,[a,b])$, then
-  \begin{equation}\label{eq:xinj}
-    \exists j \in\{1,2,\dots,n\}:x\in (t_{j-1},t_j). 
+  Let the assumptions of lemma be valid. 
+  Firstly, suppose 
+  \begin{equation}\label{eq:SI_p1}
+    \exists j \in \{1,\dots,n-1\}: t_j \in \overline{SP}_p(f, [a, b]).
   \end{equation}
-  Let arbitrary choose $\kappa \in BP(f,(a,b))$.
-  Then according to Lemma~\ref{lem:MinJunktSal}, the following inequality holds
-  \begin{equation*}
-    |f(t_{j-1})-f(t_{j})|^p > s_p(f, \kappa).
-  \end{equation*}
-  Whereas, according to Lemma~\ref{prop:Pmonoton},
-  \begin{equation*}
-    |f(t_{j-1})-f(t_{j})|^q > s_q(f, \kappa).
-  \end{equation*} 
-  This means that
-  $$\{t_{j-1}, t_j \} \in MB_q^m(f,[t_{j-1},t_j]).$$ 
-  Finlay, from the Proposition~ \ref{prop:NotInMB} follows that $x \notin \overline{MB}_q(f,[a,b])$,
-  but this contradicts the assumptions.
-\end{proof}
+  This means that 
+  $\exists \kappa \in SP_p(f, [a, b]): t_j \in \kappa$.
+  Then, by Proposition~\ref{prop:pvar_sum_x},
+  \begin{equation}
+    v_p(f, [a, b]) = v_p(f, [a, t_j]) + v_p(f, [t_j, b])
+  \end{equation}
   
+  Since (\ref{eq:SI_1}) and (\ref{eq:SI_1}) holds, 
+  by Lemma~\ref{lm:spSubset} we get 
+  \begin{eqnarray}
+    v_p(f, [a, t_j]) = s_p(f, \{t_i\}_{i=0}^j, \\
+    v_p(f, [t_j, b]) = s_p(f, \{t_i\}_{i=j}^n.
+  \end{eqnarray}
+  
+  Therefore,
+  \begin{equation}
+    v_p(f, [a, b]) = s_p(f, \{t_i\}_{i=0}^j) +  s_p(f, \{t_i\}_{i=j}^n)
+      = s_p(f, \{t_i\}_{i=0}^n).
+  \end{equation}  
+  
+  So, $\{t_i\}_{i=0}^n \in SP_p(f, [a, b])$, 
+  thus, statement (\ref{eq:SI_3}) holds.
+  
+  On the other hand, if (\ref{eq:SI_p1}) is not valid, 
+  then statement (\ref{eq:SI_4}) holds.  
+  
+\end{proof}
+
+
+
 \section{p-variation calculus}  
   
 This chapter will present the algorithm that calculates 
@@ -1314,28 +1227,6 @@ In \emph{pvar} package all break points could be found with \emph{ChangePointsId
 
 
 \subsubsection{Test points in small intervals}
-Todo: papildyti vien savybe su alternuojanciais intervlais
-
-\begin{lemma}\label{lm:evenkapa}
-Let $f:[a,b] -> $ be CPM and $\kappa \in X(f)$. If $|\kappa|$ is even
-then function $f$ has at least one inner meaningful break point.
-\end{lemma}
-\begin{proof}
-Didejantys, pažejantys intervalai.
-tarki, kad didejantys, tuomet nei a nei b nera maksimumas.
-Maksimumas yra kažkur ir jis yra reiksmingas.
-\end{proof}
-
-
-
-\begin{lemma}\label{lm:samllincrease}
-Turim skaidini, ir ysa istirti visi mazesnieji intervalai iki $n-1$
-tada pilnas intervalas yra arba visi arba nei vienas.
-
-\end{lemma}
-\begin{proof}
-Pritaikom skaidimo teorema.
-\end{proof}
 
 
 Proposition~\ref{prop:non_non} is very important for speeding up the calculus of p-variation. It states that if the point was not significant in any small interval, then it will not be significant in the full sample as well. Moreover, Proposition~\ref{prop:pvar_sum_x}, Lemmas ?? and ?? gives an effective 
