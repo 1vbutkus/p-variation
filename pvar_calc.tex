@@ -40,6 +40,8 @@
 \definecolor{tbgreen}{rgb}{0.6,1,0.6}
 
 
+\DeclareMathOperator*{\argmax}{arg\,max} 
+
 \lstset{ %
   backgroundcolor=\color{FontGray},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
   basicstyle=\footnotesize,        % the size of the fonts that are used for the code
@@ -326,71 +328,9 @@ Vidinis Komentaras (VK): Dar neaisku kaip pakrikstyti skaidini, kuris pasiekia s
   \end{equation}
 \end{definition}
 
-%%% $p$-variation of the sequence (definition) %%%
-% Status:??? 
-\begin{definition}[Piecewise linear function]\label{def:poligon}
-  Let $X=\{X_i\}_{i=0}^n$ be any real-value sequence. 
-  The function $L_X:[0,n] \rightarrow \mathbb{R}$ is defined as
-  \begin{eqnarray}
-  L_X(t) := (1+\lfloor t \rfloor-t)X_{\lfloor t \rfloor} + (t-\lfloor t \rfloor)X_{\lfloor t \rfloor+1}   ,\;t\in[0,n]
-  \end{eqnarray}
-  is called \emph{piecewise linear function}.
-\end{definition}
-
-%%% Partial sum (definition) %%%
-% Status:OK 
-\begin{definition}[Partial sum]
-  Let $X_1, X_2,\dots,X_n$ be any sequence of real numbers. 
-  The \emph{partial sum} of the first $j$ terms is defined by  
-  \begin{equation}
-    S_j:=\sum_{i=1}^j X_i, \; j=1,2,\dots,n.
-  \end{equation}
-  In addition, lets denote $S_0=0$.  
-\end{definition}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{General properties with proofs}
-
-
-%%% For all PM exists CPM that v(PM)=v(CPM) %%%
-% Status: OK
-\begin{proposition}\label{prop:PM2CPM}
-  For all $f \in PM$ exists $g \in CPM$ such that $f \stackrel{PM}{=} g$.
-\end{proposition} 
-\begin{proof}
-  Let $f$ be PM. According to Proposition~\ref{prop:PM_Unique} the
-  numbers $\alpha_j(f):=f(x_j) - f(x_{j-1})$, $j=1,2,\dots K(f)$
-  are uniquely determined.
-  Then, the partial sums of the sequence $\alpha_j(f)$ are
-  \begin{equation}
-    S_j:=\sum_{i=1}^j \alpha_i(f).
-  \end{equation}    
-
-  Lets connect points $S_j$ by 
-  piecewise linear function~(def.~\ref{def:poligon}), namely
-  \begin{equation}
-  L_S(t) := (1+\lfloor t \rfloor-t)S_{\lfloor t \rfloor} + (t-\lfloor t \rfloor)S_{\lfloor t \rfloor+1}   ,\;t\in[0,K(f)]
-  \end{equation}  
-   
-  Function $L_S$ is CPM. In addition, 
-  it is straight forward to see that 
-  \begin{equation}
-  \alpha_j(L_S)=S_j-S_{j-1}=\alpha_j(f),
-  \end{equation}
-  hence, by Definition~\ref{def:EqPM} $f \stackrel{PM}{=} L_S$.  
-\end{proof}
-
-\begin{corollary}\label{cor:PM2CPM}
-  By applying last proof to the function 
-  $G_X(t)$ (from Definition~\ref{def:Seq2Fun}), we get that 
-  \begin{equation}
-    G_X(t)\stackrel{PM}{=}L_X(t).
-  \end{equation}
-  Therefore, according to Proposition~\ref{prop:f_PM_g}, if $p>1$ then
-  \begin{equation}
-    v_p(X) := v_p(G_X(t),[0,n])= v_p(L_X(t),[0,n])
-  \end{equation}
-\end{corollary}
 
 
 %%% VIP: p-variation is additive in meaningful points %%%
@@ -650,7 +590,8 @@ Vidinis Komentaras (VK): Dar neaisku kaip pakrikstyti skaidini, kuris pasiekia s
     
     \item \label{lm:fjoin_b} 
     Let $x \in [t_a, t_b]$. 
-    If $f(t_a) \geq f(t_b)$, then $f(t_a) \geq f(x) \geq f(t_b)$;
+    If $f(t_a) \geq f(t_b)$, then $f(t_a) \geq f(x) \geq f(t_b)$.
+    If $f(t_a) \leq f(t_b)$, then $f(t_a) \leq f(x) \leq f(t_b)$;
     
   \end{enumerate}
 \end{lemma}
@@ -1086,33 +1027,27 @@ Suppose $X=\{X_{i}\}_{i=0}^{n}$ is any real-value sequence of numbers.
 We will call such sequence a \emph{sample}, 
 whereas $n$ will be referred to as a \emph{sample size}.
 The formal definition of $p$-variation 
-of the sample is given in Definition~\ref{def:pvarseq}, but 
-it is more intuitive to consider a sample as 
-continuous piecewise monotone (CPM) function, namely,
-Proposition~\ref{cor:PM2CPM} states that if $p\geq1$ then
+of the sample is given in Definition~\ref{def:pvarseq}, 
+which states that
 \begin{equation}
-  v_p(X) = v_p(L_X(t),[0,n]),
+  v_p(X) = v_p(G_X(t),[0,n]),
 \end{equation}
-where $L_X(t)$ is piecewise linear function 
-connecting sample points (Def.~\ref{def:poligon}).
-Since $L_X(t)$ is CPM, all the properties proved in this chapter are
-applicable to it.
+where $G_X(t)$ is sample function defined in  
+Definition~\ref{def:Seq2Fun}.
 
 On the other hand, the algorithm does not use
-$L_X(t)$ function directly, but it actually operates the
-sample $X$. Therefore, in the context of algorithm
-it is more convenient to use the sample $X$ rather then the function $L_X(t)$. Thus in this part we will be using $X$, but please don't be mislead then we will refer to properties of p-variation 
-that were proved to functions. In that case we actually have in mind function $L_X(t)$. 
+$G_X(t)$ function directly, but it actually operates the
+sample $X$. Therefore, in the context of algorithm,
+it is more convenient to use the sample $X$ 
+rather then the function $G_X(t)$. 
+Thus, please don't be mislead then
+in the context of sample we will 
+refer to properties of $p$-variation 
+that were proved to functions. 
+In that case we actually have in mind function $G_X(t)$. 
 
-The $L_X(t)$ is CPM and all its break points could be 
-only at points $t=0,1,\dots,n$, i.e. at points where 
- $L_X(t)=X_0,X_1,\dots,X_n$.
-Therefore, according to Prop.~\ref{prop:pvar-max},
- the $p$-variation of the sample could be expressed as
-\begin{equation}
-v_p(X) = \max\left\{ \sum_{i=1}^k |X_{j_i} - X_{j_{i-1}}|^p :
-  0=j_0<\dots<j_k=n,\; k=1,\dots,n  \right\}.
-\end{equation}
+
+
 
 
 It is worth noting, 
@@ -1122,11 +1057,12 @@ Let assume $f$ is any piecewise monotone function.
 According to definition (see~\ref{def:PM}) 
 there are points $a=x_1<\dots<x_n=b$ for some finite $n$ such 
 that $f$ is monotone on each interval $[x_{j-1},x_j],\;j=1,2,\dots,n$.
-Let the sample $X$ contain the values of the function $f$ 
+Lets construct the the sample $X$, 
+which contains the values of the function $f$ 
 at the points $\{x_{i}\}_{i=0}^{n}$, namely,
 $X=\{X_{i}\}_{i=0}^{n}:=\{f(x_{i})\}_{i=0}^{n}$.
 It is straight forward to see that 
-$f \stackrel{PM}{=} L_X$, therefore, if $p \geq 1$ then $v_p(X)=v_p(L_X)=v_p(f)$.
+$f \stackrel{PM}{=} G_X$, therefore, if $p \geq 1$ then $v_p(X)=v_p(G_X)=v_p(f)$.
 
 
 \subsection{Main function}
@@ -1136,27 +1072,64 @@ $p$-variation will be presented here. Firstly,
 we will introduce the main schema, further, each step will
 be discussed in more details. 
 
-The main principal of the whole procedure is to identify 
-meaningless points using known properties of p-variation.
-If a single point $X_i$ is identified 
-as meaningless, then we could exude it from further consideration.
-As long as $X_i$ is meaningless, the actual value of 
-$X_i$ has no effect on $p$-variation since $X_i$ do not participate 
-in the sum of p-variation. Actually, $X_i$ could be ignored,
-but it is more convenient to drop it form the sample,
-because it is hard to apply properties then not all points are under consideration. 
-The \emph{drop} operation means that we 
+The main goal of the procedure is to find
+any supreme partition 
+$\kappa \in SP_p(G_X)$ and calculate $p$-variation
+by $v_p(X) = s_p(G_X, \kappa)$.
+The main principal of the procedure is to identify
+points that are not in supreme partition and drop them out from
+further consideration.
+
+For the continence, 
+it is worth pointing out, that 
+$p$-variation of the sample could express as
+\begin{equation}
+  v_p(X) = \max\left\{ \sum_{i=1}^k |X_{j_i} - X_{j_{i-1}}|^p :
+  0=j_0<\dots<j_k=n,\; k=1,\dots,n  \right\}.
+\end{equation}
+This expression could be verified from
+Proposition~\ref{prop:sup_in_PM},
+which states, that $p$-variation
+is achieved in a subset of any partition $r \in X(f, [0,n])$.
+So, we choose partition $r$ to be a subset
+of $\{0, 1, \dots, n\}$. This partition exists, 
+since all the values of function $G_X$ are
+generate from points on $\{0, 1, \dots, n\}$, thus,
+all the remaining points are redundant for $p$-variation calculus.
+If $j \in \{0, 1, \dots, n\}$ then $G_X(j) = X_j$. Therefore,
+instead of using $G_X(j)$ we can directly use
+the sample member $X_j$. 
+
+The sample members $X_0$, $X_n$ are in supreme partition according to
+definition. All the other members $X_1, \dots, X_{n-1}$
+may or may not be in supreme partition.
+The number of all possible combinations are
+$2^{n-1}$, but we will not investigate all of them.
+Rather we will use the properties of $p$-variation
+to identify the points that are not
+in supreme partition and drop them out from further consideration.
+
+Suppose $j \in \{0, 1, \dots, n\}$ and
+$j \notin SP_p(G_X, [0, n])$. This means that
+$j$ can not be in supreme partition. Therefore, 
+sample member $X_j$ should be excluded from further consideration.
+Removing $X_j$ means that we 
 updating sample $X$ with new sample $X'$ which do not have
-$X_i$ element, namely,  
+$X_j$ element, namely,  
 $$
-\{X'_{i}\}_{i=0}^{n-1}:=\{X_0,\dots,X_{i-1},X_{i+1},\dots,X_n\}.
+\{X'_{i}\}_{i=0}^{n-1}:=\{X_0,\dots,X_{j-1},X_{j+1},\dots,X_n\}.
 $$
 
+The members of the sample $X$ that are in supreme partition are
+called \emph{significant}. All the members
+that are not in supreme partition are called \emph{insignificant} and   could be removed from original sample without any effect to 
+the value of $p$-variation.
 
-The most important properties which were used in algorithm are
- ... ??? 
-Later on, we will
-discus in great detail how we actually using them.
+
+The most important property which were used in algorithm is
+stated in Proposition~\ref{prop:notinST}. This property
+allows to investigate small intervals and find insignificant points.
+Later on we will discus in great detail how we actually using is.
 The main steps in \emph{pvar} procedure
 goes as follows.
 
@@ -1165,22 +1138,41 @@ goes as follows.
 Input: sample $X$, scalar $p$.
 
 \begin{enumerate}
-  \item \emph{Removing monotonic points}. According to proposition ???
-  all points that are not the end of monotonic interval could be excluded 
+  \item \emph{Removing monotonic points}. According to 
+  Proposition~\ref{prop:sup_in_PM}
+  all points that are not the end of 
+  monotonic interval could be excluded 
   from further consideration. 
   
   \item \emph{Checking all small intervals}. Every small intervals are
-    checked if it is possible to identify meaningless points. All points
-    that are found to be meaningless are excluded. 
-    This operation is based on proposition ??? which states that 
-    if point is not meaningful in small interval, then it will not be
-    meaningful in big interval as well.
+    checked if it is possible to 
+    identify insignificant points. 
+    This operation is based on 
+    Proposition~\ref{prop:notinST} which states that 
+    If $x \notin \overline{SP}_p(f, [a', b'])$, then 
+    $x \notin \overline{SP}_p(f, [a, b])$.
+    So, if $X_j$ appears to be insignificant in
+    any small sub-sample, then
+    we do not need to consider possibility for
+    $X_j$ to be in supreme sample any more. 
+    More details are given in section~\ref{sec:CheckSmallIntervals}.  
  
   \item \emph{Merging small intervals}.  
+   Let $\kappa_{a,c} \in SP_p(G_X, [a,c])$ and
+   $\kappa_{c,b} \in SP_p(G_X, [c, b])$. By using $\kappa_{a,c}$
+   ans $\kappa_{c,b}$, we can effectively
+   find $\kappa_{a,b} \in SP_p(G_X, [a, b])$, since
+   $\kappa_{a,b} \subset \kappa_{a,c} \cup \kappa_{c,b}$. 
+   Finding
+   $\kappa_{a,b}$ from $\kappa_{a,c}$ and $\kappa_{c,b}$ 
+   is called \emph{merging}.
+   In this step we repeat merging of all small intervals until
+   we get the finial supreme partition.
+   The whole procedure is described in section~\ref{sec:meging}.  
   
 \end{enumerate}
 
-The corresponding psiaudocode of the main functions goes as follows
+The corresponding psiaudocode of the main function goes as follows
 \begin{lstlisting}
 pvar <- function(x, p){
   partition <- Remove_Monotonic_Points(x) 
@@ -1196,154 +1188,305 @@ pvar <- function(x, p){
 \subsubsection{Removing monotonic points}
 
 According to Proposition~\ref{prop:sup_in_PM}
-the p-variation is achieved 
-on the partition of monotonic intervals. Therefore the points that are not the end of monotonic interval could be drop out. 
+the $p$-variation is achieved 
+on the partition of monotonic intervals.
+Therefore the points that are not 
+the end of monotonic interval are insignificant 
+and could be drop out.
+The points that are the end of monotonic intervals
+will be referred as \emph{corners}. 
+In one loop we can 
+find all the corners by checking if the sequence
+changed the direction form increasing to decreasing
+(or vice versa).
+The corresponding pseudo code looks as follows:
 
-There are multiple options to perform this checking. The method
-that was actuality applied involves two steps:
+\begin{lstlisting}
+INCLUDE x[0] to set of CORNERS 
+SET direction to 0 
+for(i = 1; i < n; ++i) {
+  if(x[i-1]<x[i]){
+    if(direction<0){
+      INCLUDE x[i-1] to set of CORNERS 
+    }     
+    SET direction to 1 
+  }
+  if(x[i-1]>x[i]){
+    if(direction>0){
+      INCLUDE x[i-1] to set of CORNERS 
+    }     
+    SET direction to -1 
+  }        
+}  
+INCLUDE x[n] to set of CORNERS 
+\end{lstlisting}
 
-\begin{enumerate}
-  \item \emph{Removing constant intervals.} 
-  If  $X_{t}=X_{t+1},\;t=1,\dots,n-1$ then $X_t$ is removed
-  since both points $X_{t}$ and $X_{t+1}$ cannot be in break points
-  partition. Let Label the new sample as  $\{Y_{i}\}_{i=0}^{m}$ .
-  
-  \item \emph{Finding break point.}  
-  If $\Delta Y_{t}$ and $\Delta Y_{t+1}$ ($t=1,\dots,m-1$)
-  has alternating sign, then point $Y_t$ is considered 
-  to be break point. In addition points $Y_0$ and $Y_m$ 
-  is also the break points since end points of 
-  the interval is always included in partition (see
-  Definition~\ref{def:pp}). All other point are identified as
-  meaningless and removed from sample.  
-
-\end{enumerate}
-
-
-This procedure can by performed very quickly, since it does not include
-any interdependent checking and could be done with vectorised functions.
-In \emph{pvar} package all break points could be found with \emph{ChangePointsId} function.
-
-
-
-\subsubsection{Test points in small intervals}
+This procedure is quite simple and
+ can by performed very quickly, since it does not include
+any cross checking and could be done in one loop.
+In \emph{pvar} package all corners could be found with \emph{ChangePoints} function.
 
 
-Proposition~\ref{prop:non_non} is very important for speeding up the calculus of p-variation. It states that if the point was not significant in any small interval, then it will not be significant in the full sample as well. Moreover, Proposition~\ref{prop:pvar_sum_x}, Lemmas ?? and ?? gives an effective 
-way to identify some meaningless points.  
-Those property allows to drop significant amount of points using quite simple operations.
+
+\subsubsection{Checking all small intervals}
+\label{sec:CheckSmallIntervals}
+
+Proposition~\ref{prop:pvar_sum_x} and 
+Lemmas~\ref{lm:SI} and~\ref{lm:evenkappa} gives an effective 
+way to identify part of insignificant points 
+using quite simple operations. 
+The pseudo code is given in the end the chapter and
+now we will reviled it main principles.
 
 Suppose $X$ is a sample without monotonic points. 
-Let consider any small interval with $m+1$ points ($m=2,\dots,n-1$), 
+Let investigate a sub-sample in
+any small interval of the length $m$ ($m=2,\dots,n-1$), 
 namely, lets examine a sub-sample 
 $\{X_{i}\}_{i=j}^{j+m}$
 for any $j=0,...,n-m$.
-Based on Proposition~\ref{prop:pvar_sum_x}, if 
+According to Proposition~\ref{prop:pvar_sum_x},
+If 
 \begin{equation}\label{eq:dropsamll1}
   \sum_{i=j+1}^{j+m} |X_{i}-X_{i-1}|^p < |X_j-X_{j+m}|^p,
 \end{equation}
-then partition $\{j,\dots,j+m\}$ could not be meaningful in interval
-$[j,j+m]$, therefore, some of the points $\{X_{i}\}_{i=j+1}^{j+m-1}$
-must be meaningless. Those meaningless points can be easily identify 
-if we systemically check all intervals starting from small $m$.
+then,,
+partition $\{j,\dots,j+m\}$ 
+can not be supreme partition in interval
+$[j,j+m]$. 
+Therefore, some of the points $\{X_{i}\}_{i=j+1}^{j+m-1}$
+must be insignificant.
+Moreover, Lemmas~\ref{lm:SI} and~\ref{lm:evenkappa} 
+gives opportunity easily identify 
+insignificant points. To do so, we must 
+systemically investigate investigate small intervals starting form
+small $m$.
 
-If $m=2$ then $|\{X_{i}\}_{i=j}^{j+2}|=2$, thus according to
-Lemma~\ref{lm:evenkapa}, $\{X_{i}\}_{i=j}^{j+m}$ has at least one
-inner significant point. Since it only has one inner point, then this point must be significant. So, we don't need to do any checkings here.
+\begin{itemize}
 
-If $m=3$ and (\ref{eq:dropsamll1}) holds,
+\item 
+Let $m=2$. Then $|\{X_{i}\}_{i=j}^{j+2}|=2$, thus according to
+Lemma~\ref{lm:evenkappa}, $\{X_{i}\}_{i=j}^{j+2}$ has at least one
+inner significant point. 
+Since it has only one inner point $X_{j+1}$, then 
+this point must be significant. 
+So, if $m=2$, then  (\ref{eq:dropsamll1}) is always invalid,
+therefore, we don't need to do any checking.
+
+\item 
+Let $m=3$. Firstly, we need to check if (\ref{eq:dropsamll1}) holds.
+If so,
 then at least one 
-point must be insignificant. 
-Moreover, according to Lemma~\ref{lm:samllincrease}, 
-in this case both middle points $X_{t+1}$ and $X_{t+2}$ 
-must be meaningless. 
+point must be insignificant.
+In addition, Lemma~\ref{lm:SI} ensures that in this case
+both middle points $X_{t+1}$, $X_{t+2}$ 
+are insignificant, therefore, they should be removed. 
 
-So, some insignificant points could be identified by 
-applying this kind of checking for all sub-samples
-$\{X_{i}\}_{i=j}^{j+3},\;j=0,...,n-3$. 
-Then all identified meaningless points 
-could be droped out.
-As a result, the whole sample changes,  
-hence, 
-we can apply the same procedure again and try to find 
-even more meaningless points. 
-We should repeat the iterations 
-until no new meaningless points are 
+We do this checking for  for all
+$j=0,...,n-2$. In this way
+we can identify quite an amount of insignificant
+points. Moreover, after removing them from the sample the 
+sample changes, so we can repeat the same procedure
+and find more insignificant points. We do it until
+no new insignificant points are 
 identified.
 
-If $m=4$ then $|\{X_{i}\}_{i=j}^{j+2}|$ is even, 
-thus, according to Lemma~\ref{lm:evenkapa}, 
+\item 
+If $m=4$, then $|\{X_{i}\}_{i=j}^{j+2}|$ is even, 
+thus, according to Lemma~\ref{lm:evenkappa}, 
 $\{X_{i}\}_{i=j}^{j+m}$ has at least one
 inner significant point. So, all inner points are significant, 
-based on Lemma~\ref{lm:evenkapa}. We can conclude, that 
-this argument holds in all cases, then $m$ is even, so 
-we don't need to check it any more.
+based on Lemma~\ref{lm:SI}, therefore, 
+(\ref{eq:dropsamll1}) do not hold.
+Lemma~\ref{lm:evenkappa} ensure
+that this argument holds in all cases, then $m$ is even.
+So, actually we need to investigate only the cases, then 
+$m$ is odd. 
 
-So, the can go further and apply same checking with
-$m=5$. Suppose all sub-samples
+\item 
+Let 
+$m=5$ and all sub-samples
  $\{X_{i}\}_{i=j}^{j+3},\;j=0,...,n-3$ are already 
  checked.
- If (\ref{eq:dropsamll1}) holds, then based on
- the same Lemma, all middle points
+If (\ref{eq:dropsamll1}) holds, then, based on
+Lemma~\ref{lm:SI}, all middle points
 $X_{t+1}$, $X_{t+2}$, $X_{t+3}$  and $X_{t+4}$ are  
-identified as meaningless and could be dropped out.
-If we want to apply this checking in new itaration,
+identified as insignificant and should be removed.
+After removing points, the sample changes, thus,
+if we want to apply this checking in again,
 then we should start checking from $m=3$ again, because
 we must make sure that all sub-samples
- $\{X_{i}\}_{i=j}^{j+3},\;j=0,...,n-3$ are already 
- checked if we want to apply Lemma ??
+$\{X_{i}\}_{i=j}^{j+3},\;j=0,...,n-3$ are already 
+checked, because this is a requirement of the Lemma \ref{lm:SI}.
 
-We can continue checking by this principle, and actually find 
-p-variation. But it is not effective way, because
-in any case of drop out we should go back and start checking
-from $m=3$, so, it is actually effective for small $m$. From Monte-Carlo experiment we made
-a recommendation to check up till $m=7$.
+\item If we want to go further and check
+sub-samples for $m=7,9,11\dots$, every time we have to
+start from $m=3$ and increase $m$ by $2$ only then
+(\ref{eq:dropsamll1}) is not valid for
+all sub-samples.
 
-The final psiaudocode of this procedure is given below
+\end{itemize}
+
+We can continue this checking until $m$ 
+reaches an arbitrary threshold $M$.
+The  pseudo-code  of this procedure is given below
 \begin{lstlisting}
 
 SET dum_X to NULL
-WHILE dum_X is not equal to X
-  SET dum_X	= X
-  SET d=3
+WHILE dum_X is not equal to X AND m<M
+  SET dum_X	to X
+  SET m = 3
   CHECK all sub-samples with m=d 
-  UPDATE X by dropping all meaningless points
-  WHILE dum_X is equal to X	
-    SET d = d + 2
+  UPDATE X by dropping all insignificant points
+  WHILE dum_X is equal to X AND	m<M
+    SET m = m + 2
     CHECK all sub-samples with m=d points
-    UPDATE x by dropping all meaningless points
+    UPDATE X by dropping all insignificant points
   ENDWHILE  
 ENDWHILE
 
 \end{lstlisting}
 
+
+With this procedure, we can actually find 
+$p$-variation, setting $M$ to sufficiently large value.
+But this way of finding $p$-variation is not effective, 
+because in case of any removing 
+we should go back and start checking
+from $m=3$.
+So, it is reasonable to use this procedure
+only for small $m$ and then go
+to final step of $p$-variation calculus.
+
+
+% From Monte-Carlo experiment we made
+% a recommendation that $m$ sho
+
+
+
 \subsubsection{Merging small intervals}
+\label{sec:meging}
 
-\paragraph{Adding an extra point to interval}
 
-Let suppose ...
-Then $x_0$ could make a f-join with any other partition point.
 
-Test reasinable posibilities. 
-If find - delete all midpoints
+Suppose it is already known that 
+a sub-samples $\{X_{i}\}_{i=a}^{w}$  and $\{X_{i}\}_{i=w}^{b}$
+are a supreme partitions in intervals $[a,w]$ and $[w,b]$ correspondingly. 
+The \emph{merge} operation of intervals $[a,w]$ and $[w,b]$ is
+an operation that finds supreme partition 
+of the interval $[a,b]$ taking into account
+that  $\{X_{i}\}_{i=a}^{w}$  and $\{X_{i}\}_{i=w}^{b}$
+are a supreme partitions.
+
+The final procedure in $p$-variation calculus will be
+presented in this subsection. It is based on
+merging operation.
+All the small intervals which where already checked in the 
+previous procedure are merged one by one until all the
+possible combinations are checked and we end up having
+the supreme partition and $p$-variation.
+
+This procedure have two levels that will be discussed separately.
 
 \paragraph{Merge two intervals}
 
+This paragraph will present how two intervals are merged .
+Suppose $\{X_{i}\}_{i=a}^{w}$  and $\{X_{i}\}_{i=w}^{b}$
+are a supreme partitions in intervals $[a,w]$ and $[w,b]$ correspondingly.  
+In order to find supreme partition in interval $[a,b]$
+we need to investigate all possible
+$f$-joints between points $X_t, t\in \{a,\dots,v-1\}$ and
+$X_r, r\in \{v,\dots,b\}$ and choose pair of points
+$(t, r)$ which maximise $s_p$ function, namely  
+\begin{eqnarray}
+  (t, r) &:=& \argmax_{(i,j) \in [a, v-1] \times [v, b] } 
+    \left\{ \sum_{k=1}^i |X_{k-1} + X_{k}|^p + |X_i-X_j|^p 
+    + \sum_{k=j+1}^b |X_{k-1} + X_{k}|^p \right\}, \nonumber \\
+  &=& \argmax_{(i,j) \in [a, v-1] \times [v, b] }  
+    \left\{|X_i-X_j|^p +  \sum_{k=a+1}^b |X_{k-1} + X_{k}|^p  
+    - \sum_{l=i+1}^j |X_{l-1} + X_{l}|^p  \right\}, \nonumber \\
+   \label{eq:tr_argmax}  
+   &=& \argmax_{(i,j) \in [a, v-1] \times [v, b] }  
+    \left\{|X_i-X_j|^p - \sum_{l=i+1}^j |X_{l-1} + X_{l}|^p  \right\},   
+\end{eqnarray}
+
+
+In addition, the calculation of $(t, r)$ in (\ref{eq:tr_argmax})
+could be optimised, since we actually do not need to check
+all $(i,j) \in [a, v-1] \times [v, b]$. 
+Based on Lemma~\ref{lm:fjoin},
+points $X_t$ and $X_r$ could be $f$-joined only if 
+\begin{equation}
+  \forall i \in \{t,\dots,r\}: X_t \geq X_i \geq X_r \text{ or } 
+  X_t \leq X_i \leq X_r.
+\end{equation} 
+   
+And the last statement holds only if 
+\begin{equation}\label{eq:setT}
+  X_t = \left\{ \min ( X_i : i \in \{t, \dots, w-1\}),
+  \max ( X_i : i \in \{t, \dots, w-1\}) \right\}  
+\end{equation}
+and
+\begin{equation}\label{eq:setR}
+  X_r = \left\{ \min ( X_i : i \in \{w, \dots, r\}),
+  \max (X_i : i \in \{w, \dots, r\}) \right\}.  
+\end{equation} 
+
+Let $T$ denotes a set of $i \in \{a,\dots ,w-1\}$ which satisfy 
+(\ref{eq:setT}) and $R$ denotes a set of $j \in \{w,\dots ,b\}$ which satisfy (\ref{eq:setR}).
+Then (\ref{eq:tr_argmax}) 
+could be expressed as
+\begin{equation}
+  (t, r) :=  
+    \argmax_{(i,j) \in T \times R }  
+    \left\{|X_i-X_j|^p - \sum_{l=i+1}^j |X_{l-1} + X_{l}|^p  \right\}.   
+\end{equation} 
+
+Since points $X_t$ and $X_r$ are $f$-joint, all the 
+pints in interval $t+1,\dots, r-1$ are insignificant and should be removed. And the remaining points are supreme partition.
 
 \begin{lstlisting}
 
-1. Find potential points from one side an the other
+INITIALISE list T to w-1;
+max_i = min_i = X_w
+FOR i = w-2 TO a{
+  if (X_i is greater then max_i){
+    max_i = X_i
+    include i in T  
+  }
+  if (X_i is less then min_i){
+    max_i = X_i
+    include i in T  
+  }
+}
 
-2. Merging
-for i in 
-  AddPoint(i)
-EndFor
+INITIALISE list R to w;
+max_i = min_i = X_w
+FOR i = w-2 TO a{
+  if (X_i is greater then max_i){
+    max_i = X_i
+    include i in R  
+  }
+  if (X_i is less then min_i){
+    max_i = X_i
+    include i in R  
+  }
+}
+
+FOR (r in R){
+  FOR (t in T){
+    balance = |x_t - X_r|^p - sum(||^p
+  
+  }
+}
+
+
+
 
 \end{lstlisting}
 
 
 \paragraph{Merging all small intervals}
-
+dfd
 
 \begin{lstlisting}
 
