@@ -15,7 +15,9 @@
 \usepackage{listings}            % graziam kodui
 \usepackage{enumerate}
 
-
+% grafo braizymui
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows}
 
 % \usepackage{caption}                    % paveikleliu dejimas i veina vieta
 % \usepackage{subcaption}                 % paveikleliu dejimas i veina vieta
@@ -1011,17 +1013,26 @@ Vidinis Komentaras (VK): Dar neaisku kaip pakrikstyti skaidini, kuris pasiekia s
 
 \section{p-variation calculus}  
   
-This chapter will present the algorithm that calculates 
-$p$-variation for the sample 
-(see Def.~\ref{def:pvarseq}).
+In this chapter we will present the algorithm that calculates 
+$p$-variation for the sample (see Def.~\ref{def:pvarseq}). 
 Nonetheless, this algorithm could be used to calculate
 the $p$-variation for arbitrary piecewise monotone function. 
-This algorithm will be called \emph{pvar}. 
+This procedure will be called \emph{pvar}. 
 It is already realised in the R (see~\cite{R}) package \emph{pvar} and
 is publicly available on CRAN\footnotemark.
 \footnotetext{
 http://cran.r-project.org/web/packages/pvar/index.html
 }
+
+Firstly, we will give some introductory notes about the
+procedure. Later on, the main schema of the
+algorithm will be presented in the
+Subsection~\ref{sub:MainFunction}. And finally, 
+each step of the algorithm are disused in more details in 
+Subsection~\ref{sec:DetailExplanation}.
+
+\subsection{Introductory notes}
+
 
 Suppose $X=\{X_{i}\}_{i=0}^{n}$ is any real-value sequence of numbers. 
 We will call such sequence a \emph{sample}, 
@@ -1032,56 +1043,9 @@ which states that
 \begin{equation}
   v_p(X) = v_p(G_X(t),[0,n]),
 \end{equation}
-where $G_X(t)$ is sample function defined in  
+where $G_X(t)$ is a sample function defined in  
 Definition~\ref{def:Seq2Fun}.
-
-On the other hand, the algorithm does not use
-$G_X(t)$ function directly, but it actually operates the
-sample $X$. Therefore, in the context of algorithm,
-it is more convenient to use the sample $X$ 
-rather then the function $G_X(t)$. 
-Thus, please don't be mislead then
-in the context of sample we will 
-refer to properties of $p$-variation 
-that were proved to functions. 
-In that case we actually have in mind function $G_X(t)$. 
-
-
-
-
-
-It is worth noting, 
-that the procedure \emph{pvar} could be used to calculate
-the $p$-variation of any piecewise monotone function.
-Let assume $f$ is any piecewise monotone function.  
-According to definition (see~\ref{def:PM}) 
-there are points $a=x_1<\dots<x_n=b$ for some finite $n$ such 
-that $f$ is monotone on each interval $[x_{j-1},x_j],\;j=1,2,\dots,n$.
-Lets construct the the sample $X$, 
-which contains the values of the function $f$ 
-at the points $\{x_{i}\}_{i=0}^{n}$, namely,
-$X=\{X_{i}\}_{i=0}^{n}:=\{f(x_{i})\}_{i=0}^{n}$.
-It is straight forward to see that 
-$f \stackrel{PM}{=} G_X$, therefore, if $p \geq 1$ then $v_p(X)=v_p(G_X)=v_p(f)$.
-
-
-\subsection{Main function}
-
-The procedure \emph{pvar} that calculates
-$p$-variation will be presented here. Firstly,
-we will introduce the main schema, further, each step will
-be discussed in more details. 
-
-The main goal of the procedure is to find
-any supreme partition 
-$\kappa \in SP_p(G_X)$ and calculate $p$-variation
-by $v_p(X) = s_p(G_X, \kappa)$.
-The main principal of the procedure is to identify
-points that are not in supreme partition and drop them out from
-further consideration.
-
-For the continence, 
-it is worth pointing out, that 
+On the other hand, 
 $p$-variation of the sample could express as
 \begin{equation}
   v_p(X) = \max\left\{ \sum_{i=1}^k |X_{j_i} - X_{j_{i-1}}|^p :
@@ -1091,45 +1055,74 @@ This expression could be verified from
 Proposition~\ref{prop:sup_in_PM},
 which states, that $p$-variation
 is achieved in a subset of any partition $r \in X(f, [0,n])$.
-So, we choose partition $r$ to be a subset
-of $\{0, 1, \dots, n\}$. This partition exists, 
-since all the values of function $G_X$ are
-generate from points on $\{0, 1, \dots, n\}$, thus,
-all the remaining points are redundant for $p$-variation calculus.
-If $j \in \{0, 1, \dots, n\}$ then $G_X(j) = X_j$. Therefore,
-instead of using $G_X(j)$ we can directly use
-the sample member $X_j$. 
+So, we can construct $r$ from the subset $\{0, 1, \dots, n\}$. 
+If $j \in \{0, 1, \dots, n\}$ then $G_X(j) = X_j$, thus,
+$G_X(j)$ could be replaced with $X_j$. As a result,
+we don't need to use $G_X(j)$ function, rather, 
+the values of the sample $X_j$ could be used directly. 
+This is the way algorithm works --
+it actually operates the the values of the sample $X$,
+not involving $G_X(t)$ function. Nonetheless,
+then we will to properties of $p$-variation
+we actually have in mind function $G_X(t)$, since all
+the properties of $p$-variation are formulated for functions.
 
-The sample members $X_0$, $X_n$ are in supreme partition according to
-definition. All the other members $X_1, \dots, X_{n-1}$
-may or may not be in supreme partition.
-The number of all possible combinations are
-$2^{n-1}$, but we will not investigate all of them.
-Rather we will use the properties of $p$-variation
-to identify the points that are not
-in supreme partition and drop them out from further consideration.
+The members of the sample $X$ that are in supreme partition are
+called \emph{supreme points}. All the members
+that are not in supreme partition refereed as
+\emph{redundant}. Those points could be removed from original sample without any effect to 
+the value of $p$-variation.
+
+The main idea of the algorithm is to find the supreme
+partition, by identifying and dropping all the redundant
+points, i.e. the points that are not in supreme partition.
+For this purpose, the most important property is
+stated in the Proposition~\ref{prop:notinST},
+which allows us to investigate possible 
+partition by analysing not the whole sample, but
+smaller sub-samples of $X$. From the
+Proposition~\ref{prop:notinST} follows, that 
+if a point was identify as being redundant in any
+small interval, then the point is redundant in
+any larger interval. 
 
 Suppose $j \in \{0, 1, \dots, n\}$ and
 $j \notin SP_p(G_X, [0, n])$. This means that
-$j$ can not be in supreme partition. Therefore, 
-sample member $X_j$ should be excluded from further consideration.
+$j$ is not in supreme partition. Therefore, 
+sample member $X_j$ is redundant and should be excluded from further consideration.
 Removing $X_j$ means that we 
 updating sample $X$ with new sample $X'$ which do not have
 $X_j$ element, namely,  
 $$
 \{X'_{i}\}_{i=0}^{n-1}:=\{X_0,\dots,X_{j-1},X_{j+1},\dots,X_n\}.
 $$
+And in further analysis we investigate the sample $X'$. 
 
-The members of the sample $X$ that are in supreme partition are
-called \emph{significant}. All the members
-that are not in supreme partition are called \emph{insignificant} and   could be removed from original sample without any effect to 
-the value of $p$-variation.
+It is worth noting, 
+that the procedure \emph{pvar} could be used to calculate
+the $p$-variation of any piecewise monotone function.
+Let assume $f$ is any piecewise monotone function.  
+According to definition (see~\ref{def:PM}) 
+there are points $a=x_1<\dots<x_n=b$ for some finite $n$ such 
+that $f$ is monotone on each interval 
+$[x_{j-1},x_j],\;j=1,2,\dots,n$.
+We can calculate $p$-variation if we have the sample $X$, 
+which contains the values of the function 1$f$ 
+at the points $\{x_{i}\}_{i=0}^{n}$, namely,
+$X=\{X_{i}\}_{i=0}^{n}:=\{f(x_{i})\}_{i=0}^{n}$.
+It is straight forward to see that 
+$f \stackrel{PM}{=} G_X$, 
+therefore, if $p \geq 1$, then $v_p(X)=v_p(G_X)=v_p(f)$.
 
 
-The most important property which were used in algorithm is
-stated in Proposition~\ref{prop:notinST}. This property
-allows to investigate small intervals and find insignificant points.
-Later on we will discus in great detail how we actually using is.
+\subsection{Main function}
+\label{sub:MainFunction}
+
+The procedure \emph{pvar} that calculates
+$p$-variation will be presented here. This procedure
+is already available in R package \emph{pavr}. Firstly,
+we will introduce the main schema, further, each step will
+be discussed in more details. 
 The main steps in \emph{pvar} procedure
 goes as follows.
 
@@ -1184,6 +1177,7 @@ pvar <- function(x, p){
 \end{lstlisting}
   
 \subsection{Detail explanation}
+\label{sec:DetailExplanation}
 
 \subsubsection{Removing monotonic points}
 
@@ -1191,11 +1185,11 @@ According to Proposition~\ref{prop:sup_in_PM}
 the $p$-variation is achieved 
 on the partition of monotonic intervals.
 Therefore the points that are not 
-the end of monotonic interval are insignificant 
-and could be drop out.
+the end of monotonic interval are redundant 
+and should be drop out.
 The points that are the end of monotonic intervals
 will be referred as \emph{corners}. 
-In one loop we can 
+In a single loop we can 
 find all the corners by checking if the sequence
 changed the direction form increasing to decreasing
 (or vice versa).
@@ -1233,7 +1227,8 @@ In \emph{pvar} package all corners could be found with \emph{ChangePoints} funct
 
 Proposition~\ref{prop:pvar_sum_x} and 
 Lemmas~\ref{lm:SI} and~\ref{lm:evenkappa} gives an effective 
-way to identify part of insignificant points 
+way to identify significant part of 
+redundant points 
 using quite simple operations. 
 The pseudo code is given in the end the chapter and
 now we will reviled it main principles.
@@ -1249,16 +1244,16 @@ If
 \begin{equation}\label{eq:dropsamll1}
   \sum_{i=j+1}^{j+m} |X_{i}-X_{i-1}|^p < |X_j-X_{j+m}|^p,
 \end{equation}
-then,,
+then,
 partition $\{j,\dots,j+m\}$ 
 can not be supreme partition in interval
 $[j,j+m]$. 
 Therefore, some of the points $\{X_{i}\}_{i=j+1}^{j+m-1}$
-must be insignificant.
+must be redundant.
 Moreover, Lemmas~\ref{lm:SI} and~\ref{lm:evenkappa} 
 gives opportunity easily identify 
 insignificant points. To do so, we must 
-systemically investigate investigate small intervals starting form
+systemically investigate small intervals starting form
 small $m$.
 
 \begin{itemize}
@@ -1276,18 +1271,18 @@ therefore, we don't need to do any checking.
 Let $m=3$. Firstly, we need to check if (\ref{eq:dropsamll1}) holds.
 If so,
 then at least one 
-point must be insignificant.
+point must be redundant.
 In addition, Lemma~\ref{lm:SI} ensures that in this case
 both middle points $X_{t+1}$, $X_{t+2}$ 
-are insignificant, therefore, they should be removed. 
+are redundant, therefore, they both should be removed. 
 
 We do this checking for  for all
 $j=0,...,n-2$. In this way
-we can identify quite an amount of insignificant
+we can identify quite an amount of redundant
 points. Moreover, after removing them from the sample the 
 sample changes, so we can repeat the same procedure
-and find more insignificant points. We do it until
-no new insignificant points are 
+and find more redundant points. We do it until
+no new redundant points are 
 identified.
 
 \item 
@@ -1310,9 +1305,9 @@ $m=5$ and all sub-samples
 If (\ref{eq:dropsamll1}) holds, then, based on
 Lemma~\ref{lm:SI}, all middle points
 $X_{t+1}$, $X_{t+2}$, $X_{t+3}$  and $X_{t+4}$ are  
-identified as insignificant and should be removed.
+identified as redundant and should be removed.
 After removing points, the sample changes, thus,
-if we want to apply this checking in again,
+if we want to apply this checking again,
 then we should start checking from $m=3$ again, because
 we must make sure that all sub-samples
 $\{X_{i}\}_{i=j}^{j+3},\;j=0,...,n-3$ are already 
@@ -1330,20 +1325,23 @@ We can continue this checking until $m$
 reaches an arbitrary threshold $M$.
 The  pseudo-code  of this procedure is given below
 \begin{lstlisting}
+INPUT: sample X, scalar p, scalar M
 
 SET dum_X to NULL
+SET m to 0
 WHILE dum_X is not equal to X AND m<M
   SET dum_X	to X
   SET m = 3
-  CHECK all sub-samples with m=d 
-  UPDATE X by dropping all insignificant points
+  CHECK all sub-samples with length m 
+  UPDATE X by dropping all redundant points
   WHILE dum_X is equal to X AND	m<M
     SET m = m + 2
-    CHECK all sub-samples with m=d points
-    UPDATE X by dropping all insignificant points
+    CHECK all sub-samples with length m
+    UPDATE X by dropping all redundant points
   ENDWHILE  
 ENDWHILE
 
+RETURN: X
 \end{lstlisting}
 
 
@@ -1355,7 +1353,7 @@ we should go back and start checking
 from $m=3$.
 So, it is reasonable to use this procedure
 only for small $m$ and then go
-to final step of $p$-variation calculus.
+to next step of $p$-variation calculus.
 
 
 % From Monte-Carlo experiment we made
@@ -1365,8 +1363,6 @@ to final step of $p$-variation calculus.
 
 \subsubsection{Merging small intervals}
 \label{sec:meging}
-
-
 
 Suppose it is already known that 
 a sub-samples $\{X_{i}\}_{i=a}^{w}$  and $\{X_{i}\}_{i=w}^{b}$
@@ -1385,7 +1381,7 @@ previous procedure are merged one by one until all the
 possible combinations are checked and we end up having
 the supreme partition and $p$-variation.
 
-This procedure have two levels that will be discussed separately.
+This procedure has two stages that will be discussed separately.
 
 \paragraph{Merge two intervals}
 
@@ -1399,7 +1395,7 @@ $X_r, r\in \{v,\dots,b\}$ and choose pair of points
 $(t, r)$ which maximise $s_p$ function, namely  
 \begin{eqnarray}
   (t, r) &:=& \argmax_{(i,j) \in [a, v-1] \times [v, b] } 
-    \left\{ \sum_{k=1}^i |X_{k-1} + X_{k}|^p + |X_i-X_j|^p 
+    \left\{ \sum_{k=a+1}^i |X_{k-1} + X_{k}|^p + |X_i-X_j|^p 
     + \sum_{k=j+1}^b |X_{k-1} + X_{k}|^p \right\}, \nonumber \\
   &=& \argmax_{(i,j) \in [a, v-1] \times [v, b] }  
     \left\{|X_i-X_j|^p +  \sum_{k=a+1}^b |X_{k-1} + X_{k}|^p  
@@ -1422,12 +1418,12 @@ points $X_t$ and $X_r$ could be $f$-joined only if
    
 And the last statement holds only if 
 \begin{equation}\label{eq:setT}
-  X_t = \left\{ \min ( X_i : i \in \{t, \dots, w-1\}),
+  X_t \in \left\{ \min ( X_i : i \in \{t, \dots, w-1\}),\;
   \max ( X_i : i \in \{t, \dots, w-1\}) \right\}  
 \end{equation}
 and
 \begin{equation}\label{eq:setR}
-  X_r = \left\{ \min ( X_i : i \in \{w, \dots, r\}),
+  X_r \in \left\{ \min ( X_i : i \in \{w, \dots, r\}),\;
   \max (X_i : i \in \{w, \dots, r\}) \right\}.  
 \end{equation} 
 
@@ -1442,9 +1438,11 @@ could be expressed as
 \end{equation} 
 
 Since points $X_t$ and $X_r$ are $f$-joint, all the 
-pints in interval $t+1,\dots, r-1$ are insignificant and should be removed. And the remaining points are supreme partition.
+points in interval $t+1,\dots, r-1$ are redundant
+and should be removed. And the remaining points are supreme partition.
 
 \begin{lstlisting}
+
 
 INITIALISE list T to w-1;
 max_i = min_i = X_w
@@ -1472,40 +1470,100 @@ FOR i = w-2 TO a{
   }
 }
 
+maxbalance = -1
 FOR (r in R){
   FOR (t in T){
-    balance = |x_t - X_r|^p - sum(||^p
-  
+    balance = |x_t - X_r|^p - sum(abs(diff(X[t:r]))^p)
+    if(balance>maxbalance){
+      maxr = r
+      maxt = t
+    }
   }
 }
 
-
-
+Remove all points in (maxt, maxr)
 
 \end{lstlisting}
 
 
-\paragraph{Merging all small intervals}
-dfd
+\paragraph{Merging all small intervals.}
+In the second stage of this procedure we get the final result by
+merging intervals pair by pair until the supreme partition of the whole sample is obtain.
+
+The pseudo code is given below and its illustration is given in Figure~\ref{fig:Merging2}.
+
+
 
 \begin{lstlisting}
+INPUT: a set of partitions of intervals int_prt
 
-while the length of in > 1
-  
-  for  
-    int[i] = merge(int[i], int[i+1])
+WHILE the cont of int_prt is greater then 1
+  SET i to 1  
+  WHILE i is less then count of int_prt
+    SET int_prt[i] = merge(int_prt[i], int_prt[i+1])
     i+2;
-  end for
-  delete all even int
-  
-  
+  ENDWHILE
+  DELETE all elements form int_prt that have even index
+ENDWHILE
 
-end 
-
-
+RETURN: int_prt[1]
 \end{lstlisting}
 
-\section{Conclusion}
+
+  
+  
+% Define block styles
+\tikzstyle{block} = [rectangle, draw, fill=blue!20, 
+    text width=5em, text centered, rounded corners, minimum height=4em]
+\tikzstyle{line} = [thick,->,>=stealth] % [thick,->,>=stealth]  % [draw, -latex']  
+  
+\begin{figure}
+\centering  
+\begin{tikzpicture}[node distance = 2.5cm, auto]  
+  \node [block] (el11) {el 1,1 $\sum$ };
+  \node (AuxNode11) [right of=el11, node distance = 1.5cm] {};
+  \node [block, right of=el11, node distance=3cm] (el12) {el 1,2 };
+  \node (AuxNode12) [right of=el12, node distance = 1.5cm] {};
+  \node [block, right of=el12, node distance=3cm] (el13) {el 1,3 };
+  \node (AuxNode13) [right of=el13, node distance = 1.5cm] {};
+  \node [block, right of=el13, node distance=3cm] (el14) {el 1,4 };
+  \node [block, right of=el14, node distance=3cm] (el15) {el 1,5 };
+
+  \node (AuxNode21) [below of=AuxNode12] {};
+  \node [block, below of=AuxNode11] (el21) {el 21 };
+  \node [block, below of=AuxNode13] (el22) {el 22 };
+  \node [block, below of=el15] (el23) {el 23};  
+  
+  \node [block, below of=AuxNode21] (el31) {el 31 };
+  \node (AuxNode31) [right of=el31, node distance = 4.2cm] {};
+  \node [block, below of=el23] (el32) {el 32};  
+  
+  \node [block, below of=AuxNode31] (el41) {el 41};  
+  
+  %% arrows  
+  \draw [line] (el11) -- (el21);
+  \draw [line] (el12) -- (el21);  
+  \draw [line] (el13) -- (el22);
+  \draw [line] (el14) -- (el22);   
+  \draw [line] (el15) -- (el23);   
+  
+  \draw [line] (el21) -- (el31);  
+  \draw [line] (el22) -- (el31);  
+  \draw [line] (el23) -- (el32);  
+  
+  \draw [line] (el31) -- (el41);  
+  \draw [line] (el32) -- (el41);  
+\end{tikzpicture}  
+\caption{The illustration of the final stage of merging procedure.}
+\label{fig:Merging2}
+\end{figure}
+
+  
+\section{Conclusion}  
+  
+IN this chapter we presented the ...  
+  
+  
   
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{thebibliography}{99}  
