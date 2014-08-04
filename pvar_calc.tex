@@ -1,7 +1,3 @@
-
-% Filosofinis klausimas - gal galima irodineti lenteles forma?
-% lentele nebutina, tiesiog tokia forma, kur aiskiai matosi lygmenys. 
-
 \documentclass[12pt, a4paper]{article}
 
 \usepackage[utf8]{inputenc}
@@ -12,12 +8,15 @@
 
 \usepackage{amssymb}
 \usepackage{amsmath}
-\usepackage{listings}            % graziam kodui
+% \usepackage{listings}            % graziam kodui
 \usepackage{enumerate}
 
 % grafo braizymui
 \usepackage{tikz}
 \usetikzlibrary{shapes,arrows}
+
+
+
 
 % \usepackage{caption}                    % paveikleliu dejimas i veina vieta
 % \usepackage{subcaption}                 % paveikleliu dejimas i veina vieta
@@ -32,47 +31,17 @@
 \usepackage[pdftex]{hyperref}
 \fi
 
-\usepackage{color}
-\definecolor{mygreen}{rgb}{0,0.6,0}
-\definecolor{mygray}{rgb}{0.5,0.5,0.5}
-\definecolor{FontGray}{rgb}{0.96,0.96,0.96}
-\definecolor{mymauve}{rgb}{0.58,0,0.82}
+% psiaudokodas rasymui
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\algrenewcommand{\algorithmiccomment}[1]{\hskip2em// #1}
+\algnewcommand\algorithmicoutput{\textbf{Output:}}
+\algnewcommand\Output{\item[\algorithmicoutput]}
 
-\definecolor{tbred}{rgb}{1,0.6,0.6}
-\definecolor{tbgreen}{rgb}{0.6,1,0.6}
-
-
+% Trumpiniu apibrezimai 
 \DeclareMathOperator*{\argmax}{arg\,max} 
-
-\lstset{ %
-  backgroundcolor=\color{FontGray},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
-  basicstyle=\footnotesize,        % the size of the fonts that are used for the code
-  breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
-  breaklines=true,                 % sets automatic line breaking
-  captionpos=b,                    % sets the caption-position to bottom
-  commentstyle=\color{mygreen},    % comment style
-  deletekeywords={...},            % if you want to delete keywords from the given language
-  escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
-  extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
-  frame=single,                    % adds a frame around the code
-  keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
-  keywordstyle=\color{blue},       % keyword style
-  language=R,                      % the language of the code
-  morekeywords={*,...},            % if you want to add more keywords to the set
-  numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
-  numbersep=5pt,                   % how far the line-numbers are from the code
-  numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
-  rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
-  showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
-  showstringspaces=false,          % underline spaces within strings only
-  showtabs=false,                  % show tabs within strings adding particular underscores
-  stepnumber=1,                    % the step between two line-numbers. If it's 1, each line will be numbered
-  stringstyle=\color{mymauve},     % string literal style
-  tabsize=2,                       % sets default tabsize to 2 spaces
-  title=\lstname                   % show the filename of files included with \lstinputlisting; also try caption instead of title
-}
- 
- 
+\def\lc{\left\lceil}   
+\def\rc{\right\rceil}
  
 % stanratiniu fontu nustatymas
 % \renewcommand{\sfdefault}{uhv}
@@ -93,12 +62,134 @@
 \numberwithin{equation}{section}
 
 \title{The calculus of $p$-variation }
+\author{Vygantas Butkus and Rimas Norvaiša \\
+\small{Institute of Mathematics and Informatics, Akademijos 4, LT-08663 Vilnius, Lithuania}}
+\date{\today}
+
 
 
 
 \begin{document}
   \maketitle
 
+\begin{algorithm}
+\caption{Euclid’s algorithm}\label{euclid}
+\begin{algorithmic}[1]
+\Procedure{Euclid}{$a,b$}\Comment{The g.c.d. of a and b}
+\State $r\gets a\bmod b$
+\While{$r\not=0$}\Comment{We have the answer if r is 0}
+\State $a\gets b$
+\State $b\gets r$
+\State $r\gets a\bmod b$
+\EndWhile\label{euclidendwhile}
+\State \textbf{return} $b$\Comment{The gcd is b}
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+\begin{abstract}
+Your abstract goes here...
+...
+\end{abstract}
+
+
+
+\section{Introduction}
+
+% Pirmą kartą p-variacija buvo apibrėžta Wiener darbe [20] dar 1924 me-
+%tais. Vėliau p-variacijos tyrimus išplėtojo autorius L. C. Young darbe [21]. %Daug ir
+%išsamios informacijos apie žinomas p-variacijos savybes galima rasti R. %Norvaišos ir
+%R. M. Dudley knygose [8] ir [9] – ten suformuluota ir įrodyta daug p-%variacijos savybių
+% bei pateikta išsami p-variacijos bibliografija.
+
+The $p$-variation is a generalization of the total variation of a function,
+namely, it is supremum of the sums of the $p$-th
+powers of absolute increments off over nonoverlapping intervals 
+(the formal definition is given in Definition~\ref{def:pvar}).
+The total variation is a special case of $p$-variation, then 
+$p=1$, i.e. the total variation is equal to $1$-variation.
+
+The $p$-variation was first defined by Wiener in 1924 \cite{Wiener1924}.
+In this work, the main focus was on $2$-variation. 
+Later on, Young extended
+the topic of $p$-variation in his work \cite{Young1936}, there 
+he analysed $p$-variations with $p \neq 2$. 
+Lots and detailed information on the known properties 
+of $p$-variation can be found in the books of  Norvaiša and
+Dudley (see \cite{DudleyNorvaisa1998} and \cite{DudleyNorvaisa1999}). 
+There is formulated and proved a lot of the properties of $p$-variation.
+In addition, the comprehensive bibliography of $p$-variation is include.
+
+A regulated function $f$ is called \emph{rough}
+if its $1$-variation value is infinite.
+The class of rough functions appears to be quite an important one.
+Probably the best know example of rough function is 
+a trajectory of Wiener process. 
+The Wiener is a well known process (see \cite{Karatsas1997}) 
+are used in statistics, physics and economic (\cite{Econ1997}).
+It is worth noting, that rough functions can not be investigated 
+with regular tools of calculus as derivative or Lebesgue–Stieltjes integral.
+The $p$-variation plays an important role in the filed of
+rough function analysis. 
+Firstly, the $p$-variation gives a convenient way to measure 
+a degree of roughness. 
+Secondly, it appears that $p$-variation is a very useful tool 
+in calculus of rough functions.
+A good overview of the importance of $p$-variation in rough function
+analysis is given in \cite{Norvaisa2005}.
+ 
+  
+The exact value of $p$-variation was not used to be a topic.
+Rather, the primary focus on $p$-variation properties 
+is whether the $p$-variation bounded or unbounded. 
+But the the work \cite{NorvaisaRackauskas2008} presented by
+Norvaiša and Račkauskas greatly increased the motivation
+of obtaining the the exact value of $p$-variation.
+The work \cite{NorvaisaRackauskas2008} presents
+necessary and sufficient conditions
+for the convergence in law of partial sum processes in
+$p$-variation norm. 
+The result could be applied in the statistical data analysis,
+which uses $p$-variation as data statistics.
+For applying those theoretical result in data analysis it is necessary
+to have procedure that actually calculates the value of $p$-variation.
+Nonetheless, it seams that there is no proposed 
+procedure of calculation of $p$-variation value.
+
+The main goal of this article is to present the algorithm,
+which calculates $p$-variation of the sample
+(see Def.~\ref{def:pvarseq}), and give all the mathematical proofs
+of the properties that were used in this algorithm.
+The algorithm is denoted as \emph{pvar}.
+It is already realised in the R environment (see~\cite{R})
+and it is publicly available in \emph{pvar} package on CRAN\footnotemark.
+It is worth noting, that this procedure could be used to calculate
+$p$-variation of any piecewise monotone function.
+\footnotetext{
+http://cran.r-project.org/web/packages/pvar/index.html
+}
+
+The mathematical properties that where used in the
+algorithm are presented and proved in the next section of this article.
+In addition, all known properties that are relevant to this work
+are listed with the reference to original works. Namely, in large extent
+we use the properties presented in J.~Qian Ph.D. thesis \cite{Qian}\footnotemark.
+And in the Section~\ref{sec:pvarcalc} we will present the \emph{pvar}
+algorithm that calculates the $p$-variation of the sample.
+
+
+\footnotetext{
+The main result of J. Qian Ph.D. thesis are presented in article \cite{Qian1998}.
+}
+
+\section{Mathematical analysis}
+
+% terminu variacijos:
+%Turning points
+%lap - the monotonic interval
+%corner
+%local extrema
+%forward (backward) maximum (minimum) (extrema) 
 
 \begin{itemize}  
   \item $PP[a,b]$ --  the set of all point partitions of $[a,b]$
@@ -118,15 +209,8 @@
     (prop.~\ref{prop:K_f}).
   \item $X(f,[a,b])$ -- the set of PM partitions with minimal size
     (def.~\ref{def:X_f}).
-\end{itemize}   
+\end{itemize} 
 
-%Turning points
-%lap - the monotonic interval
-%corner
-%local extrema
-%forward (backward) maximum (minimum) (extrema) 
-
-\section{Mathematical analysis}
 
 \subsection{General known properties}
   
@@ -1012,6 +1096,7 @@ Vidinis Komentaras (VK): Dar neaisku kaip pakrikstyti skaidini, kuris pasiekia s
 
 
 \section{p-variation calculus}  
+\label{sec:pvarcalc}  
   
 In this chapter we will present the algorithm that calculates 
 $p$-variation for the sample (see Def.~\ref{def:pvarseq}). 
@@ -1063,14 +1148,15 @@ the values of the sample $X_j$ could be used directly.
 This is the way algorithm works --
 it actually operates the the values of the sample $X$,
 not involving $G_X(t)$ function. Nonetheless,
-then we will to properties of $p$-variation
+then we will refer to properties of $p$-variation
 we actually have in mind function $G_X(t)$, since all
 the properties of $p$-variation are formulated for functions.
 
 The members of the sample $X$ that are in supreme partition are
 called \emph{supreme points}. All the members
 that are not in supreme partition refereed as
-\emph{redundant}. Those points could be removed from original sample without any effect to 
+\emph{redundant} points. 
+Those points could be removed from original sample without any effect to 
 the value of $p$-variation.
 
 The main idea of the algorithm is to find the supreme
@@ -1107,7 +1193,7 @@ there are points $a=x_1<\dots<x_n=b$ for some finite $n$ such
 that $f$ is monotone on each interval 
 $[x_{j-1},x_j],\;j=1,2,\dots,n$.
 We can calculate $p$-variation if we have the sample $X$, 
-which contains the values of the function 1$f$ 
+which contains the values of the function $f$ 
 at the points $\{x_{i}\}_{i=0}^{n}$, namely,
 $X=\{X_{i}\}_{i=0}^{n}:=\{f(x_{i})\}_{i=0}^{n}$.
 It is straight forward to see that 
@@ -1120,7 +1206,7 @@ therefore, if $p \geq 1$, then $v_p(X)=v_p(G_X)=v_p(f)$.
 
 The procedure \emph{pvar} that calculates
 $p$-variation will be presented here. This procedure
-is already available in R package \emph{pavr}. Firstly,
+is already available in R package \emph{pvar}. Firstly,
 we will introduce the main schema, further, each step will
 be discussed in more details. 
 The main steps in \emph{pvar} procedure
@@ -1165,16 +1251,60 @@ Input: sample $X$, scalar $p$.
   
 \end{enumerate}
 
+
+
 The corresponding psiaudocode of the main function goes as follows
-\begin{lstlisting}
-pvar <- function(x, p){
-  partition <- Remove_Monotonic_Points(x) 
-  partition <- Test_Points_In_Small_Intervals(partition, p, LSI = 3) 
-  partition <- Merge_Small_Intervals(partition, p, LSI=3+1)
-  pvar <- sum(abs(diff(partition))^p)  
-  return(pvar)
-}
-\end{lstlisting}
+
+
+
+\begin{algorithm}[H]
+\caption{The main function of \emph{pvar} procedure that calculates $p$-variation of the sample.}\label{alg:pvarmain}
+\begin{algorithmic}[1]
+\Function{pvar}{sample $X$, scalar $p$}
+
+\Comment{update $X$ by removing monotonic points}
+\State $X \leftarrow sampleCorners(X)$;
+
+\Comment{update $X$ by checking all sub-intervals and removing redundant points.}
+\Comment{check sub-intervals up to the length of 3} 
+\State $LSI \leftarrow 3$ ;
+\State $X \leftarrow $ CheckSmallIntervals ($X$,  $p$, $LSI$);
+
+\Comment{update $X$ by merge all sub-intervals starting with the length of $LSI+1$}
+\State $X \leftarrow$ merging ($X$,  $p$, $LSI+1$);
+
+\Comment{calculate the $p$-variation:}
+\State value $\leftarrow \sum |X_{i-1}-X_i |^p $ ; 
+
+\State \textbf{return} value;
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+
+%\begin{algorithm}[H]
+%  \Input{array $X$ (the sample), constant $p$ (the $p$ value)}
+%  \Output{constant $\pval$ (the value of $p$-variation),\\
+%   modified array $X$ that contains only supreme points}
+%  \Begin{
+%    \tcc{Update $X$ by removing monotonic points form $X$:}
+%    $\ChangeIds \leftarrow$ \ChangePoints {$X$} \;
+%    $X \leftarrow X[ChangeIds]$ \;
+%    
+%    \tcc{Update $X$ by checking all sub-intervals with the length of $LSI=3$ and removing redundant points:}
+%    $LSI \leftarrow 3$ \;
+%    $X \leftarrow $ \CheckSmallIntervals{$X$,  $p$, $LSI$}\;
+%
+%    \tcc{update $X$ by merge all sub-intervals starting with the length of $LSI+1$: }
+%    $X \leftarrow $ \merging{$X$,  $p$, $LSI+1$}\;
+%
+%    \tcc{calculate the $p$-variation:}
+%    $\pval \leftarrow \sum |X_{i-1}-X_i |^p $ \;    
+%  }
+%  \caption{The main function of pvar procedure.}
+%\end{algorithm}
+
+
   
 \subsection{Detail explanation}
 \label{sec:DetailExplanation}
@@ -1192,28 +1322,73 @@ will be referred as \emph{corners}.
 In a single loop we can 
 find all the corners by checking if the sequence
 changed the direction form increasing to decreasing
-(or vice versa).
+(or vice versa). In addition, points $X[0]$ and $X[n]$
+always included in the array of corners by definition.
 The corresponding pseudo code looks as follows:
 
-\begin{lstlisting}
-INCLUDE x[0] to set of CORNERS 
-SET direction to 0 
-for(i = 1; i < n; ++i) {
-  if(x[i-1]<x[i]){
-    if(direction<0){
-      INCLUDE x[i-1] to set of CORNERS 
-    }     
-    SET direction to 1 
-  }
-  if(x[i-1]>x[i]){
-    if(direction>0){
-      INCLUDE x[i-1] to set of CORNERS 
-    }     
-    SET direction to -1 
-  }        
-}  
-INCLUDE x[n] to set of CORNERS 
-\end{lstlisting}
+
+\begin{algorithm}[H]
+\caption{The function \emph{SampleCorners} that
+returns the subset of $X$, which contains only the corners of $X$.}
+\label{alg:SampleCorners}
+\begin{algorithmic}[1]
+\Function{SampleCorners}{sample $X$}
+\Output sample $corners$ that is the subset of $X$, which contains only the corners
+
+\State $corners \leftarrow X_0$;
+\State $direction \leftarrow 0$;
+\State $n \leftarrow counter(X)$;
+\For{$i \leftarrow 1$ \textbf{ to } $n-1$}
+  \If {$X_{i-1} < X_{i}$}
+    \If {$direction < 0$}
+      \State $corners \leftarrow append(corners, X_{i-1})$;
+    \EndIf
+    \State $direction \leftarrow 1$ ;
+  \EndIf
+  \If {$X_{i-1} > X_{i}$}
+    \If {$direction > 0$}
+      \State $corners \leftarrow append(corners, X_{i-1})$;
+    \EndIf
+    \State $direction \leftarrow -1$ ;
+  \EndIf   
+\EndFor
+\State $corners \leftarrow append(corners, X_{n})$; 
+\State \textbf{return} corners;
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+
+%\begin{algorithm}[H]
+%  \SetKwData{corners}{corners}
+%  \SetKwData{direction}{direction}
+%  \SetKwFunction{append}{append}
+%  \SetKwInOut{Input}{input}\SetKwInOut{Output}{output}
+%
+%  \Input{sample $X$}
+%  \Output{sample $\corners$}
+%  \Begin{
+%    $\corners \leftarrow X[0]$ \;
+%    $\direction \leftarrow 0$ \;
+%    \For{$i \leftarrow 1$ \KwTo $n-1$}{
+%      \If{$X[i-1] < X[i]$}{
+%        \If{$\direction<0$}{
+%          $\corners \leftarrow \append(\corners, X[i-1])$
+%        }
+%        $\direction \leftarrow 1$ \;
+%      }    
+%      \If{$X[i-1] > X[i]$}{
+%        \If{$\direction>0$}{
+%          $\corners \leftarrow \append(\corners, X[i-1])$
+%        }
+%        $\direction \leftarrow -1$ \;
+%      }   
+%    }
+%    $\corners \leftarrow \append(\corners, X[n])$
+%  }
+%  \caption{Procedure ... \emph{ChanegePoints} ... }
+%\end{algorithm}
+
 
 This procedure is quite simple and
  can by performed very quickly, since it does not include
@@ -1324,25 +1499,65 @@ all sub-samples.
 We can continue this checking until $m$ 
 reaches an arbitrary threshold $M$.
 The  pseudo-code  of this procedure is given below
-\begin{lstlisting}
-INPUT: sample X, scalar p, scalar M
 
-SET dum_X to NULL
-SET m to 0
-WHILE dum_X is not equal to X AND m<M
-  SET dum_X	to X
-  SET m = 3
-  CHECK all sub-samples with length m 
-  UPDATE X by dropping all redundant points
-  WHILE dum_X is equal to X AND	m<M
-    SET m = m + 2
-    CHECK all sub-samples with length m
-    UPDATE X by dropping all redundant points
-  ENDWHILE  
-ENDWHILE
+\begin{algorithm}[H]
+\caption{Procedure \emph{CheckSmallIntevals}, which ensures 
+that any sequantal sub-sample of length $M$ is a supreme partition in corresponding sub-interval.}
+\label{alg:CheckSmallIntevals}
+\begin{algorithmic}[1]
+\Function{CheckSmallIntevals}{
+  sample $X$, 
+  constant $p$, 
+  constant $M$}
+\Require sample $X$ must contain only the corners (i.e. no monotonic points)
+\Output modified sample $X$ such that any sequential sub-sample of length $M$ is a supreme partition in corresponding sub-interval
+\item[]
+\State $tempX \leftarrow NULL$ ;
+\State $m \leftarrow 0$ ;
+\While{$tempX \neq X$ {\bf and } $m < M$}
+  \State $tempX \leftarrow X$ ;
+  \State $m \leftarrow 3$ ;
+  \State check all sub-samples of $X$ with length $m$ ;
+  \State update $X$ by dropping all redundant points ;  
+  \While{$tempX \neq X$ {\bf and } $m < M$}
+    \State $m \leftarrow m + 2$ ;
+    \State check all sub-samples of $X$ with length $m$ ;
+    \State update $X$ by dropping all redundant points ; 
+  \EndWhile
+\EndWhile
+\State \textbf{return} $X$;
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
 
-RETURN: X
-\end{lstlisting}
+
+
+%\begin{algorithm}[H]
+%  \SetKwData{tempX}{tempX}
+%  \SetKwData{NULL}{NULL}
+%  \SetKwInOut{Input}{input}\SetKwInOut{Output}{output}
+%
+%  \Input{sample $X$, constant $p$, constant $M$}
+%  \Output{modified sample $X$}
+%  \Begin{
+%    \nl$\tempX \leftarrow \NULL$ \;
+%    $m \leftarrow 0$ \;
+%    
+%    \While{$\tempX \neq X$ {\bf and} $m < M$}{
+%      $\tempX \leftarrow \tempX$ \;
+%      $m \leftarrow 3$ \;
+%      check all sub-samples of $X$ with length $m$ \;
+%      update $X$ by dropping all redundant points \;  
+%      \While{$\tempX \neq X$ {\bf and} $m < M$}{
+%        $m \leftarrow m + 2$ \;
+%        check all sub-samples of $X$ with length $m$ \;
+%        update $X$ by dropping all redundant points \;       
+%      }
+%    }    
+%  }
+%  \caption{Procedure ... check small intervals ... }
+%\end{algorithm}
+
 
 
 With this procedure, we can actually find 
@@ -1387,28 +1602,40 @@ This procedure has two stages that will be discussed separately.
 
 This paragraph will present how two intervals are merged .
 Suppose $\{X_{i}\}_{i=a}^{w}$  and $\{X_{i}\}_{i=w}^{b}$
-are a supreme partitions in intervals $[a,w]$ and $[w,b]$ correspondingly.  
+are a supreme partitions in intervals $[a,w]$ and $[w,b]$ correspondingly. 
+According to Proposition~\ref{prop:notinST},
+the supreme partition in interval $[a, b]$ must
+be a subset of 
+$\{X_{i}\}_{i=a}^{b} = \{X_{i}\}_{i=a}^{w} \cup \{X_{i}\}_{i=w}^{b}$.
+ 
 In order to find supreme partition in interval $[a,b]$
 we need to investigate all possible
-$f$-joints between points $X_t, t\in \{a,\dots,v-1\}$ and
-$X_r, r\in \{v,\dots,b\}$ and choose pair of points
+$f$-joints (Def.~\ref{def:fjoin}) between points $X_t, t\in \{a,\dots,w-1\}$ and
+$X_r, r\in \{w,\dots,b\}$ and choose pair of points
 $(t, r)$ which maximise $s_p$ function, namely  
 \begin{eqnarray}
-  (t, r) &:=& \argmax_{(i,j) \in [a, v-1] \times [v, b] } 
+  (t, r) &:=& \argmax_{(i,j) \in [a, w-1] \times [w, b] } 
     \left\{ \sum_{k=a+1}^i |X_{k-1} + X_{k}|^p + |X_i-X_j|^p 
     + \sum_{k=j+1}^b |X_{k-1} + X_{k}|^p \right\}, \nonumber \\
-  &=& \argmax_{(i,j) \in [a, v-1] \times [v, b] }  
+  &=& \argmax_{(i,j) \in [a, w-1] \times [w, b] }  
     \left\{|X_i-X_j|^p +  \sum_{k=a+1}^b |X_{k-1} + X_{k}|^p  
     - \sum_{l=i+1}^j |X_{l-1} + X_{l}|^p  \right\}, \nonumber \\
    \label{eq:tr_argmax}  
-   &=& \argmax_{(i,j) \in [a, v-1] \times [v, b] }  
+   &=& \argmax_{(i,j) \in [a, w-1] \times [w, b] }  
     \left\{|X_i-X_j|^p - \sum_{l=i+1}^j |X_{l-1} + X_{l}|^p  \right\},   
 \end{eqnarray}
 
+In the special case then $t=w-1$ and $r=w$, the value 
+of function in $\argmax$ is zero and the supreme
+partition is $\{X_{i}\}_{i=a}^{b}$. So, in this case we do not 
+need to do any modifications of the sample. 
+This case is taken as baseline and we consider 
+any modifications only then the value of function
+in $\argmax$ is greater then zero.
 
 In addition, the calculation of $(t, r)$ in (\ref{eq:tr_argmax})
 could be optimised, since we actually do not need to check
-all $(i,j) \in [a, v-1] \times [v, b]$. 
+all $(i,j) \in [a, v-1] \times [v+1, b]$. 
 Based on Lemma~\ref{lm:fjoin},
 points $X_t$ and $X_r$ could be $f$-joined only if 
 \begin{equation}
@@ -1418,17 +1645,19 @@ points $X_t$ and $X_r$ could be $f$-joined only if
    
 And the last statement holds only if 
 \begin{equation}\label{eq:setT}
-  X_t \in \left\{ \min ( X_i : i \in \{t, \dots, w-1\}),\;
-  \max ( X_i : i \in \{t, \dots, w-1\}) \right\}  
+  X_t =  \min ( X_i : i \in \{t, \dots, w\}) 
+    \text{ or } X_t =  \max ( X_i : i \in \{t, \dots, w\})
 \end{equation}
 and
 \begin{equation}\label{eq:setR}
-  X_r \in \left\{ \min ( X_i : i \in \{w, \dots, r\}),\;
-  \max (X_i : i \in \{w, \dots, r\}) \right\}.  
+  X_r =  \min ( X_i : i \in \{w, \dots, r\}) 
+    \text{ or } X_r = \max ( X_i : i \in \{w, \dots, r\}).
 \end{equation} 
 
+
 Let $T$ denotes a set of $i \in \{a,\dots ,w-1\}$ which satisfy 
-(\ref{eq:setT}) and $R$ denotes a set of $j \in \{w,\dots ,b\}$ which satisfy (\ref{eq:setR}).
+(\ref{eq:setT}) and $R$ denotes a set of 
+$j \in \{w+1,\dots ,b\}$ which satisfy (\ref{eq:setR}).
 Then (\ref{eq:tr_argmax}) 
 could be expressed as
 \begin{equation}
@@ -1441,49 +1670,157 @@ Since points $X_t$ and $X_r$ are $f$-joint, all the
 points in interval $t+1,\dots, r-1$ are redundant
 and should be removed. And the remaining points are supreme partition.
 
-\begin{lstlisting}
+
+\begin{algorithm}[H]
+\caption{Procedure \emph{MergeTwoInt}, which merges two
+intervals represented by their supreme samples. }
+\label{alg:MergeTwoInt}
+\begin{algorithmic}[1]
+\Function{MergeTwoInt}{
+  sample $A$, 
+  sample $B$, 
+  scalar $p$}
+\Require samples $A$ and $B$ must be supreme partitions in
+intervals $[a,c]$ and $[c,b]$ correspondingly.
+\Output sample $X$, which is the supreme partition of interval $[a,b]$
+\item[]
+
+\State $X \leftarrow A \cup  B$ ;   
+\State $a \leftarrow 0$ ;     
+\State $b \leftarrow counter(X)$ ;
+\State $w \leftarrow counter(A)$ ;
+\item[]
+\item[] \Comment Find the T list:
+\State initiate $T$ as empty list ;
+\State $cummax \leftarrow cummin \leftarrow X_w$ ;
+\For{$i \leftarrow w-1$ \textbf{ to } $a$}
+  \If{$X_i > cummax$}
+    \State $cummax \leftarrow X_i$ ;
+    \State $T \leftarrow append(T, i)$
+  \EndIf
+  \If{$X_i < cummin$}
+    \State $cummin \leftarrow X_i$ ;
+	\State $T \leftarrow append(T, i)$ ;
+  \EndIf   
+\EndFor
+\item[]
+\item[] \Comment Find the R list:
+\State initiate $R$ as empty list ;
+\State $cummax \leftarrow cummin \leftarrow X_w$ ;
+\For{$i \leftarrow w+1$ \textbf{ to } $b$}
+  \If{$X_i > cummax$}
+    \State $cummax \leftarrow X_i$ ;
+    \State $R \leftarrow append(R, i)$
+  \EndIf
+  \If{$X_i < cummin$}
+    \State $cummin \leftarrow X_i$ ;
+	\State $R \leftarrow append(R, i)$ ;
+  \EndIf   
+\EndFor
+\algstore{myalg}
+\end{algorithmic}
+\end{algorithm}
 
 
-INITIALISE list T to w-1;
-max_i = min_i = X_w
-FOR i = w-2 TO a{
-  if (X_i is greater then max_i){
-    max_i = X_i
-    include i in T  
-  }
-  if (X_i is less then min_i){
-    max_i = X_i
-    include i in T  
-  }
-}
+\begin{algorithm}[H]                     
+\begin{algorithmic} [1]                
+\algrestore{myalg}
 
-INITIALISE list R to w;
-max_i = min_i = X_w
-FOR i = w-2 TO a{
-  if (X_i is greater then max_i){
-    max_i = X_i
-    include i in R  
-  }
-  if (X_i is less then min_i){
-    max_i = X_i
-    include i in R  
-  }
-}
+\item[] \Comment Check all pairs in T x R:
+\State $maxbalance \leftarrow 0$ ; 
+\For{$r \in R$}
+  \For{$t \in T$}
+    \State $balance \leftarrow |x_t - X_r|^p - \sum_{i=t+1}^r |X_{i-1}-X_i|^p$ ;
+      \If{$balance > maxbalance$}
+      	\State $maxR \leftarrow r$ ;
+        \State $maxT \leftarrow t$ ;
+        \State $maxbalance \leftarrow balance$ ;
+      \EndIf
+  \EndFor      
+\EndFor
+\If{$maxbalance > 0$}
+  \State remove points $t+1, \dots, r-1$ from sample $X$ ;
+\EndIf
 
-maxbalance = -1
-FOR (r in R){
-  FOR (t in T){
-    balance = |x_t - X_r|^p - sum(abs(diff(X[t:r]))^p)
-    if(balance>maxbalance){
-      maxr = r
-      maxt = t
-    }
-  }
-}
 
-Remove all points in (maxt, maxr)
+\State \textbf{return} $X$;
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
 
-\end{lstlisting}
+
+%\begin{algorithm}[H]
+%  \SetKwData{cummax}{cummax}
+%  \SetKwData{cummin}{cummin}
+%  \SetKwData{maxR}{maxR}
+%  \SetKwData{maxT}{maxT}
+%  \SetKwData{maxbalance}{maxbalance}
+%  \SetKwData{balance}{balance}
+%  \SetKwFunction{counter}{counter}
+%  \SetKwFunction{append}{append}
+%  \SetKwInOut{Input}{input}\SetKwInOut{Output}{output}
+%
+%  \Input{sample $A$, which is the supreme partition of interval $[a,c]$;\\
+%    sample $B$, which is the supreme partition of interval $[c,b]$ }
+%  \Output{sample $X$, which is the supreme partition of interval $[a,b]$}
+%  \BlankLine  
+%  \Begin{
+%    $X \leftarrow A \cup  B$ \;   
+%    
+%    $a \leftarrow 0$ \;
+%    $b \leftarrow \counter(X)$ \;
+%    $w \leftarrow \counter(A)$ \;
+%      
+%
+%    \tcc{Find the T list:}
+%    initiate $T$ as empty list \;
+%    $\cummax \leftarrow \cummin \leftarrow X_w$ \;
+%    \For{$i \leftarrow w-1$ \KwTo $a$}{
+%      \If{$X_i > \cummax$}{
+%         $\cummax = X_i$ \;
+%         $T \leftarrow \append(T, i)$ \;
+%      }
+%      \If{$X_i < \cummin$}{
+%         $\cummin = X_i$ \;
+%         $T \leftarrow \append(T, i)$ \;
+%      }
+%    }
+%
+%	\tcc{Find the R list:}
+%    initiate $R$ as empty list \;
+%    $\cummax \leftarrow \cummin \leftarrow X_w$ \;
+%    \For{$i \leftarrow w+1$ \KwTo $b$}{
+%      \If{$X_i > \cummax$}{
+%         $\cummax = X_i$ \;
+%         $R \leftarrow \append(R, i)$ \;
+%      }
+%      \If{$X_i < \cummin$}{
+%         $\cummin = X_i$ \;
+%         $R \leftarrow \append(R, i)$ \;
+%      }
+%    }  
+%    
+%    \tcc{Check all pairs in T x R:}
+%    $\maxbalance \leftarrow 0$ \; 
+%    \For{$r \in R$}{
+%      \For{$t \in T$}{
+%        $\balance = |x_t - X_r|^p - \sum_{i=t+1}^r |X_{i-1}-X_i|^p$\;
+%        \If{$\balance > \maxbalance$}{
+%      	  $\maxR = r$\;
+%          $\maxT = t$\;
+%          $\maxbalance = \balance$ \;
+%        }        
+%      }
+%    }  
+%      
+%    \If{$\maxbalance >0$}{
+%      remove points $t+1, \dots, r-1$ from sample $X$.
+%    }
+%    
+%    
+%  }
+%  \caption{Procedure \emph{MergePair}, which merges a pair of samples that represents supreme partitions of  sequential samples. }
+%\end{algorithm}
 
 
 \paragraph{Merging all small intervals.}
@@ -1492,23 +1829,74 @@ merging intervals pair by pair until the supreme partition of the whole sample i
 
 The pseudo code is given below and its illustration is given in Figure~\ref{fig:Merging2}.
 
+\begin{algorithm}[H]
+\caption{Procedure \emph{MergeAll}, which merges all
+sub-intervals of the length $M$ into final supreme sample}
+\label{alg:MergeAll}
+\begin{algorithmic}[1]
+\Function{MergeAll}{
+  sample $X$, 
+  scalar $p$, 
+  scalar $M$}
+\Require sample $X$... of $M$ ...
+\Output sample $S$ that corresponds to supreme portion.
+\item[]
+\item[]
+\Comment Get array $prt = \{prt_i\}_{i=1}^n$ of supreme sub-intervals
+\For{$i \leftarrow 1$ \textbf{ to } $\lc counter(X)/M \rc$}
+  \State $prt_i \leftarrow 
+    \left\{ X_j \right\}_{j=M(i-1)}^{\min(Mi, counter(X))}$ ;
+\EndFor
+\item[]
+\item[] \Comment Apply pair merging to elements of $prt$ until all intervals are merged
 
+\While{$counter(prt)>1$}
+\State $i \leftarrow 1$ ;
+  \While{$i < counter(prt)$}
+    \State $prt_i \leftarrow mergeTwoInt(prt_i, prt_{i+1}) $ ;
+    \State $i \leftarrow i+2$ ;  
+  \EndWhile
+  delete all elements form $prt$ that have even index ;
+\EndWhile
+\State $S \leftarrow prt_1 $ ;
 
-\begin{lstlisting}
-INPUT: a set of partitions of intervals int_prt
+\State \textbf{return} $S$;
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
 
-WHILE the cont of int_prt is greater then 1
-  SET i to 1  
-  WHILE i is less then count of int_prt
-    SET int_prt[i] = merge(int_prt[i], int_prt[i+1])
-    i+2;
-  ENDWHILE
-  DELETE all elements form int_prt that have even index
-ENDWHILE
-
-RETURN: int_prt[1]
-\end{lstlisting}
-
+%\begin{algorithm}[H]
+%  \SetKwData{prt}{prt}
+%  \SetKwFunction{counter}{counter}
+%  \SetKwFunction{mergeTwoInt}{mergeTwoInt}
+%  \SetKwInOut{Input}{input}\SetKwInOut{Output}{output}
+%
+%  \Input{sample $X$, which all sub-interval are supreme partitions;\\
+%    constant $M$, the length of sub-intervals
+%  }
+%  \Output{sample $S$ which is a supreme partition in $[a, b]$}
+%  \Begin{
+%  
+%    \tcc{Get array $\prt = \{prt_i\}_{i=1}^n$ of supreme partitions}
+%    \For{$i \leftarrow 1$ \KwTo $\lc counter(X)/M \rc$}{
+%      $\prt_i \leftarrow 
+%        \left\{ X_j \right\}_{j=M(i-1)}^{\min(Mi, counter(X))}$ \;
+%    }
+%  
+%  
+%    \tcc{Apply pair merging to elements of $\prt$ until all intervals are merged}   
+%    \While{$\counter(\prt)>1$}{
+%      $i \leftarrow 1$ \;
+%      \While{$i < \counter(\prt)$}{
+%        $\prt_i \leftarrow \mergeTwoInt(\prt_i, \prt_{i+1}) $ \;
+%        $i \leftarrow i+2$ \;  
+%      }
+%      delete all elements form $\prt$ that have even index\;
+%    }   
+%    $S \leftarrow \prt_1 $ \; 
+%  }
+%  \caption{Procedure ... check small intervals ... }
+%\end{algorithm}
 
   
   
@@ -1561,16 +1949,89 @@ RETURN: int_prt[1]
   
 \section{Conclusion}  
   
-IN this chapter we presented the ...  
-  
+In this article we presented the algorithm that calculates
+$p$-variations of the sample. 
+This algorithm is based on mathematical properties that 
+were formulated and proved in the article.
+ 
   
   
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{thebibliography}{99}  
-  \bibitem{Qian} J. Qian. The $p$-variation of Partial Sum Processes
-  and the Empirical Process // Ph.D. thesis, Tufts University, 1997.
+
+% Black–Scholes–Merton akcijų kainų modelis
+\bibitem{Econ1997}
+J.~Y.~Campbell, A.~W. Lo, A. Craig Mac Kinlay. The
+Econometrics of Financial Markets, Princeton University Press, 
+ISBN~0-691-04301-9, 1997.
+
+% rimta santrauka 1
+\bibitem{DudleyNorvaisa1998} 
+R. M. Dudley, R. Norvai\v{s}a. An Introduction to
+$p$-variation and Young Integrals, Cambridge, Mass., 1998.
+
+% rimta santrauka 2
+\bibitem{DudleyNorvaisa1999} 
+R. M. Dudley, R. Norvai\v{s}a. Differentiability of 
+Six Operators on Nonsmooth Functions and $p$-variation, 
+Springer Berlin Heidelberg, 
+Print ISBN 978-3-540-65975-4, Lecture Notes in Mathematics Vol.~1703, 1999.
+
+% wienerio procesas
+% \bibitem{Durrett2000} 
+% Durrett, R. Probability: theory and examples,4th edition. 
+% Cambridge University % Press, ISBN 0-521-76539-0, 2000.
+
+% ispletoti p-variacijos tyrimai
+\bibitem{Young1936} 
+L.~C.~Young. An inequality of the Hölder type, 
+connected with Stieltjes integration
+// Acta Mathematica, 67, 251-282, 1936.
+
+% wienerio procesas
+\bibitem{Karatsas1997} 
+Karatsas, I. and Shreve, S. Brownian Motion and Stochastic Calculus, 2nd ed. New York: Springer-Verlag, 1997. 
+
+%  Norvaišios p-varioan apzvalga  
+\bibitem{Norvaisa2005} 
+R. Norvaiša. Rough functions: $p$-variation, calculus, and index estimation. Lithuanian Mathematical Journal, 46(1):102-128, 2005.
   
-   \bibitem{R} R
+% konvergavimas in p-variation norm  
+\bibitem{NorvaisaRackauskas2008}
+R. Norvaiša, A. Račkauskas. Convergence in law of partial sum processes in p-variation norm // Lth. Math. J., Vol. 48, No. 2, 212–227, 2008.
+  
+% p-variacijos indekso vertinimas
+\bibitem{NorvaisaSalopek} 
+R. Norvaisa, D. M. Salopek.
+Estimating the $p$-variation index of a sample function: 
+An application to financial data set //
+Methodology And Computing In Applied Probability 
+Vol.~4, Issue~1 , 27-53, 2002.   
+
+% Qian, PHD thesis. Daug pradiniu irodymu
+\bibitem{Qian}
+J. Qian. The $p$-variation of partial sum processes and the empirical process // Ph.D. thesis, Tufts University, 1997.
+  
+% Qian, pagrindiniu rezultatu straipsnis
+\bibitem{Qian1998}
+J. Qian. The p-variation of partial sum processes and the empirical process // Ann. Probab. Volume 26, Number 3 (1998), 1370-1383.  
+  
+% R programos citavimas
+\bibitem{R}
+R Core Team (2014). R: A language and environment for
+statistical computing. R Foundation for Statistical
+Computing, Vienna, Austria. URL http://www.R-project.org/.
+  
+% pirma karta apibrezta p-variacija
+\bibitem{Wiener1924} 
+N.\ Wiener. The Quadratic Variation of a Function and 
+Its Fourier Coefficients // 
+Journ.\ Math.\ and Phys., MIT, 3, 73-94, 1924.
+
+  
+  
+  
+  
   
 \end{thebibliography}
 
