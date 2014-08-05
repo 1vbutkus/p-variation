@@ -12,8 +12,8 @@
 \usepackage{enumerate}
 
 % grafo braizymui
-\usepackage{tikz}
-\usetikzlibrary{shapes,arrows}
+%\usepackage{tikz}
+%\usetikzlibrary{shapes,arrows}
 
 
 
@@ -34,9 +34,12 @@
 % psiaudokodas rasymui
 \usepackage{algorithm}
 \usepackage{algpseudocode}
-\algrenewcommand{\algorithmiccomment}[1]{\hskip2em// #1}
+\algrenewcommand{\algorithmiccomment}[1]{\hskip1em// #1}
 \algnewcommand\algorithmicoutput{\textbf{Output:}}
 \algnewcommand\Output{\item[\algorithmicoutput]}
+\algnewcommand\algorithmicinput{\textbf{Input:}}
+\algnewcommand\Input{\item[\algorithmicinput]}
+
 
 % Trumpiniu apibrezimai 
 \DeclareMathOperator*{\argmax}{arg\,max} 
@@ -70,26 +73,15 @@
 
 
 \begin{document}
-  \maketitle
-
-\begin{algorithm}
-\caption{Euclid’s algorithm}\label{euclid}
-\begin{algorithmic}[1]
-\Procedure{Euclid}{$a,b$}\Comment{The g.c.d. of a and b}
-\State $r\gets a\bmod b$
-\While{$r\not=0$}\Comment{We have the answer if r is 0}
-\State $a\gets b$
-\State $b\gets r$
-\State $r\gets a\bmod b$
-\EndWhile\label{euclidendwhile}
-\State \textbf{return} $b$\Comment{The gcd is b}
-\EndProcedure
-\end{algorithmic}
-\end{algorithm}
+\maketitle
 
 \begin{abstract}
-Your abstract goes here...
-...
+The algorithm that calculates $p$-variation of
+the finite sample is presented in the article. 
+This algorithm could be used to calculated
+the $p$-variation of any piecewise monotone functions.
+All the properties that were used in the article 
+are formulated and proved.
 \end{abstract}
 
 
@@ -126,7 +118,7 @@ The class of rough functions appears to be quite an important one.
 Probably the best know example of rough function is 
 a trajectory of Wiener process. 
 The Wiener is a well known process (see \cite{Karatsas1997}) 
-are used in statistics, physics and economic (\cite{Econ1997}).
+used in statistics, physics and economic (\cite{Econ1997}).
 It is worth noting, that rough functions can not be investigated 
 with regular tools of calculus as derivative or Lebesgue–Stieltjes integral.
 The $p$-variation plays an important role in the filed of
@@ -191,6 +183,21 @@ The main result of J. Qian Ph.D. thesis are presented in article \cite{Qian1998}
 %local extrema
 %forward (backward) maximum (minimum) (extrema) 
 
+
+The main purpose of this sections is to 
+ground all the properties of $p$-variations 
+that were used in the calculation of $p$-variation.
+In this
+article, the Theorem~\ref{th:notinST} is considered to
+be the most important mathematical result,
+which is quite general and possible could be used
+in many applications. 
+The other properties are specificity formulated 
+to be used in algorithm, nevertheless, 
+someone could find them to be useful as well.
+
+
+\subsubsection*{Important notations}
 \begin{itemize}  
   \item $PP[a,b]$ --  the set of all point partitions of $[a,b]$
     (def.~\ref{def:pp}).
@@ -250,10 +257,7 @@ The main result of J. Qian Ph.D. thesis are presented in article \cite{Qian1998}
   $SP_{p}(f,[a,b])$.
   
 \end{definition}  
- 
-Vidinis Komentaras (VK): Dar neaisku kaip pakrikstyti skaidini, kuris pasiekia supremuma. 
- 
- 
+
  
 %%% THe properties of $p$-variation %%% 
 % Status:OK 
@@ -392,15 +396,18 @@ Vidinis Komentaras (VK): Dar neaisku kaip pakrikstyti skaidini, kuris pasiekia s
 %%% Sample function (definition) %%%
 % Status:OK 
 \begin{definition}[Sample function]\label{def:Seq2Fun}
-  Suppose $X=\{X_{i}\}_{i=0}^{n}$ is any sequence real numbers. 
+  Suppose $X=\{X_{i}\}_{i=0}^{n}$ is 
+  any sequence real numbers. 
   We will call such sequence a \emph{sample}, 
-  whereas $n$ will be referred to as a \emph{sample size}.
+  whereas $n$ will be referred to as a 
+  \emph{sample size}.
   Then the \emph{sample function}  
   $G_X:[0,n] \rightarrow \mathbb{R}$ is defined as 
   \begin{eqnarray}
     G_X(t) := X_{\lfloor t \rfloor},\;t\in[0,n],
   \end{eqnarray}
-  where $\lfloor t \rfloor$ denotes floor function at point $t$. 
+  where $\lfloor t \rfloor$ denotes floor 
+  function at point $t$. 
 \end{definition} 
 
 %%% $p$-variation of the sequence (definition) %%%
@@ -753,12 +760,12 @@ Vidinis Komentaras (VK): Dar neaisku kaip pakrikstyti skaidini, kuris pasiekia s
 
 
 %%% VIP: if pont is insignificant, then it will remain insignificant %%%
-\begin{proposition}\label{prop:notinST} 
+\begin{theorem}\label{th:notinST} 
   Suppose $f:[a,b] \rightarrow \mathbb{R}$ is PM and
   $x \in [a', b'] \subset [a,b]$.    
   If $x \notin \overline{SP}_p(f, [a', b'])$, then 
   $x \notin \overline{SP}_p(f, [a, b])$. 
-\end{proposition}
+\end{theorem}
 
 \begin{proof}
   Let $f:[a,b] \rightarrow \mathbb{R}$ be PM,
@@ -829,7 +836,7 @@ Vidinis Komentaras (VK): Dar neaisku kaip pakrikstyti skaidini, kuris pasiekia s
       + s_p(f,\{t_i\}_{i=k}^l) + v_p(f,\kappa_l).
   \end{equation*}  
   This means, that 
-  \begin{equation*}\label{eq:notinST_p8}
+  \begin{equation*}\label{eq:notinST_p9}
     \kappa_k \cup \{t_i\}_{i=k}^l \cup \kappa_l 
       \in SP_p(f, [y_{j-1}, y_j].
   \end{equation*} 
@@ -839,25 +846,25 @@ Vidinis Komentaras (VK): Dar neaisku kaip pakrikstyti skaidini, kuris pasiekia s
   This contradicts (\ref{eq:notinST_p2}),
   thus, equality (\ref{eq:notinST_p7}) is not valid.
   As a result, inequality (\ref{eq:notinST_p6}) becomes
-  \begin{equation}\label{eq:notinST_p9}
+  \begin{equation}\label{eq:notinST_p10}
     v_p(f,[y_{j-1},y_j]) > v_p(f,[y_{j-1},t_{k}]) 
       + v_p(f,[t_{k},t_{l}]) + v_p(f,[t_{l},y_j]).
   \end{equation}    
   
   Since points $y_{j-1}$ and $y_j$ are $f$-joined,
   from the Lemma~\ref{lm:fjoin}(\ref{lm:fjoin_a}) we get
-  \begin{equation*}\label{eq:notinST_p10}
+  \begin{equation*}\label{eq:notinST_p11}
     v_p(f,[y_{j-1},y_j]) = |f(y_{j-1})-f(y_j)|^p,
   \end{equation*}   
   therefore,
-  \begin{equation*}\label{eq:notinST_p11}
+  \begin{equation*}\label{eq:notinST_p12}
     |f(y_{j-1})-f(y_j)|^p > v_p(f,[y_{j-1},t_{k}]) 
       + v_p(f,[t_{k},t_{l}]) + v_p(f,[t_{l},y_j]). 
   \end{equation*}        
   Moreover, according to 
   Lemma~\ref{lm:element_properties}(\ref{lm:ep_g}), 
   from the last statement follows
-  \begin{equation} \label{eq:notinST_p12}
+  \begin{equation} \label{eq:notinST_p13}
     |f(y_{j-1})-f(y_j)|^p > |f(y_{j-1})-f(t_{k})|^p +
        v_p(f,[t_k,t_l]) +  |f(t_{l})-f(y_j)|^p.   
   \end{equation}  
@@ -868,30 +875,30 @@ Vidinis Komentaras (VK): Dar neaisku kaip pakrikstyti skaidini, kuris pasiekia s
   Hence, from the Lemma~\ref{lm:fjoin}(\ref{lm:fjoin_b}) 
   we get that
   \begin{eqnarray}
-    f(y_{j-1}) \geq f(t_{l}) \geq f(y_j), \label{eq:notinST_13}  \\
-    f(y_{j-1}) \geq f(t_{k}) \geq f(y_j). \label{eq:notinST_14}
+    f(y_{j-1}) \geq f(t_{l}) \geq f(y_j), \label{eq:notinST_14}  \\
+    f(y_{j-1}) \geq f(t_{k}) \geq f(y_j). \label{eq:notinST_15}
   \end{eqnarray}  
 
   In addition, the pairs of points $\{t_l,t_{l+1}\}$ 
   and $\{t_{k-1},t_{k}\}$ are also $f$-joined, therefore,
   by the Lemma~\ref{lm:fjoin}(\ref{lm:fjoin_b})
-  inequalities (\ref{eq:notinST_13}) and (\ref{eq:notinST_14})
+  inequalities (\ref{eq:notinST_14}) and (\ref{eq:notinST_15})
   could be extended as
   \begin{eqnarray}
-    \label{eq:notinST_15} 
+    \label{eq:notinST_16} 
     f(y_{j-1}) \geq f(t_{l}) \geq f(y_j) \geq f(t_{l+1}),  \\
-    \label{eq:notinST_16}
+    \label{eq:notinST_17}
     f(t_{k-1}) \geq f(y_{j-1}) \geq f(t_{k}) \geq f(y_j). 
   \end{eqnarray}         
     
   
-  From the (\ref{eq:notinST_15}) the following inequalities holds
+  From the (\ref{eq:notinST_16}) the following inequalities holds
   \begin{eqnarray*}
     f(y_{j-1})-f(t_l) &\geq& 0, \\
     f(t_{l})-f(t_{l+1}) \geq f(t_l)-f(y_j) & \geq & 0.
   \end{eqnarray*} 
   Therefore, we can use Corollary~\ref{cor:convex}. According to it,
-  from the inequality (\ref{eq:notinST_p12}) follows  
+  from the inequality (\ref{eq:notinST_p13}) follows  
   \begin{eqnarray*}
     |f(y_{j-1})-f(t_l)+f(t_l)-f(y_j)|^p &>& |f(y_{j-1})-f(t_{k})|^p +
        v_p(f,[t_k,t_l]) +  |f(t_{l})-f(y_j)|^p, \\  
@@ -903,7 +910,7 @@ Vidinis Komentaras (VK): Dar neaisku kaip pakrikstyti skaidini, kuris pasiekia s
   The last inequality holds,
   because points $t_{l}$ and $t_{l+1}$ are $f$-joined,
   thus, according to Lemma~\ref{lm:fjoin}(\ref{lm:fjoin_a}),
-  \begin{equation*}\label{eq:notinST_17}
+  \begin{equation*}\label{eq:notinST_18}
     v_p(f,[t_l,t_{l+1}]) = |f(t_{l})-f(t_{l+1})|^p.
   \end{equation*}   
 
@@ -911,11 +918,11 @@ Vidinis Komentaras (VK): Dar neaisku kaip pakrikstyti skaidini, kuris pasiekia s
   
   Symmetric argument could be used in other direction. 
   Firstly lets modify last inequality
-  \begin{equation*}\label{eq:notinST_18}
+  \begin{equation*}\label{eq:notinST_19}
     |f(y_{j-1})-f(t_k)+f(t_k)-f(t_{l+1})|^p > |f((y_{j-1})-f(t_{k})|^p 
       + v_p(f,[t_k,t_l]) +  v_p(f,[t_l,t_{l+1}]). 
   \end{equation*}   
-  From the (\ref{eq:notinST_16}) we get that
+  From the (\ref{eq:notinST_17}) we get that
    the following inequalities holds
   \begin{eqnarray*}
     f(t_k)-f(t_{l+1}) & \geq & 0, \\
@@ -1121,7 +1128,8 @@ Subsection~\ref{sec:DetailExplanation}.
 
 Suppose $X=\{X_{i}\}_{i=0}^{n}$ is any real-value sequence of numbers. 
 We will call such sequence a \emph{sample}, 
-whereas $n$ will be referred to as a \emph{sample size}.
+whereas $n$ will be referred to as a \emph{sample size}
+and refer as $|X|$.
 The formal definition of $p$-variation 
 of the sample is given in Definition~\ref{def:pvarseq}, 
 which states that
@@ -1154,35 +1162,53 @@ the properties of $p$-variation are formulated for functions.
 
 The members of the sample $X$ that are in supreme partition are
 called \emph{supreme points}. All the members
-that are not in supreme partition refereed as
-\emph{redundant} points. 
-Those points could be removed from original sample without any effect to 
+that are not in supreme partition are refereed as
+\emph{redundant} points -- 
+those points could be removed from original sample without any effect to 
 the value of $p$-variation.
 
-The main idea of the algorithm is to find the supreme
-partition, by identifying and dropping all the redundant
-points, i.e. the points that are not in supreme partition.
-For this purpose, the most important property is
-stated in the Proposition~\ref{prop:notinST},
-which allows us to investigate possible 
-partition by analysing not the whole sample, but
-smaller sub-samples of $X$. From the
-Proposition~\ref{prop:notinST} follows, that 
+The main idea of the algorithm is 
+to identify redundant points in sample $X$ using known properties of
+$p$-variation. As soon as point was identified being redundant, it could be 
+doped out from further consideration. 
+The set of points under the consideration 
+will be denoted by (sub) sample $S$.
+During the procedure this set is modified until it contains only the 
+supreme points. 
+The sample $S$ might be refer as a partition of $X$, 
+since it indicates a subset of $X$.
+
+
+In the initial stage we consider any point being a supreme point, 
+so, in the very begging $S=X$. In further stages
+some points might be doped from $S$.
+For this purpose, 
+the most important property that grounds
+the algorithm is
+stated in the Theorem~\ref{th:notinST}.
+It allows to consider points in $S$ by analysing
+not the whole sample, but much
+smaller sub-samples. From the
+Theorem~\ref{th:notinST} follows, that 
 if a point was identify as being redundant in any
 small interval, then the point is redundant in
-any larger interval. 
+any larger interval as well. 
+This property is used in several ways that will be revealed in 
+further sections.
 
-Suppose $j \in \{0, 1, \dots, n\}$ and
-$j \notin SP_p(G_X, [0, n])$. This means that
-$j$ is not in supreme partition. Therefore, 
-sample member $X_j$ is redundant and should be excluded from further consideration.
-Removing $X_j$ means that we 
-updating sample $X$ with new sample $X'$ which do not have
-$X_j$ element, namely,  
-$$
-\{X'_{i}\}_{i=0}^{n-1}:=\{X_0,\dots,X_{j-1},X_{j+1},\dots,X_n\}.
-$$
-And in further analysis we investigate the sample $X'$. 
+
+%Suppose we initialise $S \leftarrow X$ and we find out 
+%that $j \notin SP_p(G_X, [0, n]),\;j \in \{0, 1, \dots, n\}$. 
+%This means that
+%$j$ is not in supreme partition. 
+%Therefore, sample member $X_j$ is redundant 
+%and should be excluded from further consideration.
+%Removing $X_j$ means that we 
+%updating sample $S$ by excluding $X_j$ element, namely, $S$ becomes 
+%$$
+%S \leftarrow \{X_0,\dots,X_{j-1},X_{j+1},\dots,X_n\}.
+%$$
+
 
 It is worth noting, 
 that the procedure \emph{pvar} could be used to calculate
@@ -1205,8 +1231,7 @@ therefore, if $p \geq 1$, then $v_p(X)=v_p(G_X)=v_p(f)$.
 \label{sub:MainFunction}
 
 The procedure \emph{pvar} that calculates
-$p$-variation will be presented here. This procedure
-is already available in R package \emph{pvar}. Firstly,
+$p$-variation will be presented here. Firstly,
 we will introduce the main schema, further, each step will
 be discussed in more details. 
 The main steps in \emph{pvar} procedure
@@ -1217,64 +1242,105 @@ goes as follows.
 Input: sample $X$, scalar $p$.
 
 \begin{enumerate}
+  
+  \item \emph{Initialisation and checking}. We 
+  consider any point being a supreme point, 
+  so, $S \leftarrow X$. 
+  In normal case we proceed to next step, 
+  but in special case there might
+  be some exceptions. For example, 
+  if $|X|=0$, then $X$ has only 1 point.
+  In this case $p$-variation is equal to 0 by 
+  Definition~\ref{def:pvar},so, 
+  further procedures are meaningless.
+  Moreover, if $0 < p < 1$ then all the points must
+  be included in supreme partitions.
+  In further steps we will assume
+  that $|X|>0$ and $p>1$.
+  
   \item \emph{Removing monotonic points}. According to 
   Proposition~\ref{prop:sup_in_PM}
   all points that are not the end of 
   monotonic interval could be excluded 
   from further consideration. 
   
-  \item \emph{Checking all small intervals}. Every small intervals are
-    checked if it is possible to 
-    identify insignificant points. 
-    This operation is based on 
-    Proposition~\ref{prop:notinST} which states that 
-    If $x \notin \overline{SP}_p(f, [a', b'])$, then 
-    $x \notin \overline{SP}_p(f, [a, b])$.
-    So, if $X_j$ appears to be insignificant in
-    any small sub-sample, then
-    we do not need to consider possibility for
-    $X_j$ to be in supreme sample any more. 
-    More details are given in section~\ref{sec:CheckSmallIntervals}.  
+  \item \emph{Checking all small sub-samples}. 
+  Every small sub-samples (with the predefined size) 
+  are checked if it is possible to 
+  identify redundant points. 
+  This operation is based on 
+  Theorem~\ref{th:notinST} which states that 
+  if $x \notin \overline{SP}_p(f, [a', b'])$, then 
+  $x \notin \overline{SP}_p(f, [a, b])$, where 
+  $[a', b'] \subset [a,b]$.
+  So, if $X_j$ appears to be redundant in
+  any small sub-sample, then
+  we do not need to consider possibility for
+  $X_j$ to be in supreme sample any more. 
+  More details are given in
+  section~\ref{sec:CheckSubSamples}.  
  
-  \item \emph{Merging small intervals}.  
-   Let $\kappa_{a,c} \in SP_p(G_X, [a,c])$ and
-   $\kappa_{c,b} \in SP_p(G_X, [c, b])$. By using $\kappa_{a,c}$
-   ans $\kappa_{c,b}$, we can effectively
-   find $\kappa_{a,b} \in SP_p(G_X, [a, b])$, since
-   $\kappa_{a,b} \subset \kappa_{a,c} \cup \kappa_{c,b}$. 
-   Finding
-   $\kappa_{a,b}$ from $\kappa_{a,c}$ and $\kappa_{c,b}$ 
-   is called \emph{merging}.
-   In this step we repeat merging of all small intervals until
-   we get the finial supreme partition.
-   The whole procedure is described in section~\ref{sec:meging}.  
+  \item \emph{Merging small sub-samples}.  
+  Let $\kappa_{a,c} \in SP_p(G_X, [a,c])$ and
+  $\kappa_{c,b} \in SP_p(G_X, [c, b])$. 
+  By using $\kappa_{a,c}$
+  ans $\kappa_{c,b}$, we can effectively
+  find $\kappa_{a,b} \in SP_p(G_X, [a, b])$, since
+  $\kappa_{a,b} \subset \kappa_{a,c} \cup \kappa_{c,b}$. 
+  Finding
+  $\kappa_{a,b}$ from $\kappa_{a,c}$ and $\kappa_{c,b}$ 
+  is called \emph{merging}.
+  In this step we repeat merging of all
+  small intervals until
+  we get the finial supreme partition.
+  The whole procedure is described in
+  section~\ref{sec:meging}.  
+  
+  \item \emph{Calculating the value of $p$-variation}.  
+  If the supreme partition is obtain, then
+  the value of $p$-variaion is caluculated using 
+  $p$-varion sum
+  $$
+  v_p = \sum_{i=1}^{|S|} |S_{i-1}-S_i |^p
+  $$
+  
   
 \end{enumerate}
 
 
 
-The corresponding psiaudocode of the main function goes as follows
-
-
+The corresponding pseudo-code of the main function goes as follows
 
 \begin{algorithm}[H]
 \caption{The main function of \emph{pvar} procedure that calculates $p$-variation of the sample.}\label{alg:pvarmain}
 \begin{algorithmic}[1]
-\Function{pvar}{sample $X$, scalar $p$}
+\Input sample $X$, scalar $p$.
+\Require $p>0$.
+\Output the value of $p$-variation of $X$
+\Function{pvar}{$X$, $p$}
+\item[] \Comment{1. Initialization and checking}
+\State $S \leftarrow X$ ; 
+\If {$0<p \leq 1$} 
+  \State value $\leftarrow \sum |S_{i-1}-S_i |^p $ ; 
+  \State \textbf{return} value; 
+\EndIf
+\If {$|S|=0$}
+  \State value $\leftarrow 0$;
+  \State \textbf{return} value;
+\EndIf
 
-\Comment{update $X$ by removing monotonic points}
-\State $X \leftarrow sampleCorners(X)$;
+\item[] \Comment{2. Removing monotonic points}
+\State $S \leftarrow FindCorners(S)$;
 
-\Comment{update $X$ by checking all sub-intervals and removing redundant points.}
-\Comment{check sub-intervals up to the length of 3} 
-\State $LSI \leftarrow 3$ ;
-\State $X \leftarrow $ CheckSmallIntervals ($X$,  $p$, $LSI$);
+\item[] \Comment{3. Checking sub-samples. Check sub-intervals up to the size of $M$}
+\State $M \leftarrow 3$ ;
+\State $S \leftarrow CheckSubSamples (S, p, M)$;
 
-\Comment{update $X$ by merge all sub-intervals starting with the length of $LSI+1$}
-\State $X \leftarrow$ merging ($X$,  $p$, $LSI+1$);
+\item[] \Comment{4. Merging sub-samples starting form length $M+1$}
+\State $S \leftarrow MergeAll (S,  p, M+1)$;
 
-\Comment{calculate the $p$-variation:}
-\State value $\leftarrow \sum |X_{i-1}-X_i |^p $ ; 
+\item[]\Comment{5. calculate the $p$-variation}
+\State value $\leftarrow \sum |S_{i-1}-S_i |^p $ ; 
 
 \State \textbf{return} value;
 \EndFunction
@@ -1282,34 +1348,20 @@ The corresponding psiaudocode of the main function goes as follows
 \end{algorithm}
 
 
-%\begin{algorithm}[H]
-%  \Input{array $X$ (the sample), constant $p$ (the $p$ value)}
-%  \Output{constant $\pval$ (the value of $p$-variation),\\
-%   modified array $X$ that contains only supreme points}
-%  \Begin{
-%    \tcc{Update $X$ by removing monotonic points form $X$:}
-%    $\ChangeIds \leftarrow$ \ChangePoints {$X$} \;
-%    $X \leftarrow X[ChangeIds]$ \;
-%    
-%    \tcc{Update $X$ by checking all sub-intervals with the length of $LSI=3$ and removing redundant points:}
-%    $LSI \leftarrow 3$ \;
-%    $X \leftarrow $ \CheckSmallIntervals{$X$,  $p$, $LSI$}\;
-%
-%    \tcc{update $X$ by merge all sub-intervals starting with the length of $LSI+1$: }
-%    $X \leftarrow $ \merging{$X$,  $p$, $LSI+1$}\;
-%
-%    \tcc{calculate the $p$-variation:}
-%    $\pval \leftarrow \sum |X_{i-1}-X_i |^p $ \;    
-%  }
-%  \caption{The main function of pvar procedure.}
-%\end{algorithm}
-
+Function \emph{FindCorners} returns the
+subset of $S$ that contains only the end of monotonic points (see Section~\ref{sec:RemoveMonotonicPoints}). 
+Function \emph{CheckSubSamples} check all
+sequential sub-samples with size up to $M$ and remove
+all the points that appeared to be redundant (see Section~\ref{sec:CheckSubSamples}).
+Function \emph{MergeAll} merges all small
+sub-samples until the final supreme partitions is obtain (see Section~\ref{sec:meging}).
 
   
 \subsection{Detail explanation}
 \label{sec:DetailExplanation}
 
 \subsubsection{Removing monotonic points}
+\label{sec:RemoveMonotonicPoints}
 
 According to Proposition~\ref{prop:sup_in_PM}
 the $p$-variation is achieved 
@@ -1328,66 +1380,37 @@ The corresponding pseudo code looks as follows:
 
 
 \begin{algorithm}[H]
-\caption{The function \emph{SampleCorners} that
-returns the subset of $X$, which contains only the corners of $X$.}
-\label{alg:SampleCorners}
+\caption{The function \emph{FindCorners} that
+returns the subset of $S$, which contains only the corners of $S$.}
+\label{alg:FindCorners}
 \begin{algorithmic}[1]
-\Function{SampleCorners}{sample $X$}
-\Output sample $corners$ that is the subset of $X$, which contains only the corners
+\Input sample $S$
+\Output sample $corners$ that is the subset of $S$, which contains only the corners
+\Function{FindCorners}{$S$}
 
-\State $corners \leftarrow X_0$;
+
+\State $corners \leftarrow S_0$;
 \State $direction \leftarrow 0$;
-\State $n \leftarrow counter(X)$;
+\State $n \leftarrow |S|$;
 \For{$i \leftarrow 1$ \textbf{ to } $n-1$}
-  \If {$X_{i-1} < X_{i}$}
+  \If {$S_{i-1} < S_{i}$}
     \If {$direction < 0$}
-      \State $corners \leftarrow append(corners, X_{i-1})$;
+      \State append $corners$ with element $S_{i-1}$;
     \EndIf
     \State $direction \leftarrow 1$ ;
   \EndIf
-  \If {$X_{i-1} > X_{i}$}
+  \If {$S_{i-1} > S_{i}$}
     \If {$direction > 0$}
-      \State $corners \leftarrow append(corners, X_{i-1})$;
+      \State append $corners$ with element $S_{i-1}$;
     \EndIf
     \State $direction \leftarrow -1$ ;
   \EndIf   
 \EndFor
-\State $corners \leftarrow append(corners, X_{n})$; 
+\State append $corners$ with element $S_{n}$; 
 \State \textbf{return} corners;
 \EndFunction
 \end{algorithmic}
 \end{algorithm}
-
-
-%\begin{algorithm}[H]
-%  \SetKwData{corners}{corners}
-%  \SetKwData{direction}{direction}
-%  \SetKwFunction{append}{append}
-%  \SetKwInOut{Input}{input}\SetKwInOut{Output}{output}
-%
-%  \Input{sample $X$}
-%  \Output{sample $\corners$}
-%  \Begin{
-%    $\corners \leftarrow X[0]$ \;
-%    $\direction \leftarrow 0$ \;
-%    \For{$i \leftarrow 1$ \KwTo $n-1$}{
-%      \If{$X[i-1] < X[i]$}{
-%        \If{$\direction<0$}{
-%          $\corners \leftarrow \append(\corners, X[i-1])$
-%        }
-%        $\direction \leftarrow 1$ \;
-%      }    
-%      \If{$X[i-1] > X[i]$}{
-%        \If{$\direction>0$}{
-%          $\corners \leftarrow \append(\corners, X[i-1])$
-%        }
-%        $\direction \leftarrow -1$ \;
-%      }   
-%    }
-%    $\corners \leftarrow \append(\corners, X[n])$
-%  }
-%  \caption{Procedure ... \emph{ChanegePoints} ... }
-%\end{algorithm}
 
 
 This procedure is quite simple and
@@ -1397,8 +1420,8 @@ In \emph{pvar} package all corners could be found with \emph{ChangePoints} funct
 
 
 
-\subsubsection{Checking all small intervals}
-\label{sec:CheckSmallIntervals}
+\subsubsection{Checking small sub-samples}
+\label{sec:CheckSubSamples}
 
 Proposition~\ref{prop:pvar_sum_x} and 
 Lemmas~\ref{lm:SI} and~\ref{lm:evenkappa} gives an effective 
@@ -1406,41 +1429,42 @@ way to identify significant part of
 redundant points 
 using quite simple operations. 
 The pseudo code is given in the end the chapter and
-now we will reviled it main principles.
+now we will reveal the main principles.
 
-Suppose $X$ is a sample without monotonic points. 
-Let investigate a sub-sample in
-any small interval of the length $m$ ($m=2,\dots,n-1$), 
+Suppose $S$ is a sample without monotonic points. 
+Let investigate a sub-sample of the size $m$ ($m=2,\dots,n-1$), 
 namely, lets examine a sub-sample 
-$\{X_{i}\}_{i=j}^{j+m}$
-for any $j=0,...,n-m$.
+$\{S_{i}\}_{i=k}^{k+m}$
+for any $k=0,...,n-m$.
 According to Proposition~\ref{prop:pvar_sum_x},
 If 
 \begin{equation}\label{eq:dropsamll1}
-  \sum_{i=j+1}^{j+m} |X_{i}-X_{i-1}|^p < |X_j-X_{j+m}|^p,
+  \sum_{i=k+1}^{k+m} |S_{i}-S_{i-1}|^p < |S_j-S_{j+m}|^p,
 \end{equation}
 then,
-partition $\{j,\dots,j+m\}$ 
+partition $\{k,\dots,k+m\}$ 
 can not be supreme partition in interval
-$[j,j+m]$. 
-Therefore, some of the points $\{X_{i}\}_{i=j+1}^{j+m-1}$
+$[k,k+m]$. 
+Therefore, some of the points $\{S_{i}\}_{i=k+1}^{k+m-1}$
 must be redundant.
 Moreover, Lemmas~\ref{lm:SI} and~\ref{lm:evenkappa} 
 gives opportunity easily identify 
-insignificant points. To do so, we must 
-systemically investigate small intervals starting form
+redundant points. To do so, we must 
+systemically investigate small sub-samples starting form
 small $m$.
 
 \begin{itemize}
 
 \item 
-Let $m=2$. Then $|\{X_{i}\}_{i=j}^{j+2}|=2$, thus according to
-Lemma~\ref{lm:evenkappa}, $\{X_{i}\}_{i=j}^{j+2}$ has at least one
-inner significant point. 
-Since it has only one inner point $X_{j+1}$, then 
-this point must be significant. 
-So, if $m=2$, then  (\ref{eq:dropsamll1}) is always invalid,
-therefore, we don't need to do any checking.
+Let $m=2$. Then $|\{S_{i}\}_{i=k}^{k+2}|=2$, 
+thus according to
+Lemma~\ref{lm:evenkappa}, 
+$\{S_{i}\}_{i=k}^{k+2}$ has at least one
+inner supreme point. 
+Since it has only one inner point $X_{k+1}$, then 
+this point must be supreme point. 
+So, if $m=2$, then  (\ref{eq:dropsamll1}) is always
+invalid, therefore, we don't need to do any checking.
 
 \item 
 Let $m=3$. Firstly, we need to check if (\ref{eq:dropsamll1}) holds.
@@ -1448,23 +1472,25 @@ If so,
 then at least one 
 point must be redundant.
 In addition, Lemma~\ref{lm:SI} ensures that in this case
-both middle points $X_{t+1}$, $X_{t+2}$ 
+both middle points $S_{k+1}$, $S_{k+2}$ 
 are redundant, therefore, they both should be removed. 
 
 We do this checking for  for all
-$j=0,...,n-2$. In this way
+$k=0,...,n-2$. In this way
 we can identify quite an amount of redundant
-points. Moreover, after removing them from the sample the 
+points. Moreover, 
+after removing them from the sample the 
 sample changes, so we can repeat the same procedure
 and find more redundant points. We do it until
 no new redundant points are 
 identified.
 
 \item 
-If $m=4$, then $|\{X_{i}\}_{i=j}^{j+2}|$ is even, 
+If $m=4$, then $|\{S_{i}\}_{i=k}^{k+4}|$ is even, 
 thus, according to Lemma~\ref{lm:evenkappa}, 
-$\{X_{i}\}_{i=j}^{j+m}$ has at least one
-inner significant point. So, all inner points are significant, 
+$\{S_{i}\}_{i=k}^{k+m}$ has at least one
+inner supreme point. 
+So, all inner points are supreme points, 
 based on Lemma~\ref{lm:SI}, therefore, 
 (\ref{eq:dropsamll1}) do not hold.
 Lemma~\ref{lm:evenkappa} ensure
@@ -1475,17 +1501,17 @@ $m$ is odd.
 \item 
 Let 
 $m=5$ and all sub-samples
- $\{X_{i}\}_{i=j}^{j+3},\;j=0,...,n-3$ are already 
+ $\{S_{i}\}_{i=k}^{k+3},\;k=0,...,n-3$ are already 
  checked.
 If (\ref{eq:dropsamll1}) holds, then, based on
 Lemma~\ref{lm:SI}, all middle points
-$X_{t+1}$, $X_{t+2}$, $X_{t+3}$  and $X_{t+4}$ are  
+$S_{k+1}$, $S_{k+2}$, $S_{k+3}$  and $S_{k+4}$ are  
 identified as redundant and should be removed.
 After removing points, the sample changes, thus,
 if we want to apply this checking again,
 then we should start checking from $m=3$ again, because
 we must make sure that all sub-samples
-$\{X_{i}\}_{i=j}^{j+3},\;j=0,...,n-3$ are already 
+$\{X_{i}\}_{i=k}^{k+3},\;j=0,...,n-3$ are already 
 checked, because this is a requirement of the Lemma \ref{lm:SI}.
 
 \item If we want to go further and check
@@ -1501,133 +1527,105 @@ reaches an arbitrary threshold $M$.
 The  pseudo-code  of this procedure is given below
 
 \begin{algorithm}[H]
-\caption{Procedure \emph{CheckSmallIntevals}, which ensures 
-that any sequantal sub-sample of length $M$ is a supreme partition in corresponding sub-interval.}
-\label{alg:CheckSmallIntevals}
+\caption{Procedure \emph{CheckSubSamples}, which ensures 
+that any sequential sub-sample of length $M$ is a supreme partition in corresponding interval.}
+\label{alg:CheckSubSamples}
 \begin{algorithmic}[1]
-\Function{CheckSmallIntevals}{
-  sample $X$, 
-  constant $p$, 
-  constant $M$}
-\Require sample $X$ must contain only the corners (i.e. no monotonic points)
-\Output modified sample $X$ such that any sequential sub-sample of length $M$ is a supreme partition in corresponding sub-interval
-\item[]
-\State $tempX \leftarrow NULL$ ;
+\Input sample $S$, scalar $p$, scalar $M$
+\Require $S$ must contain only the corners
+\Output modified sample $S$ such that any sequential sub-sample of length $M$ is a supreme partition in corresponding interval
+
+\Function{CheckSubSamples}{$S$, $p$, $M$}
+\State $tempS \leftarrow NULL$ ;
 \State $m \leftarrow 0$ ;
-\While{$tempX \neq X$ {\bf and } $m < M$}
-  \State $tempX \leftarrow X$ ;
+\While{$tempS \neq S$ {\bf and } $m < M$}
+  \State $tempS \leftarrow S$ ;
   \State $m \leftarrow 3$ ;
-  \State check all sub-samples of $X$ with length $m$ ;
-  \State update $X$ by dropping all redundant points ;  
-  \While{$tempX \neq X$ {\bf and } $m < M$}
+  \State check all sub-samples of $S$ with length $m$ ;
+  \State update $S$ by dropping all redundant points ;  
+  \While{$tempS \neq S$ {\bf and } $m < M$}
     \State $m \leftarrow m + 2$ ;
-    \State check all sub-samples of $X$ with length $m$ ;
-    \State update $X$ by dropping all redundant points ; 
+    \State check all sub-samples of $S$ with length $m$ ;
+    \State update $S$ by dropping all redundant points ; 
   \EndWhile
 \EndWhile
-\State \textbf{return} $X$;
+\State \textbf{return} $S$;
 \EndFunction
 \end{algorithmic}
 \end{algorithm}
 
 
-
-%\begin{algorithm}[H]
-%  \SetKwData{tempX}{tempX}
-%  \SetKwData{NULL}{NULL}
-%  \SetKwInOut{Input}{input}\SetKwInOut{Output}{output}
-%
-%  \Input{sample $X$, constant $p$, constant $M$}
-%  \Output{modified sample $X$}
-%  \Begin{
-%    \nl$\tempX \leftarrow \NULL$ \;
-%    $m \leftarrow 0$ \;
-%    
-%    \While{$\tempX \neq X$ {\bf and} $m < M$}{
-%      $\tempX \leftarrow \tempX$ \;
-%      $m \leftarrow 3$ \;
-%      check all sub-samples of $X$ with length $m$ \;
-%      update $X$ by dropping all redundant points \;  
-%      \While{$\tempX \neq X$ {\bf and} $m < M$}{
-%        $m \leftarrow m + 2$ \;
-%        check all sub-samples of $X$ with length $m$ \;
-%        update $X$ by dropping all redundant points \;       
-%      }
-%    }    
-%  }
-%  \caption{Procedure ... check small intervals ... }
-%\end{algorithm}
-
-
-
 With this procedure, we can actually find 
 $p$-variation, setting $M$ to sufficiently large value.
 But this way of finding $p$-variation is not effective, 
-because in case of any removing 
+because in case of any modification of $S$ 
 we should go back and start checking
 from $m=3$.
 So, it is reasonable to use this procedure
 only for small $m$ and then go
 to next step of $p$-variation calculus.
+In \emph{pvar} package all corners could be found with \emph{CheckSmallIntervals} function.
 
 
-% From Monte-Carlo experiment we made
-% a recommendation that $m$ sho
-
-
-
-\subsubsection{Merging small intervals}
+\subsubsection{Merging supreme sub-samples}
 \label{sec:meging}
 
 Suppose it is already known that 
-a sub-samples $\{X_{i}\}_{i=a}^{w}$  and $\{X_{i}\}_{i=w}^{b}$
-are a supreme partitions in intervals $[a,w]$ and $[w,b]$ correspondingly. 
-The \emph{merge} operation of intervals $[a,w]$ and $[w,b]$ is
-an operation that finds supreme partition 
-of the interval $[a,b]$ taking into account
+a sub-samples $\{S_{i}\}_{i=a}^{w}$  
+and $\{S_{i}\}_{i=w}^{b}$
+are a supreme partitions in intervals 
+$[S_a,S_w]$ and $[S_w,S_b]$ correspondingly. 
+The \emph{merge} operation of sub-samples 
+$\{S_{i}\}_{i=a}^{w}$ and $\{S_{i}\}_{i=w}^{b}$
+is an operation that finds supreme partition 
+of the interval $[S_a,S_b]$ taking into account
 that  $\{X_{i}\}_{i=a}^{w}$  and $\{X_{i}\}_{i=w}^{b}$
-are a supreme partitions.
+are a supreme partitions in corresponding intervals.
 
 The final procedure in $p$-variation calculus will be
 presented in this subsection. It is based on
-merging operation.
-All the small intervals which where already checked in the 
-previous procedure are merged one by one until all the
-possible combinations are checked and we end up having
-the supreme partition and $p$-variation.
+merging operation. 
+All the small sub-samples which where 
+already checked in the 
+previous procedure 
+(see Section~\ref{sec:CheckSubSamples}) 
+are merged pair by pair until  we end up having
+the supreme partition.
 
 This procedure has two stages that will be discussed separately.
 
-\paragraph{Merge two intervals}
+\paragraph{Merge two supreme samples}
 
-This paragraph will present how two intervals are merged .
-Suppose $\{X_{i}\}_{i=a}^{w}$  and $\{X_{i}\}_{i=w}^{b}$
-are a supreme partitions in intervals $[a,w]$ and $[w,b]$ correspondingly. 
-According to Proposition~\ref{prop:notinST},
-the supreme partition in interval $[a, b]$ must
-be a subset of 
-$\{X_{i}\}_{i=a}^{b} = \{X_{i}\}_{i=a}^{w} \cup \{X_{i}\}_{i=w}^{b}$.
+This paragraph will present how two supreme
+sub-samples are merged .
+Suppose $\{S_{i}\}_{i=a}^{w}$  and $\{S_{i}\}_{i=w}^{b}$
+are a supreme partitions in intervals $[S_a,S_w]$ and $[S_w,S_b]$ correspondingly. 
+According to Theorem~\ref{th:notinST},
+the supreme partition in interval $[S_a, S_b]$ 
+must be a subset of 
+$\{S_{i}\}_{i=a}^{b} = \{S_{i}\}_{i=a}^{w} \cup \{S_{i}\}_{i=w}^{b}$.
  
 In order to find supreme partition in interval $[a,b]$
 we need to investigate all possible
-$f$-joints (Def.~\ref{def:fjoin}) between points $X_t, t\in \{a,\dots,w-1\}$ and
-$X_r, r\in \{w,\dots,b\}$ and choose pair of points
+$f$-joints (Def.~\ref{def:fjoin}) between points $S_t, t\in \{a,\dots,w-1\}$ and
+$S_r, r\in \{w,\dots,b\}$ and choose pair of points
 $(t, r)$ which maximise $s_p$ function, namely  
 \begin{eqnarray}
   (t, r) &:=& \argmax_{(i,j) \in [a, w-1] \times [w, b] } 
-    \left\{ \sum_{k=a+1}^i |X_{k-1} + X_{k}|^p + |X_i-X_j|^p 
-    + \sum_{k=j+1}^b |X_{k-1} + X_{k}|^p \right\}, \nonumber \\
+    \left\{ \sum_{k=a+1}^i |S_{k-1} + S_{k}|^p + |S_i-S_j|^p 
+    + \sum_{k=j+1}^b |S_{k-1} + S_{k}|^p \right\}, \nonumber \\
   &=& \argmax_{(i,j) \in [a, w-1] \times [w, b] }  
-    \left\{|X_i-X_j|^p +  \sum_{k=a+1}^b |X_{k-1} + X_{k}|^p  
-    - \sum_{l=i+1}^j |X_{l-1} + X_{l}|^p  \right\}, \nonumber \\
+    \left\{|S_i-S_j|^p +  \sum_{k=a+1}^b |S_{k-1} + S_{k}|^p  
+    - \sum_{l=i+1}^j |S_{l-1} + S_{l}|^p  \right\}, \nonumber \\
    \label{eq:tr_argmax}  
    &=& \argmax_{(i,j) \in [a, w-1] \times [w, b] }  
-    \left\{|X_i-X_j|^p - \sum_{l=i+1}^j |X_{l-1} + X_{l}|^p  \right\},   
+    \left\{|S_i-S_j|^p - \sum_{l=i+1}^j |S_{l-1} + S_{l}|^p  \right\},   
 \end{eqnarray}
 
 In the special case then $t=w-1$ and $r=w$, the value 
 of function in $\argmax$ is zero and the supreme
-partition is $\{X_{i}\}_{i=a}^{b}$. So, in this case we do not 
+partition is $\{S_{i}\}_{i=a}^{b}$. 
+So, in this case we do not 
 need to do any modifications of the sample. 
 This case is taken as baseline and we consider 
 any modifications only then the value of function
@@ -1639,19 +1637,19 @@ all $(i,j) \in [a, v-1] \times [v+1, b]$.
 Based on Lemma~\ref{lm:fjoin},
 points $X_t$ and $X_r$ could be $f$-joined only if 
 \begin{equation}
-  \forall i \in \{t,\dots,r\}: X_t \geq X_i \geq X_r \text{ or } 
-  X_t \leq X_i \leq X_r.
+  \forall i \in \{t,\dots,r\}: S_t \geq S_i \geq S_r \text{ or } 
+  S_t \leq S_i \leq S_r.
 \end{equation} 
    
 And the last statement holds only if 
 \begin{equation}\label{eq:setT}
-  X_t =  \min ( X_i : i \in \{t, \dots, w\}) 
-    \text{ or } X_t =  \max ( X_i : i \in \{t, \dots, w\})
+  S_t =  \min ( S_i : i \in \{t, \dots, w\}) 
+    \text{ or } S_t =  \max ( S_i : i \in \{t, \dots, w\})
 \end{equation}
 and
 \begin{equation}\label{eq:setR}
-  X_r =  \min ( X_i : i \in \{w, \dots, r\}) 
-    \text{ or } X_r = \max ( X_i : i \in \{w, \dots, r\}).
+  S_r =  \min ( S_i : i \in \{w, \dots, r\}) 
+    \text{ or } S_r = \max ( S_i : i \in \{w, \dots, r\}).
 \end{equation} 
 
 
@@ -1663,58 +1661,54 @@ could be expressed as
 \begin{equation}
   (t, r) :=  
     \argmax_{(i,j) \in T \times R }  
-    \left\{|X_i-X_j|^p - \sum_{l=i+1}^j |X_{l-1} + X_{l}|^p  \right\}.   
+    \left\{|S_i-S_j|^p - \sum_{l=i+1}^j |S_{l-1} + S_{l}|^p  \right\}.   
 \end{equation} 
 
-Since points $X_t$ and $X_r$ are $f$-joint, all the 
+Since points $S_t$ and $S_r$ are $f$-joint, all the 
 points in interval $t+1,\dots, r-1$ are redundant
-and should be removed. And the remaining points are supreme partition.
+and should be removed. And the remaining points are
+the supreme partition.
 
 
 \begin{algorithm}[H]
-\caption{Procedure \emph{MergeTwoInt}, which merges two
-intervals represented by their supreme samples. }
-\label{alg:MergeTwoInt}
+\caption{Procedure \emph{MergeSupremeSamples}, 
+which merges two
+supreme samples. }
+\label{alg:merge}
 \begin{algorithmic}[1]
-\Function{MergeTwoInt}{
-  sample $A$, 
-  sample $B$, 
-  scalar $p$}
-\Require samples $A$ and $B$ must be supreme partitions in
-intervals $[a,c]$ and $[c,b]$ correspondingly.
-\Output sample $X$, which is the supreme partition of interval $[a,b]$
-\item[]
+\Input sample $A$, sample $B$, scalar $p$
+\Require samples $A$ and $B$ must be supreme partitions in corresponding intervals.
+\Output sample $S$, which is the supreme partition of joined interval
+\Function{MergeSupremeSamples}{$A$, $B$, $p$}
 
-\State $X \leftarrow A \cup  B$ ;   
+\State $S \leftarrow A \cup  B$ ;   
 \State $a \leftarrow 0$ ;     
-\State $b \leftarrow counter(X)$ ;
-\State $w \leftarrow counter(A)$ ;
-\item[]
+\State $b \leftarrow |S|$ ;
+\State $w \leftarrow |A|$ ;
 \item[] \Comment Find the T list:
 \State initiate $T$ as empty list ;
-\State $cummax \leftarrow cummin \leftarrow X_w$ ;
+\State $cummax \leftarrow cummin \leftarrow S_w$ ;
 \For{$i \leftarrow w-1$ \textbf{ to } $a$}
-  \If{$X_i > cummax$}
-    \State $cummax \leftarrow X_i$ ;
-    \State $T \leftarrow append(T, i)$
+  \If{$S_i > cummax$}
+    \State $cummax \leftarrow S_i$ ;
+    \State append $T$ with element $i$ ;
   \EndIf
-  \If{$X_i < cummin$}
-    \State $cummin \leftarrow X_i$ ;
-	\State $T \leftarrow append(T, i)$ ;
+  \If{$S_i < cummin$}
+    \State $cummin \leftarrow S_i$ ;
+	\State append $T$ with element $i$ ;
   \EndIf   
 \EndFor
-\item[]
 \item[] \Comment Find the R list:
 \State initiate $R$ as empty list ;
-\State $cummax \leftarrow cummin \leftarrow X_w$ ;
+\State $cummax \leftarrow cummin \leftarrow S_w$ ;
 \For{$i \leftarrow w+1$ \textbf{ to } $b$}
-  \If{$X_i > cummax$}
-    \State $cummax \leftarrow X_i$ ;
-    \State $R \leftarrow append(R, i)$
+  \If{$S_i > cummax$}
+    \State $cummax \leftarrow S_i$ ;
+    \State append $R$ with element $i$ ;
   \EndIf
   \If{$X_i < cummin$}
-    \State $cummin \leftarrow X_i$ ;
-	\State $R \leftarrow append(R, i)$ ;
+    \State $cummin \leftarrow S_i$ ;
+	\State append $R$ with element $i$ ;
   \EndIf   
 \EndFor
 \algstore{myalg}
@@ -1728,232 +1722,87 @@ intervals $[a,c]$ and $[c,b]$ correspondingly.
 
 \item[] \Comment Check all pairs in T x R:
 \State $maxbalance \leftarrow 0$ ; 
-\For{$r \in R$}
-  \For{$t \in T$}
-    \State $balance \leftarrow |x_t - X_r|^p - \sum_{i=t+1}^r |X_{i-1}-X_i|^p$ ;
+\ForAll{$r \in R$}
+  \ForAll{$t \in T$}
+    \State $balance \leftarrow |S_t - S_r|^p - \sum_{i=t+1}^r |S_{i-1}-S_i|^p$ ;
       \If{$balance > maxbalance$}
-      	\State $maxR \leftarrow r$ ;
         \State $maxT \leftarrow t$ ;
+      	\State $maxR \leftarrow r$ ;
         \State $maxbalance \leftarrow balance$ ;
       \EndIf
   \EndFor      
 \EndFor
 \If{$maxbalance > 0$}
-  \State remove points $t+1, \dots, r-1$ from sample $X$ ;
+  \State remove points $maxT+1, \dots, maxR-1$ from sample $S$ ;
 \EndIf
-
-
-\State \textbf{return} $X$;
+\State \textbf{return} $S$;
 \EndFunction
 \end{algorithmic}
 \end{algorithm}
 
+In \emph{pvar} package the merge
+operation could be achieved 
+with \emph{AddPvar} function.
 
-%\begin{algorithm}[H]
-%  \SetKwData{cummax}{cummax}
-%  \SetKwData{cummin}{cummin}
-%  \SetKwData{maxR}{maxR}
-%  \SetKwData{maxT}{maxT}
-%  \SetKwData{maxbalance}{maxbalance}
-%  \SetKwData{balance}{balance}
-%  \SetKwFunction{counter}{counter}
-%  \SetKwFunction{append}{append}
-%  \SetKwInOut{Input}{input}\SetKwInOut{Output}{output}
-%
-%  \Input{sample $A$, which is the supreme partition of interval $[a,c]$;\\
-%    sample $B$, which is the supreme partition of interval $[c,b]$ }
-%  \Output{sample $X$, which is the supreme partition of interval $[a,b]$}
-%  \BlankLine  
-%  \Begin{
-%    $X \leftarrow A \cup  B$ \;   
-%    
-%    $a \leftarrow 0$ \;
-%    $b \leftarrow \counter(X)$ \;
-%    $w \leftarrow \counter(A)$ \;
-%      
-%
-%    \tcc{Find the T list:}
-%    initiate $T$ as empty list \;
-%    $\cummax \leftarrow \cummin \leftarrow X_w$ \;
-%    \For{$i \leftarrow w-1$ \KwTo $a$}{
-%      \If{$X_i > \cummax$}{
-%         $\cummax = X_i$ \;
-%         $T \leftarrow \append(T, i)$ \;
-%      }
-%      \If{$X_i < \cummin$}{
-%         $\cummin = X_i$ \;
-%         $T \leftarrow \append(T, i)$ \;
-%      }
-%    }
-%
-%	\tcc{Find the R list:}
-%    initiate $R$ as empty list \;
-%    $\cummax \leftarrow \cummin \leftarrow X_w$ \;
-%    \For{$i \leftarrow w+1$ \KwTo $b$}{
-%      \If{$X_i > \cummax$}{
-%         $\cummax = X_i$ \;
-%         $R \leftarrow \append(R, i)$ \;
-%      }
-%      \If{$X_i < \cummin$}{
-%         $\cummin = X_i$ \;
-%         $R \leftarrow \append(R, i)$ \;
-%      }
-%    }  
-%    
-%    \tcc{Check all pairs in T x R:}
-%    $\maxbalance \leftarrow 0$ \; 
-%    \For{$r \in R$}{
-%      \For{$t \in T$}{
-%        $\balance = |x_t - X_r|^p - \sum_{i=t+1}^r |X_{i-1}-X_i|^p$\;
-%        \If{$\balance > \maxbalance$}{
-%      	  $\maxR = r$\;
-%          $\maxT = t$\;
-%          $\maxbalance = \balance$ \;
-%        }        
-%      }
-%    }  
-%      
-%    \If{$\maxbalance >0$}{
-%      remove points $t+1, \dots, r-1$ from sample $X$.
-%    }
-%    
-%    
-%  }
-%  \caption{Procedure \emph{MergePair}, which merges a pair of samples that represents supreme partitions of  sequential samples. }
-%\end{algorithm}
-
-
-\paragraph{Merging all small intervals.}
-In the second stage of this procedure we get the final result by
-merging intervals pair by pair until the supreme partition of the whole sample is obtain.
-
-The pseudo code is given below and its illustration is given in Figure~\ref{fig:Merging2}.
-
+\paragraph{Merging all sub-samples.}
+In the second stage of this procedure we get 
+the final result by
+merging intervals pair by pair 
+until the supreme partition of the whole sample 
+is obtain.
+The pseudo-code is given below.
 \begin{algorithm}[H]
 \caption{Procedure \emph{MergeAll}, which merges all
-sub-intervals of the length $M$ into final supreme sample}
+sub-samples of the size $M$ into final supreme sample of $X$.}
 \label{alg:MergeAll}
 \begin{algorithmic}[1]
-\Function{MergeAll}{
-  sample $X$, 
-  scalar $p$, 
-  scalar $M$}
-\Require sample $X$... of $M$ ...
-\Output sample $S$ that corresponds to supreme portion.
-\item[]
-\item[]
-\Comment Get array $prt = \{prt_i\}_{i=1}^n$ of supreme sub-intervals
-\For{$i \leftarrow 1$ \textbf{ to } $\lc counter(X)/M \rc$}
-  \State $prt_i \leftarrow 
-    \left\{ X_j \right\}_{j=M(i-1)}^{\min(Mi, counter(X))}$ ;
+\Input sample $S$;  scalar $p$; scalar $M$.
+\Require any sub-sample of $S$ of length $M$ must be a supreme partition
+\Output modified sample $S$ that corresponds to supreme portion of the whole sample
+\Function{MergeAll}{$X$, $p$, $M$}
+
+\item[]\Comment construct the set $R_i, i=1,\dots$, which contain supreme sub-samples 
+\For{$i \leftarrow 1$ \textbf{ to } $\lc \frac{|S|}{M}\rc$}
+  \State $R_i \leftarrow 
+    \left\{ S_j \right\}_{j=(i-1)M}^{\min(iM, |S|))}$ ;
 \EndFor
 \item[]
-\item[] \Comment Apply pair merging to elements of $prt$ until all intervals are merged
+\item[] \Comment apply \emph{MergeSupremeSamples} 
+to pairs of $R$ elements until 
+all intervals are merged
 
-\While{$counter(prt)>1$}
+\While{$|R|>1$}
 \State $i \leftarrow 1$ ;
-  \While{$i < counter(prt)$}
-    \State $prt_i \leftarrow mergeTwoInt(prt_i, prt_{i+1}) $ ;
+  \While{$i < |R|$}
+    \State $prt_i \leftarrow MergeSupremeSamples(prt_i, prt_{i+1}, p) $ ;
     \State $i \leftarrow i+2$ ;  
   \EndWhile
-  delete all elements form $prt$ that have even index ;
+  \State delete all elements form $R$ that have even index ;
 \EndWhile
-\State $S \leftarrow prt_1 $ ;
+\State $S \leftarrow R_1 $ ;
 
 \State \textbf{return} $S$;
 \EndFunction
 \end{algorithmic}
 \end{algorithm}
 
-%\begin{algorithm}[H]
-%  \SetKwData{prt}{prt}
-%  \SetKwFunction{counter}{counter}
-%  \SetKwFunction{mergeTwoInt}{mergeTwoInt}
-%  \SetKwInOut{Input}{input}\SetKwInOut{Output}{output}
-%
-%  \Input{sample $X$, which all sub-interval are supreme partitions;\\
-%    constant $M$, the length of sub-intervals
-%  }
-%  \Output{sample $S$ which is a supreme partition in $[a, b]$}
-%  \Begin{
-%  
-%    \tcc{Get array $\prt = \{prt_i\}_{i=1}^n$ of supreme partitions}
-%    \For{$i \leftarrow 1$ \KwTo $\lc counter(X)/M \rc$}{
-%      $\prt_i \leftarrow 
-%        \left\{ X_j \right\}_{j=M(i-1)}^{\min(Mi, counter(X))}$ \;
-%    }
-%  
-%  
-%    \tcc{Apply pair merging to elements of $\prt$ until all intervals are merged}   
-%    \While{$\counter(\prt)>1$}{
-%      $i \leftarrow 1$ \;
-%      \While{$i < \counter(\prt)$}{
-%        $\prt_i \leftarrow \mergeTwoInt(\prt_i, \prt_{i+1}) $ \;
-%        $i \leftarrow i+2$ \;  
-%      }
-%      delete all elements form $\prt$ that have even index\;
-%    }   
-%    $S \leftarrow \prt_1 $ \; 
-%  }
-%  \caption{Procedure ... check small intervals ... }
-%\end{algorithm}
-
-  
-  
-% Define block styles
-\tikzstyle{block} = [rectangle, draw, fill=blue!20, 
-    text width=5em, text centered, rounded corners, minimum height=4em]
-\tikzstyle{line} = [thick,->,>=stealth] % [thick,->,>=stealth]  % [draw, -latex']  
-  
-\begin{figure}
-\centering  
-\begin{tikzpicture}[node distance = 2.5cm, auto]  
-  \node [block] (el11) {el 1,1 $\sum$ };
-  \node (AuxNode11) [right of=el11, node distance = 1.5cm] {};
-  \node [block, right of=el11, node distance=3cm] (el12) {el 1,2 };
-  \node (AuxNode12) [right of=el12, node distance = 1.5cm] {};
-  \node [block, right of=el12, node distance=3cm] (el13) {el 1,3 };
-  \node (AuxNode13) [right of=el13, node distance = 1.5cm] {};
-  \node [block, right of=el13, node distance=3cm] (el14) {el 1,4 };
-  \node [block, right of=el14, node distance=3cm] (el15) {el 1,5 };
-
-  \node (AuxNode21) [below of=AuxNode12] {};
-  \node [block, below of=AuxNode11] (el21) {el 21 };
-  \node [block, below of=AuxNode13] (el22) {el 22 };
-  \node [block, below of=el15] (el23) {el 23};  
-  
-  \node [block, below of=AuxNode21] (el31) {el 31 };
-  \node (AuxNode31) [right of=el31, node distance = 4.2cm] {};
-  \node [block, below of=el23] (el32) {el 32};  
-  
-  \node [block, below of=AuxNode31] (el41) {el 41};  
-  
-  %% arrows  
-  \draw [line] (el11) -- (el21);
-  \draw [line] (el12) -- (el21);  
-  \draw [line] (el13) -- (el22);
-  \draw [line] (el14) -- (el22);   
-  \draw [line] (el15) -- (el23);   
-  
-  \draw [line] (el21) -- (el31);  
-  \draw [line] (el22) -- (el31);  
-  \draw [line] (el23) -- (el32);  
-  
-  \draw [line] (el31) -- (el41);  
-  \draw [line] (el32) -- (el41);  
-\end{tikzpicture}  
-\caption{The illustration of the final stage of merging procedure.}
-\label{fig:Merging2}
-\end{figure}
-
   
 \section{Conclusion}  
   
-In this article we presented the algorithm that calculates
+In this article we presented the algorithm
+\emph{pvar} that calculates
 $p$-variations of the sample. 
 This algorithm is based on mathematical properties that 
 were formulated and proved in the article.
- 
+The calculations of $p$-variation
+is already available in R package \emph{pvar}.
+The core of functions are written in C++
+and imported to R via \emph{Rcpp} package,
+therefore, algorithm is quite fast can calculate
+$p$-variations for really large samples.
+It is worth noting that $pvar$ procedure
+could be used to analyse any 
+piecewise monotone function.
   
   
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
