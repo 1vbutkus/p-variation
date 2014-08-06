@@ -78,7 +78,7 @@
 \begin{abstract}
 The algorithm that calculates $p$-variation of
 the finite sample is presented in the article. 
-This algorithm could be used to calculated
+This algorithm could be used to investigate
 the $p$-variation of any piecewise monotone functions.
 All the properties that were used in the article 
 are formulated and proved.
@@ -109,7 +109,7 @@ he analysed $p$-variations with $p \neq 2$.
 Lots and detailed information on the known properties 
 of $p$-variation can be found in the books of  Norvaiša and
 Dudley (see \cite{DudleyNorvaisa1998} and \cite{DudleyNorvaisa1999}). 
-There is formulated and proved a lot of the properties of $p$-variation.
+There are formulated and proved a lot of the properties of $p$-variation.
 In addition, the comprehensive bibliography of $p$-variation is include.
 
 A regulated function $f$ is called \emph{rough}
@@ -119,8 +119,10 @@ Probably the best know example of rough function is
 a trajectory of Wiener process. 
 The Wiener is a well known process (see \cite{Karatsas1997}) 
 used in statistics, physics and economic (\cite{Econ1997}).
-It is worth noting, that rough functions can not be investigated 
-with regular tools of calculus as derivative or Lebesgue–Stieltjes integral.
+It is worth noting, that rough functions 
+can not be investigated 
+with regular tools of calculus like
+derivative or Lebesgue–Stieltjes integral.
 The $p$-variation plays an important role in the filed of
 rough function analysis. 
 Firstly, the $p$-variation gives a convenient way to measure 
@@ -166,7 +168,7 @@ algorithm are presented and proved in the next section of this article.
 In addition, all known properties that are relevant to this work
 are listed with the reference to original works. Namely, in large extent
 we use the properties presented in J.~Qian Ph.D. thesis \cite{Qian}\footnotemark.
-And in the Section~\ref{sec:pvarcalc} we will present the \emph{pvar}
+In the Section~\ref{sec:pvarcalc} we will present the \emph{pvar}
 algorithm that calculates the $p$-variation of the sample.
 
 
@@ -187,13 +189,17 @@ The main result of J. Qian Ph.D. thesis are presented in article \cite{Qian1998}
 The main purpose of this sections is to 
 ground all the properties of $p$-variations 
 that were used in the calculation of $p$-variation.
-In this
-article, the Theorem~\ref{th:notinST} is considered to
+The Theorem~\ref{th:notinST} is considered to
 be the most important mathematical result,
 which is quite general and possible could be used
-in many applications. 
-The other properties are specificity formulated 
-to be used in algorithm, nevertheless, 
+in many applications. It gives the criteria of 
+identifying the points that can not be in supreme partition.
+In addition, Proposition~\ref{prop:pvar_sum_x}
+appears to be quite useful as well. It provides 
+necessary and sufficient condition for summing the 
+$p$-variation.
+All the other properties are specificity formulated 
+to be used in the \emph{pvar} algorithm, nevertheless, 
 someone could find them to be useful as well.
 
 
@@ -210,8 +216,6 @@ someone could find them to be useful as well.
     in any supreme partition (def.~\ref{def:psp}).
   \item $PM[a,b]$ -- a set of piecewise monotone functions
     (def.~\ref{def:PM}).  
-  \item $CPM[a,b]$ -- a set of continuous piecewise monotone functions
-    (def.~\ref{def:PM}).
   \item $K(f,[a,b])$ -- minimal size of PM partitions
     (prop.~\ref{prop:K_f}).
   \item $X(f,[a,b])$ -- the set of PM partitions with minimal size
@@ -306,10 +310,6 @@ someone could find them to be useful as well.
   that $f$ is monotone on each interval $[x_{j-1},x_j],\;j=1,\dots,k$. 
   Here for $j=1,\dots,k-1$, $x_j$ may be point $x-$ or $x+$.
   The set of all piecewise monotone functions is denoted $PM=PM[a,b]$.
-  
-  In addition to PM, if $f$ is continuous function we will call it 
-  continuous piecewise monotone(CPM). 
-  The set of such functions is denoted $CPM=CPM[a,b]$. 
 \end{definition}   
 
 
@@ -508,7 +508,7 @@ someone could find them to be useful as well.
     \sum_{i=1}^n\sum_{j=h(i-1)+1}^{h(i)}|f(t_{j-1})-f(t_j)|^p
     =\sum_{i=1}^{|\kappa|}|f(t_{i-1})-f(t_i)|^p.
   \end{equation}
-  This means that $\kappa \in MP_{p}(f,[a,b])$. 
+  This means that $\kappa \in SP_{p}(f,[a,b])$. 
   Moreover, $\forall i:x_i \in \kappa$,
   because $\kappa=\cup_{i=1}^n \kappa_i$.  
 \end{proof}
@@ -592,9 +592,9 @@ someone could find them to be useful as well.
 
 
 % The point of supreme partition 
-\begin{definition}[The point of supreme partition]\label{def:psp}
+\begin{definition}[The supreme point]\label{def:psp}
   Let $f:[a,b] \rightarrow \mathbb{R}$ be PM.  
-  The point $x$ will be called the \emph{point of supreme partition}
+  The point $x$ will be called the \emph{supreme point}
   if 
   \begin{equation}
     \exists \kappa \in SP_p(f, [a,b]): x \in \kappa.
@@ -1190,7 +1190,7 @@ It allows to consider points in $S$ by analysing
 not the whole sample, but much
 smaller sub-samples. From the
 Theorem~\ref{th:notinST} follows, that 
-if a point was identify as being redundant in any
+if a point was identify as redundant in any
 small interval, then the point is redundant in
 any larger interval as well. 
 This property is used in several ways that will be revealed in 
@@ -1458,11 +1458,11 @@ small $m$.
 \item 
 Let $m=2$. Then $|\{S_{i}\}_{i=k}^{k+2}|=2$, 
 thus according to
-Lemma~\ref{lm:evenkappa}, 
+Lemma~\ref{lm:evenkappa}, the sub-sample
 $\{S_{i}\}_{i=k}^{k+2}$ has at least one
 inner supreme point. 
-Since it has only one inner point $X_{k+1}$, then 
-this point must be supreme point. 
+Since it has only one inner point (namely $S_{k+1}$), 
+then this point must be a supreme point. 
 So, if $m=2$, then  (\ref{eq:dropsamll1}) is always
 invalid, therefore, we don't need to do any checking.
 
@@ -1471,7 +1471,7 @@ Let $m=3$. Firstly, we need to check if (\ref{eq:dropsamll1}) holds.
 If so,
 then at least one 
 point must be redundant.
-In addition, Lemma~\ref{lm:SI} ensures that in this case
+In addition, Lemma~\ref{lm:SI} ensures that 
 both middle points $S_{k+1}$, $S_{k+2}$ 
 are redundant, therefore, they both should be removed. 
 
@@ -1488,6 +1488,7 @@ identified.
 \item 
 If $m=4$, then $|\{S_{i}\}_{i=k}^{k+4}|$ is even, 
 thus, according to Lemma~\ref{lm:evenkappa}, 
+the sub-sample
 $\{S_{i}\}_{i=k}^{k+m}$ has at least one
 inner supreme point. 
 So, all inner points are supreme points, 
@@ -1585,7 +1586,7 @@ are a supreme partitions in corresponding intervals.
 The final procedure in $p$-variation calculus will be
 presented in this subsection. It is based on
 merging operation. 
-All the small sub-samples which where 
+All the small sub-samples which were 
 already checked in the 
 previous procedure 
 (see Section~\ref{sec:CheckSubSamples}) 
@@ -1605,7 +1606,7 @@ the supreme partition in interval $[S_a, S_b]$
 must be a subset of 
 $\{S_{i}\}_{i=a}^{b} = \{S_{i}\}_{i=a}^{w} \cup \{S_{i}\}_{i=w}^{b}$.
  
-In order to find supreme partition in interval $[a,b]$
+In order to find supreme partition in interval $[S_a,S_b]$
 we need to investigate all possible
 $f$-joints (Def.~\ref{def:fjoin}) between points $S_t, t\in \{a,\dots,w-1\}$ and
 $S_r, r\in \{w,\dots,b\}$ and choose pair of points
@@ -1796,13 +1797,13 @@ This algorithm is based on mathematical properties that
 were formulated and proved in the article.
 The calculations of $p$-variation
 is already available in R package \emph{pvar}.
-The core of functions are written in C++
-and imported to R via \emph{Rcpp} package,
-therefore, algorithm is quite fast can calculate
+The core of functions are written in C++,
+therefore, algorithm is quite fast and it can calculate
 $p$-variations for really large samples.
 It is worth noting that $pvar$ procedure
 could be used to analyse any 
-piecewise monotone function.
+piecewise monotone function, 
+you just need to construct the proper sample.
   
   
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
