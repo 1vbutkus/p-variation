@@ -76,23 +76,22 @@
 \maketitle
 
 \begin{abstract}
-The algorithm that calculates $p$-variation of
-the finite sample is presented in the article. 
-This algorithm could be used to investigate
+
+The article deals with calculation of $p$-variation of 
+the fine sample. Firstly, the mathematical properties that
+appears to be useful for calculation of the value of 
+$p$-variation are presented and proofed. 
+Secondly,
+the procedure that calculates $p$-variation is introduced.
+In addition, this algorithm could be used to investigate
 the $p$-variation of any piecewise monotone functions.
-All the properties that were used in the article 
-are formulated and proved.
+This procedure is denoted \emph{pvar} and it is publicly
+available in R environment package \emph{pvar}.
+
 \end{abstract}
 
 
-
 \section{Introduction}
-
-% Pirmą kartą p-variacija buvo apibrėžta Wiener darbe [20] dar 1924 me-
-%tais. Vėliau p-variacijos tyrimus išplėtojo autorius L. C. Young darbe [21]. %Daug ir
-%išsamios informacijos apie žinomas p-variacijos savybes galima rasti R. %Norvaišos ir
-%R. M. Dudley knygose [8] ir [9] – ten suformuluota ir įrodyta daug p-%variacijos savybių
-% bei pateikta išsami p-variacijos bibliografija.
 
 The $p$-variation is a generalization of the total variation of a function,
 namely, it is supremum of the sums of the $p$-th
@@ -192,13 +191,14 @@ that were used in the calculation of $p$-variation.
 The Theorem~\ref{th:notinST} is considered to
 be the most important mathematical result,
 which is quite general and possible could be used
-in many applications. It gives the criteria of 
+in many situations. It gives the criteria of 
 identifying the points that can not be in supreme partition.
 In addition, Proposition~\ref{prop:pvar_sum_x}
 appears to be quite useful as well. It provides 
 necessary and sufficient condition for summing the 
 $p$-variation.
-All the other properties are specificity formulated 
+All the other properties are used as as helping statements
+in the proofs or they are specificity formulated 
 to be used in the \emph{pvar} algorithm, nevertheless, 
 someone could find them to be useful as well.
 
@@ -397,7 +397,7 @@ someone could find them to be useful as well.
 % Status:OK 
 \begin{definition}[Sample function]\label{def:Seq2Fun}
   Suppose $X=\{X_{i}\}_{i=0}^{n}$ is 
-  any sequence real numbers. 
+  any sequence of real numbers. 
   We will call such sequence a \emph{sample}, 
   whereas $n$ will be referred to as a 
   \emph{sample size}.
@@ -475,7 +475,7 @@ someone could find them to be useful as well.
     v_p(f,[a,b]) \leq \sum_{i=1}^n v_p(f,[x_{i-1},x_i]).
   \end{equation}
   
-  On the other hand, according to the same
+  On the other hand, according to the 
   Lemma~\ref{lm:element_properties}(\ref{lm:ep_e}) 
   the following inequality holds
   \begin{equation}\label{eq:ir1.eq4}
@@ -679,7 +679,7 @@ someone could find them to be useful as well.
   Then all following statements holds   
   \begin{enumerate}[a)]
     \item \label{lm:fjoin_a} 
-    $v_p(f, [t_a,t_b] = \left|f(t_a)-f(t_b)\right|^p$;
+    $v_p(f, [t_a,t_b]) = \left|f(t_a)-f(t_b)\right|^p$;
     
     \item \label{lm:fjoin_b} 
     Let $x \in [t_a, t_b]$. 
@@ -706,17 +706,22 @@ someone could find them to be useful as well.
   Since $f \stackrel{PM}{=} -f$, with out loss of 
   generality we can assume that
   $f(t_a) \leq f(t_b)$.  
-  Suppose to the contrary that $f(t_b)$ 
-  is not an extrema of the function in interval $[t_a,t_b]$.
-  Hence, $\exists c \in [t_a, t_b]: f(c)>f(t_b)$. Therefore,
+  We will show that 
+  \begin{equation}\label{eq:fjoin_p1}
+  \forall x \in [t_a,t_b]: f(x) \leq f(t_b).
+  \end{equation}  
+  Suppose to the contrary that 
+  $\exists c \in [t_a, t_b]: f(c)>f(t_b)$. Therefore,
   $|f(c)-f(t_a)|^p>|f(t_b)-f(t_a)|^p$.
   According to (\ref{eq:lm:fjoin_a}), 
   $v_p(f,[t_a,t_b])=|f(t_b)-f(t_a)|^p$, 
   thus, $|f(c)-f(t_a)|^p>v_p(f,[t_a,t_b])$,
   but this contradicts the definition of $p$-variation.  
-  So, point $t_b$ must be an extrema in interval $[t_a,t_b]$.
+  So, (\ref{eq:fjoin_p1}) is valid.
   Symmetric arguments could be used for point $t_a$.  
-  
+  \begin{equation}
+  \forall x \in [t_a,t_b]: f(x) \geq f(t_a).
+  \end{equation}    
   
 \end{proof}
 
@@ -825,20 +830,20 @@ someone could find them to be useful as well.
   \end{equation}   
   Lets take any supreme partitions from intervals
   $[y_{j-1},t_{k}]$ and  $[t_{l},y_j]$, namely
-  $\kappa_k \in SP_p(f,[y_{j-1},t_{k}]$ and
-  $\kappa_l \in SP_p(f,[t_{l},y_j]$.  
+  $\kappa_k \in SP_p(f,[y_{j-1},t_{k}])$ and
+  $\kappa_l \in SP_p(f,[t_{l},y_j])$.  
   In addition, since $\{t_i\}_{i=0}^n \in SP_p(f, [a, b])$,
-  according to Lemma~\ref{lm:spSubset}
+  according to Lemma~\ref{lm:spSubset},
   $v_p(f,[t_{k},t_{l}]) = s_p(f,\{t_i\}_{i=k}^l)$.
   Therefore,
   \begin{equation*}\label{eq:notinST_p8}
     v_p(f,[y_{j-1},y_j]) = s_p(f,\kappa_k) 
-      + s_p(f,\{t_i\}_{i=k}^l) + v_p(f,\kappa_l).
+      + s_p(f,\{t_i\}_{i=k}^l) + s_p(f,\kappa_l).
   \end{equation*}  
   This means, that 
   \begin{equation*}\label{eq:notinST_p9}
     \kappa_k \cup \{t_i\}_{i=k}^l \cup \kappa_l 
-      \in SP_p(f, [y_{j-1}, y_j].
+      \in SP_p(f, [y_{j-1}, y_j]).
   \end{equation*} 
   So, 
   $x \in \overline{SP}_p(f, [y_{j-1}, y_j])$, 
@@ -947,8 +952,12 @@ someone could find them to be useful as well.
   
 \end{proof}
 
+
+
 \subsection{Extra results}
 
+In this part we will present some helping statements that are 
+formulates grand some operations in \emph{pvar} procedure.
 
 \begin{definition}[Extremum]\label{def:extremum}
   We will call the point $t \in  [a,b]$ an \emph{extrema}
@@ -981,7 +990,7 @@ someone could find them to be useful as well.
   \begin{equation}
     f(t_{j-1})-f(t_{j})|^p \leq |f(t_{j-1}) - f(x)|^p
   \end{equation}
-  or
+  and
   \begin{equation}
     |f(t_{j-1})-f(t_{j})|^p \leq |f(x)-f(t_{j})|^p.
   \end{equation}
@@ -992,13 +1001,13 @@ someone could find them to be useful as well.
   |f(t_{j-1}) - f(t_{j})|^p 
     &\leq & v_p(f, [t_{j-1}, x]) + v_p(f, [x, t_{j}]),\\
   v_p(f, [t_{j-1}, t_{j}])
-    &\leq & v_p(f,[t_{j-1}), x]) + v_p(f,[x, t_{j}]).
+    &\leq & v_p(f,[t_{j-1}, x]) + v_p(f,[x, t_{j}]).
   \end{eqnarray*}    
   The last inequality holds, because $t_{j-1}$ and  $t_{j}$
   are $f$-joined, so, 
   $v_p(f, [t_{j-1}, t_{j}])=|f(t_{j-1}) - f(t_{j})|^p$.
   Since $v_p(f, [t_{j-1}, t_{j}])
-    < v_p(f,[t_{j-1}), x]) + v_p(f,[x, t_{j}])$
+    < v_p(f,[t_{j-1}, x]) + v_p(f,[x, t_{j}])$
   is not valid, the equation
   \begin{equation}
     v_p(f, [t_{j-1}, t_{j}])
@@ -1039,8 +1048,8 @@ someone could find them to be useful as well.
   therefore, point $x_{n}$ is not a global minimum.
   Since $f(x_0)>f(x_1)$, point $x_0$ is also
   not a global minimum. As a result,
-  global minimum is in interval $(a, b)$ 
-  and it is in $\overline{SP}_p(f, [a, b])$ according to
+  global minimum is in interval $(a, b)$,
+  moreover, it is in $\overline{SP}_p(f, [a, b])$ according to
   Lemma~\ref{prop:SplitMinMax}. 
 \end{proof}
 
@@ -1079,11 +1088,11 @@ someone could find them to be useful as well.
     v_p(f, [a, b]) = v_p(f, [a, t_j]) + v_p(f, [t_j, b])
   \end{equation}
   
-  Since (\ref{eq:SI_1}) and (\ref{eq:SI_1}) holds, 
+  Since (\ref{eq:SI_1}) and (\ref{eq:SI_2}) holds, 
   by Lemma~\ref{lm:spSubset} we get 
   \begin{eqnarray}
-    v_p(f, [a, t_j]) = s_p(f, \{t_i\}_{i=0}^j, \\
-    v_p(f, [t_j, b]) = s_p(f, \{t_i\}_{i=j}^n.
+    v_p(f, [a, t_j]) = s_p(f, \{t_i\}_{i=0}^j), \\
+    v_p(f, [t_j, b]) = s_p(f, \{t_i\}_{i=j}^n).
   \end{eqnarray}
   
   Therefore,
@@ -1149,7 +1158,7 @@ Proposition~\ref{prop:sup_in_PM},
 which states, that $p$-variation
 is achieved in a subset of any partition $r \in X(f, [0,n])$.
 So, we can construct $r$ from the subset $\{0, 1, \dots, n\}$. 
-If $j \in \{0, 1, \dots, n\}$ then $G_X(j) = X_j$, thus,
+In this case, if $j \in \{0, 1, \dots, n\}$ then $G_X(j) = X_j$, thus,
 $G_X(j)$ could be replaced with $X_j$. As a result,
 we don't need to use $G_X(j)$ function, rather, 
 the values of the sample $X_j$ could be used directly. 
@@ -1244,14 +1253,14 @@ Input: sample $X$, scalar $p$.
 \begin{enumerate}
   
   \item \emph{Initialisation and checking}. We 
-  consider any point being a supreme point, 
+  consider any point being a supreme point,
   so, $S \leftarrow X$. 
   In normal case we proceed to next step, 
   but in special case there might
   be some exceptions. For example, 
   if $|X|=0$, then $X$ has only 1 point.
   In this case $p$-variation is equal to 0 by 
-  Definition~\ref{def:pvar},so, 
+  Definition~\ref{def:pvar}, so, 
   further procedures are meaningless.
   Moreover, if $0 < p < 1$ then all the points must
   be included in supreme partitions.
@@ -1318,7 +1327,7 @@ The corresponding pseudo-code of the main function goes as follows
 \Require $p>0$.
 \Output the value of $p$-variation of $X$
 \Function{pvar}{$X$, $p$}
-\item[] \Comment{1. Initialization and checking}
+%\item[] \Comment{1. Initialization and checking}
 \State $S \leftarrow X$ ; 
 \If {$0<p \leq 1$} 
   \State value $\leftarrow \sum |S_{i-1}-S_i |^p $ ; 
@@ -1329,17 +1338,17 @@ The corresponding pseudo-code of the main function goes as follows
   \State \textbf{return} value;
 \EndIf
 
-\item[] \Comment{2. Removing monotonic points}
+%\item[] \Comment{2. Removing monotonic points}
 \State $S \leftarrow FindCorners(S)$;
 
-\item[] \Comment{3. Checking sub-samples. Check sub-intervals up to the size of $M$}
+%\item[] \Comment{3. Checking sub-samples. Check sub-intervals up to the size of $M$}
 \State $M \leftarrow 3$ ;
 \State $S \leftarrow CheckSubSamples (S, p, M)$;
 
-\item[] \Comment{4. Merging sub-samples starting form length $M+1$}
+%\item[] \Comment{4. Merging sub-samples starting form length $M+1$}
 \State $S \leftarrow MergeAll (S,  p, M+1)$;
 
-\item[]\Comment{5. calculate the $p$-variation}
+%\item[]\Comment{5. calculate the $p$-variation}
 \State value $\leftarrow \sum |S_{i-1}-S_i |^p $ ; 
 
 \State \textbf{return} value;
@@ -1544,7 +1553,7 @@ that any sequential sub-sample of length $M$ is a supreme partition in correspon
   \State $m \leftarrow 3$ ;
   \State check all sub-samples of $S$ with length $m$ ;
   \State update $S$ by dropping all redundant points ;  
-  \While{$tempS \neq S$ {\bf and } $m < M$}
+  \While{$tempS = S$ {\bf and } $m < M$}
     \State $m \leftarrow m + 2$ ;
     \State check all sub-samples of $S$ with length $m$ ;
     \State update $S$ by dropping all redundant points ; 
@@ -1575,11 +1584,11 @@ Suppose it is already known that
 a sub-samples $\{S_{i}\}_{i=a}^{w}$  
 and $\{S_{i}\}_{i=w}^{b}$
 are a supreme partitions in intervals 
-$[S_a,S_w]$ and $[S_w,S_b]$ correspondingly. 
+$[t_a,t_w]$ and $[t_w,t_b]$ correspondingly. 
 The \emph{merge} operation of sub-samples 
 $\{S_{i}\}_{i=a}^{w}$ and $\{S_{i}\}_{i=w}^{b}$
 is an operation that finds supreme partition 
-of the interval $[S_a,S_b]$ taking into account
+of the interval $[t_a,t_b]$ taking into account
 that  $\{X_{i}\}_{i=a}^{w}$  and $\{X_{i}\}_{i=w}^{b}$
 are a supreme partitions in corresponding intervals.
 
@@ -1600,9 +1609,9 @@ This procedure has two stages that will be discussed separately.
 This paragraph will present how two supreme
 sub-samples are merged .
 Suppose $\{S_{i}\}_{i=a}^{w}$  and $\{S_{i}\}_{i=w}^{b}$
-are a supreme partitions in intervals $[S_a,S_w]$ and $[S_w,S_b]$ correspondingly. 
+are a supreme partitions in corresponding intervals. 
 According to Theorem~\ref{th:notinST},
-the supreme partition in interval $[S_a, S_b]$ 
+the supreme partition in joined interval
 must be a subset of 
 $\{S_{i}\}_{i=a}^{b} = \{S_{i}\}_{i=a}^{w} \cup \{S_{i}\}_{i=w}^{b}$.
  
@@ -1775,7 +1784,7 @@ all intervals are merged
 \While{$|R|>1$}
 \State $i \leftarrow 1$ ;
   \While{$i < |R|$}
-    \State $prt_i \leftarrow MergeSupremeSamples(prt_i, prt_{i+1}, p) $ ;
+    \State $R_i \leftarrow MergeSupremeSamples(R_i, R_{i+1}, p) $ ;
     \State $i \leftarrow i+2$ ;  
   \EndWhile
   \State delete all elements form $R$ that have even index ;
